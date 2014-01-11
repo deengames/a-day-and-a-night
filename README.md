@@ -1,4 +1,6 @@
-a-day-and-a-night
+A Day and a Night
 =================
 
-First "Shards" game based around a day and night in a small village.
+A small exploratory game based around a day and night in a small village.
+
+Built with CraftyJS, it's the first of many Shards games.
