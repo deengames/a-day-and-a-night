@@ -11,9 +11,10 @@ Crafty.load(['assets/images/player.png', 'assets/images/world.png'], function() 
 
 Crafty.scene('MainMap', function() {
 	
+	var self = this;
 	this.player = Crafty.e('Player');		
 	this.player.move(5, 5);
-	this.game_objects = [this.player]
+	this.game_objects = [this.player];
 	
 	// Place a tree at every edge square on our grid of 16x16 tiles
 	for (var x = 0; x < Game.map_grid.width; x++) {
@@ -24,7 +25,7 @@ Crafty.scene('MainMap', function() {
 			if (at_edge) {
 				// Place a wall entity at the current tile
 				obj = Crafty.e('Wall');				
-			} else if (Math.random() < 0.06 && !isOccupied(x, y, this.game_objects)) {
+			} else if (Math.random() < 1.06 && !isOccupied(x, y)) {
 				obj = Crafty.e('Tree');				
 			} else if (Math.random() < 0.01) {
 				obj = Crafty.e('Transition');				
@@ -37,9 +38,9 @@ Crafty.scene('MainMap', function() {
 		}
 	}	
 	
-	function isOccupied(x, y, game_objects) {
-		for (var i = 0; i < game_objects.length; i++) {
-			var obj = game_objects[i];			
+	function isOccupied(x, y) {
+		for (var i = 0; i < self.game_objects.length; i++) {
+			var obj = self.game_objects[i];			
 			if (obj.grid_x() == x && obj.grid_y() == y) {
 				return true;
 			}
