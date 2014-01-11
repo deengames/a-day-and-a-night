@@ -11,8 +11,8 @@ Crafty.scene('Loading', function() {
 		.css({ 'color': 'white', 'text-align': 'center' });
 
 	Crafty.load(['assets/images/player.png', 'assets/images/world.png'], function() {
-		Crafty.sprite(32, 32, 'assets/images/player.png', {
-			sprite_player:	[0, 0]
+		Crafty.sprite(32, 'assets/images/player.png', {
+			sprite_player:	[1, 0]
 		});
 		
 		Crafty.sprite(32, 32, 'assets/images/world.png', {
