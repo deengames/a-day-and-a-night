@@ -26,3 +26,30 @@ Crafty.c('Actor', {
 		this.requires('2D, Canvas, Grid');
 	},
 });
+
+// Handy movement helper that slides instead of dead stops when bumping against other solids
+Crafty.c('MoveAndCollide', {
+	init: function() {
+		this.requires('Fourway, Collision')
+	},
+	
+	stopOnSolids: function() {
+		this.onHit('Solid', this.stopMovement);
+		return this;
+	},
+	
+	stopMovement: function () {
+		if (this._movement) {
+			this.x -= this._movement.x;
+			if (this.hit('Solid') != false) {
+				this.x += this._movement.x;
+				this.y -= this._movement.y;
+				if (this.hit('Solid') != false) {
+					this.x -= this._movement.x;					
+				}
+			}
+		} else {
+			this._speed = 0;
+		}
+	}
+});
