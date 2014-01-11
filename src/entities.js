@@ -30,10 +30,5 @@ Crafty.c('Transition', {
 	init: function() {
 		this.requires('Actor, Color')
 			.color('rgb(255, 0, 0)');
-	},
-	
-	collect: function() {
-		this.destroy();
-		Crafty.trigger('TrannsitionVisited', this);
 	}
 });
