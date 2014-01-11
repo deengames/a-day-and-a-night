@@ -9,13 +9,21 @@ Crafty.c('Grid', {
 	},
 
 	// Locate this entity at the given position on the grid
-	move_on_grid: function(x, y) {
+	move: function(x, y) {
 		if (x === undefined && y === undefined) {
-			return { x: this.x/Game.map_grid.tile.width, y: this.y/Game.map_grid.tile.height }
+			return { x: this.x / Game.map_grid.tile.width, y: this.y / Game.map_grid.tile.height }
 		} else {
 			this.attr({ x: x * Game.map_grid.tile.width, y: y * Game.map_grid.tile.height });
 			return this;
 		}
+	},
+	
+	grid_x: function() {
+		return this.x / Game.map_grid.tile.width;
+	},
+	
+	grid_y: function() {
+		return this.y / Game.map_grid.tile.height;
 	}
 });
 

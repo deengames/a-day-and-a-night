@@ -17,11 +17,23 @@ Crafty.c('Tree', {
 // This is the player-controlled character
 Crafty.c('Player', {
 	init: function() {
-		this.requires('Actor, Color, Grid, MoveAndCollide, sprite_player')
+		this.requires('Actor, Color, MoveAndCollide, sprite_player')
 			.fourway(4)			
 			.color('none')
 			.stopOnSolids();
 	},
 	
 	
+});
+
+Crafty.c('Transition', {
+	init: function() {
+		this.requires('Actor, Color')
+			.color('rgb(255, 0, 0)');
+	},
+	
+	collect: function() {
+		this.destroy();
+		Crafty.trigger('TrannsitionVisited', this);
+	}
 });
