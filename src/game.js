@@ -1,3 +1,14 @@
+Crafty.load(['assets/images/player.png', 'assets/images/world.png'], function() {
+	Crafty.sprite(32, 32, 'assets/images/player.png', {
+		sprite_player:	[0, 0]
+	});
+	
+	Crafty.sprite(32, 32, 'assets/images/world.png', {
+		sprite_wall: [0, 0],
+		sprite_tree: [1, 0]
+	});
+});
+
 Game = {
 	// This defines our grid's size and the size of each of its tiles
 	width: 800,
@@ -32,7 +43,7 @@ Game = {
 	start: function() {
 		// Start crafty and set a background color so that we can see it's working
 		Crafty.init(Game.width(), Game.height());
-		Crafty.background('#dfb');		
+		Crafty.background('#d2ffa6');		
 		Game.init_map();
 	},
 	
@@ -43,10 +54,10 @@ Game = {
 				var at_edge = x == 0 || x == Game.map_grid.width - 1 || y == 0 || y == Game.map_grid.height - 1;
 
 				if (at_edge) {
-					// Place a tree entity at the current tile
-					Crafty.e('Tree').move_on_grid(x, y);
+					// Place a wall entity at the current tile
+					Crafty.e('Wall').move_on_grid(x, y);
 				} else if (Math.random() < 0.06 && x != Game.player_start.x && y != Game.player_start.y) {
-					Crafty.e('Bush').move_on_grid(x, y);
+					Crafty.e('Tree').move_on_grid(x, y);
 				}
 			}
 		}

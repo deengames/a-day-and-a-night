@@ -1,25 +1,25 @@
-// A Tree is just an Actor with a certain color
-Crafty.c('Tree', {
+// A Wall is a solid wall.
+Crafty.c('Wall', {
 	init: function() {
-		this.requires('Actor, Color, Solid')
-			.color('rgb(20, 125, 40)');
+		this.requires('Actor, Color, Solid, sprite_wall')
+			.color('none');
 	}
 });
 
-// A Bush is just an Actor with a certain color
-Crafty.c('Bush', {
+// A tree is like a wall. But greener.
+Crafty.c('Tree', {
 	init: function() {
-		this.requires('Actor, Color, Solid')
-			.color('rgb(64, 215, 78)');
+		this.requires('Actor, Color, Solid, sprite_tree')
+			.color('none')
 	}
 });
 
 // This is the player-controlled character
 Crafty.c('Player', {
 	init: function() {
-		this.requires('Actor, Color, Grid, MoveAndCollide')
-			.fourway(4)
-			.color('rgb(80, 168, 215)')
+		this.requires('Actor, Color, Grid, MoveAndCollide, sprite_player')
+			.fourway(4)			
+			.color('none')
 			.stopOnSolids();
 	},
 	
