@@ -47,10 +47,3 @@ Crafty.c('Player', {
 		});
 	}
 });
-
-Crafty.c('Transition', {
-	init: function() {
-		this.requires('Actor, Color')
-			.color('rgb(255, 0, 0)');
-	}
-});

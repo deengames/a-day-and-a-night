@@ -44,8 +44,6 @@ Crafty.scene('MainMap', function() {
 				obj = Crafty.e('Wall');				
 			} else if (Math.random() < 0.06 && !isOccupied(x, y)) {
 				obj = Crafty.e('Tree');				
-			} else if (Math.random() < 0.01) {
-				obj = Crafty.e('Transition');				
 			}
 			
 			if (obj != null) {
