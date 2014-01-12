@@ -1,5 +1,4 @@
 Crafty.scene('Loading', function() {
-
 	Crafty.background('black');
 	
 	// Draw some text for the player to see in case the file
@@ -10,7 +9,7 @@ Crafty.scene('Loading', function() {
 		.textFont({ family: 'Georgia', size: '72px' })
 		.css({ 'color': 'white', 'text-align': 'center' });
 
-	Crafty.load(['assets/images/player.png', 'assets/images/world.png'], function() {
+	Crafty.load(['assets/images/player.png', 'assets/images/world.png', 'assets/images/deen-games.png'], function() {
 		Crafty.sprite(32, 'assets/images/player.png', {
 			sprite_player:	[1, 0]
 		});
@@ -21,8 +20,33 @@ Crafty.scene('Loading', function() {
 		});
 		
 		// Loading done. Launch game.
-		Crafty.scene('MainMap');
+		Crafty.scene('SplashScreen');
 	});
+});
+
+Crafty.scene('SplashScreen', function() {
+	Crafty.background('black');
+	// Canvas is necessary for smooth tweens.
+	var logo = Crafty.e('2D, Canvas, Image, Tween')
+		.image('assets/images/deen-games.png')		
+		.attr({ x: 0, y: (Game.height() - 408) / 2, alpha: 0.0 })
+		
+		// Fade in for 2s
+		.tween({ alpha: 1.0 }, 2000)		
+		.bind('TweenEnd', function() {
+			// Then, maintain for 2s
+			logo.unbind('TweenEnd')
+			.tween(null, 2000)
+			.bind('TweenEnd', function() {
+				// Then, fade out for 2s
+				logo.unbind('TweenEnd')
+				.tween({ alpha: 0.0 }, 2000)			
+				.bind('TweenEnd', function() {
+					// Then, change scenes
+					Crafty.scene('MainMap');
+				});
+			});
+		});
 });
 
 Crafty.scene('MainMap', function() {
@@ -31,7 +55,12 @@ Crafty.scene('MainMap', function() {
 	this.player = Crafty.e('Player');		
 	this.player.move(5, 5);
 	this.game_objects = [this.player];
-	Crafty.background('#d2ffa6');				
+	Crafty.background('#d2ffa6');		
+	
+	Crafty.e('2D, Canvas, Color, Tween')
+		.attr({w: Game.width(), h: Game.height(), alpha: 1.0, z: 99999 })
+		.color('black')
+		.tween({alpha: 0.0}, 1000);
 	
 	// Place a tree at every edge square on our grid of 16x16 tiles
 	for (var x = 0; x < Game.map_grid.width; x++) {
