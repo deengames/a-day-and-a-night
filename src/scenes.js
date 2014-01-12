@@ -19,8 +19,13 @@ Crafty.scene('Loading', function() {
 			sprite_tree: [1, 0]
 		});
 		
+		Crafty.audio.add({
+			outside: ['assets/audio/outside.ogg',
+					'assets/audio/outside.mp3']
+		});
+		
 		// Loading done. Launch game.
-		Crafty.scene('SplashScreen');
+		Crafty.scene('MainMap');
 	});
 });
 
@@ -55,9 +60,10 @@ Crafty.scene('MainMap', function() {
 	this.player = Crafty.e('Player');		
 	this.player.move(5, 5);
 	this.game_objects = [this.player];
-	Crafty.background('#d2ffa6');		
+	Crafty.background('#d2ffa6');
+	Crafty.audio.play('outside', -1);
 	
-	Crafty.e('2D, Canvas, Color, Tween')
+	var fade = Crafty.e('2D, Canvas, Color, Tween')
 		.attr({w: Game.width(), h: Game.height(), alpha: 1.0, z: 99999 })
 		.color('black')
 		.tween({alpha: 0.0}, 1000);
