@@ -19,11 +19,11 @@ Crafty.c('Grid', {
 	},
 	
 	grid_x: function() {
-		return this.x / Game.map_grid.tile.width;
+		return Math.floor(this.x / Game.map_grid.tile.width);
 	},
 	
 	grid_y: function() {
-		return this.y / Game.map_grid.tile.height;
+		return Math.floor(this.y / Game.map_grid.tile.height);
 	}
 });
 
@@ -46,7 +46,7 @@ Crafty.c('MoveAndCollide', {
 		return this;
 	},
 	
-	stopMovement: function () {
+	stopMovement: function() {
 		if (this._movement) {
 			this.x -= this._movement.x;
 			if (this.hit('Solid') != false) {
@@ -60,4 +60,16 @@ Crafty.c('MoveAndCollide', {
 			this._speed = 0;
 		}
 	}
+});
+
+Crafty.c('Interactive', {
+	
+	onInteract: function(func) {
+		this.interactFunction = func;
+	},
+	
+	interact: function() {
+		this.interactFunction();
+	}
+	
 });

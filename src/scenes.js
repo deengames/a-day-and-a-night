@@ -9,9 +9,13 @@ Crafty.scene('Loading', function() {
 		.textFont({ family: 'Georgia', size: '72px' })
 		.css({ 'color': 'white', 'text-align': 'center' });
 
-	Crafty.load(['assets/images/player.png', 'assets/images/world.png', 'assets/images/deen-games.png'], function() {
+	Crafty.load(['assets/images/player.png', 'assets/images/world.png', 'assets/images/deen-games.png', 'assets/images/npc-1.png'], function() {
 		Crafty.sprite(32, 'assets/images/player.png', {
 			sprite_player:	[1, 0]
+		});
+		
+		Crafty.sprite(32, 'assets/images/npc-1.png', {
+			sprite_npc1:	[1, 0]
 		});
 		
 		Crafty.sprite(32, 32, 'assets/images/world.png', {
@@ -56,9 +60,24 @@ Crafty.scene('SplashScreen', function() {
 Crafty.scene('MainMap', function() {
 	
 	var self = this;
+	
 	this.player = Crafty.e('Player');		
 	this.player.move(5, 5);
 	this.game_objects = [this.player];
+	
+	var npc = Crafty.e('Npc');
+	npc.onInteract(function() {
+		Crafty.e('2D, Canvas, Text, Tween')
+			.text('Hi there!')
+			.attr({ x: npc.x, y: npc.y - 16 })
+			.textFont({size: '12px'})
+			.tween({ alpha: 0.0 }, 5000);
+			
+	});
+		
+	npc.move(8, 8);
+	this.game_objects.push(npc);
+	
 	Crafty.background('#d2ffa6');
 	Crafty.audio.play('outside', -1);
 	
@@ -85,8 +104,24 @@ Crafty.scene('MainMap', function() {
 				this.game_objects.push(obj);				
 			}
 		}
-	}	
+	}
 	
+	// Did the player try to interact with something close by?	
+	// Space to interact with stuff
+	this.bind('KeyDown', function(data) {
+		if (data.key == Crafty.keys['SPACE']) {			
+			var x = this.player.grid_x();
+			var y = this.player.grid_y();
+						
+			var obj = findAdjacentInteractiveObject(x, y);
+			if (obj != null) {				
+				obj.interact();
+			}
+		}
+	});
+	
+	// HELPER FUNCTIONZ
+	// Is a tile occupied?
 	function isOccupied(x, y) {
 		for (var i = 0; i < self.game_objects.length; i++) {
 			var obj = self.game_objects[i];			
@@ -96,5 +131,26 @@ Crafty.scene('MainMap', function() {
 		}
 		
 		return false;
+	}
+	
+	function findAdjacentInteractiveObject(x, y) {
+		// TODO: use spatial partitioning to trim this list down.
+		for (var i = 0; i < self.game_objects.length; i++) {
+			var obj = self.game_objects[i];
+			
+			if (obj == self.player || !obj.has('Interactive')) {
+				continue;
+			}			
+			
+			// d = sqrt[(x1-x2)^2 + (y1-y2)^2]
+			// or: d^2 = (x1-x2)^2 + (y1-y2)^2
+			// d^2 = 2 (1^2 + 1^2 for diagonals)			
+			var dSquared = Math.pow(obj.grid_x() - x, 2) + Math.pow(obj.grid_y() - y, 2);
+			if (dSquared <= 2) {				
+				return obj;
+			}
+		}
+		
+		return null;
 	}
 });

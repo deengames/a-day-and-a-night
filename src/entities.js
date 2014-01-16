@@ -14,12 +14,20 @@ Crafty.c('Tree', {
 	}
 });
 
+Crafty.c('Npc', {
+	init: function() {
+		var animationDuration = 200; //ms
+		
+		this.requires('Actor, Color, sprite_npc1, SpriteAnimation, Collision, Solid, Interactive');
+	}
+});
+
 // This is the player-controlled character
 Crafty.c('Player', {
 	init: function() {
 		var animationDuration = 200; //ms
 		
-		this.requires('Actor, Color, MoveAndCollide, sprite_player, SpriteAnimation')
+		this.requires('Actor, Color, MoveAndCollide, sprite_player, SpriteAnimation, Solid')
 			.fourway(4)			
 			.color('none')
 			.stopOnSolids()
