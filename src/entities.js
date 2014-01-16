@@ -10,15 +10,33 @@ Crafty.c('Wall', {
 Crafty.c('Tree', {
 	init: function() {
 		this.requires('Actor, Color, Solid, sprite_tree')
-			.color('none')
+			.color('none');
 	}
 });
 
 Crafty.c('Npc', {
 	init: function() {
-		var animationDuration = 200; //ms
+		this.requires('Actor, Color, sprite_npc1, SpriteAnimation, Solid, Collision, Interactive')
+			.color('none');
 		
-		this.requires('Actor, Color, sprite_npc1, SpriteAnimation, Collision, Solid, Interactive');
+		var animationDuration = 200; //ms		
+		this.bind('EnterFrame', this.moveToTarget);
+		this.velocity = { x: 32, y: 0 };
+		
+		this.onHit('Solid', function(data) {
+			this.x = this.lastX;
+			this.y = this.lastY;
+		});
+	},
+	
+	moveToTarget: function(data) {
+		// Keep the last (x, y) for moving back on a collision
+		this.lastX = this.x;
+		this.lastY = this.y;
+		
+		var elapsedMs = data.dt / 1000.0;		
+		this.x += this.velocity.x * elapsedMs;
+		this.y += this.velocity.y * elapsedMs;
 	}
 });
 
