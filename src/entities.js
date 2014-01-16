@@ -16,27 +16,46 @@ Crafty.c('Tree', {
 
 Crafty.c('Npc', {
 	init: function() {
-		this.requires('Actor, Color, sprite_npc1, SpriteAnimation, Solid, Collision, Interactive')
-			.color('none');
+		var animationDuration = 500; //ms	
 		
-		var animationDuration = 200; //ms		
+		this.requires('Actor, Color, sprite_npc1, SpriteAnimation, Solid, Collision, Interactive')
+			.color('none')			
+			.reel('MovingDown', animationDuration, 0, 0, 2)
+			.reel('MovingLeft', animationDuration, 0, 1, 2)
+			.reel('MovingRight', animationDuration, 0, 2, 2)
+			.reel('MovingUp', animationDuration, 0, 3, 2);
+		
 		this.bind('EnterFrame', this.moveToTarget);
 		this.velocity = { x: 32, y: 0 };
 		
 		this.onHit('Solid', function(data) {
 			this.x = this.lastX;
 			this.y = this.lastY;
+			this.pauseAnimation();
+		}, function() {
+			this.resumeAnimation();
 		});
 	},
 	
 	moveToTarget: function(data) {
 		// Keep the last (x, y) for moving back on a collision
 		this.lastX = this.x;
-		this.lastY = this.y;
+		this.lastY = this.y;		
 		
-		var elapsedMs = data.dt / 1000.0;		
+		var elapsedMs = data.dt / 1000.0;
 		this.x += this.velocity.x * elapsedMs;
 		this.y += this.velocity.y * elapsedMs;
+		
+		// Possible direction change
+		if (this.lastVelocity != this.velocity) {
+			// Big assumption: move in only one direction at a time
+			if (this.velocity.x != 0) {
+				this.animate(this.velocity.x < 0 ? 'MovingLeft' : 'MovingRight', -1);
+			} else if (this.velocity.y != 0) {
+				this.animate(this.velocity.y < 0 ? 'MovingUp' : 'MovingDown', -1);
+			}			
+			this.lastVelocity = this.velocity;
+		}
 	}
 });
 
@@ -56,8 +75,7 @@ Crafty.c('Player', {
 			.reel('PlayerMovingRight', animationDuration, 0, 2, 2)
 			.reel('PlayerMovingUp', animationDuration, 0, 3, 2);
 			
-		// Change direction: tap into event
-		var animation_speed = 6;
+		// Change direction: tap into event		
 		this.bind('NewDirection', function(data) {
 			if (data.x > 0) {
 				this.animate('PlayerMovingRight', -1);
