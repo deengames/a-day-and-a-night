@@ -20,8 +20,7 @@ Crafty.scene('Loading', function() {
 		});
 		
 		Crafty.audio.add({
-			outside: ['assets/audio/outside.ogg',
-					'assets/audio/outside.mp3']
+			outside: ['assets/audio/birds.mp3']
 		});
 		
 		// Loading done. Launch game.
