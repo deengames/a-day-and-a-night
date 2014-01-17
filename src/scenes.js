@@ -65,15 +65,11 @@ Crafty.scene('MainMap', function() {
 	this.player.move(5, 5);
 	this.game_objects = [this.player];
 	
-	var npc = Crafty.e('Npc');
+	var npc = Crafty.e('WalkingNpc');
 	npc.onInteract(function() {
-		Crafty.e('2D, Canvas, Text, Tween')
-			.text('Hi there!')
-			.attr({ x: npc.x, y: npc.y - 16 })
-			.textFont({size: '12px'})
-			.tween({ alpha: 0.0 }, 5000);
-			
+		npc.talk('Salam!');
 	});
+	npc.setVelocity(90, 0);
 		
 	npc.move(8, 8);
 	this.game_objects.push(npc);

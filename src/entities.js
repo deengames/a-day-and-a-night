@@ -14,7 +14,7 @@ Crafty.c('Tree', {
 	}
 });
 
-Crafty.c('Npc', {
+Crafty.c('WalkingNpc', {
 	init: function() {
 		var animationDuration = 600; //ms	
 		
@@ -26,7 +26,7 @@ Crafty.c('Npc', {
 			.reel('MovingUp', animationDuration, getFramesForRow(3));
 		
 		this.bind('EnterFrame', this.moveToTarget);
-		this.velocity = { x: 90, y: 0 };
+		this.velocity = { x: 0, y: 0 };
 		
 		this.onHit('Solid', function(data) {
 			this.x = this.lastX;
@@ -39,18 +39,30 @@ Crafty.c('Npc', {
 		});
 	},
 	
+	setVelocity: function(x, y) {
+		this.velocity.x = x;
+		this.velocity.y = y;
+	},
+	
 	moveToTarget: function(data) {
-		// Keep the last (x, y) for moving back on a collision
+		// Keep the last frame's (x, y) for moving back on a collision
 		this.lastX = this.x;
 		this.lastY = this.y;		
 		
 		var elapsedMs = data.dt / 1000.0;
-		this.x += this.velocity.x * elapsedMs;
-		this.y += this.velocity.y * elapsedMs;
+		var xMove = this.velocity.x * elapsedMs;
+		var yMove = this.velocity.y * elapsedMs;
+		
+		this.x += xMove;
+		this.y += yMove;
+		if (this.text != null) {
+			this.text.x += xMove;
+			this.text.y += yMove;
+		}
 		
 		// Possible direction change
 		if (this.lastVelocity == null || this.lastVelocity.x != this.velocity.x || this.lastVelocity.y != this.velocity.y) {
-			// Big assumption: move in only one direction at a time
+			// TODO: we can use the greater magnitude to determine the animation
 			if (this.velocity.x != 0) {
 				this.animate(this.velocity.x < 0 ? 'MovingLeft' : 'MovingRight', -1);				
 			} else if (this.velocity.y != 0) {
@@ -64,6 +76,21 @@ Crafty.c('Npc', {
 			this.lastVelocity.x = this.velocity.x;
 			this.lastVelocity.y = this.velocity.y;
 		}
+	},
+	
+	talk: function(message) {
+		
+		if (this.text == null) {
+			this.text = Crafty.e('2D, Canvas, Text, Tween');
+		} else {
+			this.text.alpha = 1.0;
+		}
+		
+		this.text
+			.text(message)
+			.attr({ x: this.x, y: this.y - 16 })
+			.textFont({size: '12px'})
+			.tween({ alpha: 0.0 }, 5000);
 	}
 });
 
