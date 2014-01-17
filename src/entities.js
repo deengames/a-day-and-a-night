@@ -14,7 +14,8 @@ Crafty.c('Tree', {
 	}
 });
 
-Crafty.c('WalkingNpc', {
+// Don't use this. It's an "internal" entity.
+Crafty.c('NpcBase', {
 	init: function() {
 		var animationDuration = 600; //ms	
 		
@@ -24,8 +25,7 @@ Crafty.c('WalkingNpc', {
 			.reel('MovingLeft', animationDuration, getFramesForRow(1))
 			.reel('MovingRight', animationDuration, getFramesForRow(2))
 			.reel('MovingUp', animationDuration, getFramesForRow(3));
-		
-		this.bind('EnterFrame', this.moveToTarget);
+				
 		this.velocity = { x: 0, y: 0 };
 		
 		this.onHit('Solid', function(data) {
@@ -89,8 +89,62 @@ Crafty.c('WalkingNpc', {
 		this.text
 			.text(message)
 			.attr({ x: this.x, y: this.y - 16 })
-			.textFont({size: '12px'})
+			.textFont({size: '16px'})			
 			.tween({ alpha: 0.0 }, 5000);
+	}
+});
+
+Crafty.c('WalkingNpc', {
+	init: function() {
+		this.requires('NpcBase, sprite_npc1');
+		this.bind('EnterFrame', this.moveToTarget);
+	}
+});
+
+// Normal, default NPC. Walks slowly.
+Crafty.c('Npc', {
+	init: function() {
+		this.requires('NpcBase, sprite_npc2');
+		this.bind('EnterFrame', this.moveDiscretely);
+		this.stateStart = new Date().getTime() / 1000;
+		this.state = 'moving'; // 'moving' or 'waiting'
+		
+		// 32 is a good "slow"; 64 is normal; 100 is pretty fast.
+		this.movementSpeed = 64;
+	},
+	
+	moveDiscretely: function(data) {
+		// First, change state if necessary
+		var now = new Date().getTime() / 1000;
+		var stateTime = now - this.stateStart;
+		if (stateTime >= 1 && this.state == 'moving') {
+				this.state = 'waiting';
+				this.pauseAnimation();
+				this.stateStart = now;
+				
+				this.velocity.x = 0;
+				this.velocity.y = 0;
+		} else if (stateTime >= 3 && this.state == 'waiting') {
+				this.state = 'moving';
+				this.resumeAnimation();
+				this.stateStart = now;
+				
+				// Pick direction. 0=up, 1=right, 2=down, 3=left
+				var dir = Math.floor(Math.random() * 4);
+				if (dir % 2 == 0) {
+					// up or down
+					this.velocity.y = this.movementSpeed * (dir == 0 ? -1 : 1);
+					this.velocity.x = 0;
+				} else {
+					// left or right
+					this.velocity.x = this.movementSpeed * (dir == 3 ? -1 : 1);
+					this.velocity.y = 0;
+				}
+		}
+		
+		if (this.state == 'moving') {
+			this.moveToTarget(data);
+		}
 	}
 });
 

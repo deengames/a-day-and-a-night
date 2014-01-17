@@ -9,13 +9,17 @@ Crafty.scene('Loading', function() {
 		.textFont({ family: 'Georgia', size: '72px' })
 		.css({ 'color': 'white', 'text-align': 'center' });
 
-	Crafty.load(['assets/images/player.png', 'assets/images/world.png', 'assets/images/deen-games.png', 'assets/images/npc-1.png'], function() {
+	Crafty.load(['assets/images/player.png', 'assets/images/world.png', 'assets/images/deen-games.png', 'assets/images/npc-1.png', 'assets/images/npc-2.png'], function() {
 		Crafty.sprite(32, 'assets/images/player.png', {
 			sprite_player:	[1, 0]
 		});
 		
 		Crafty.sprite(32, 'assets/images/npc-1.png', {
 			sprite_npc1:	[1, 0]
+		});
+		
+		Crafty.sprite(32, 'assets/images/npc-2.png', {
+			sprite_npc2:	[2, 0]
 		});
 		
 		Crafty.sprite(32, 32, 'assets/images/world.png', {
@@ -65,14 +69,20 @@ Crafty.scene('MainMap', function() {
 	this.player.move(5, 5);
 	this.game_objects = [this.player];
 	
-	var npc = Crafty.e('WalkingNpc');
+	var npc = Crafty.e('Npc');
 	npc.onInteract(function() {
 		npc.talk('Salam!');
 	});
-	npc.setVelocity(90, 0);
-		
 	npc.move(8, 8);
 	this.game_objects.push(npc);
+	
+	var npc2 = Crafty.e('WalkingNpc');
+	npc2.onInteract(function() {
+		npc2.talk('Catch me if you can!');
+	});
+	npc2.move(12, 11);
+	npc2.setVelocity(90, 0);
+	this.game_objects.push(npc2);
 	
 	Crafty.background('#d2ffa6');
 	Crafty.audio.play('outside', -1);
