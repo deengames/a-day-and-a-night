@@ -26,7 +26,7 @@ Crafty.c('Npc', {
 			.reel('MovingUp', animationDuration, getFramesForRow(3));
 		
 		this.bind('EnterFrame', this.moveToTarget);
-		this.velocity = { x: 0, y: 100 };
+		this.velocity = { x: 90, y: 0 };
 		
 		this.onHit('Solid', function(data) {
 			this.x = this.lastX;
