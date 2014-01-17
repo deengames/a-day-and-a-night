@@ -67,14 +67,14 @@ Crafty.scene('MainMap', function() {
 	
 	this.player = Crafty.e('Player');		
 	this.player.move(5, 5);
-	this.game_objects = [this.player];
+	this.gameObjects = [this.player];
 	
 	var npc = Crafty.e('Npc');
 	npc.onInteract(function() {
 		npc.talk('Salam!');
 	});
 	npc.move(8, 8);
-	this.game_objects.push(npc);
+	this.gameObjects.push(npc);
 	
 	var npc2 = Crafty.e('WalkingNpc');
 	npc2.onInteract(function() {
@@ -82,7 +82,7 @@ Crafty.scene('MainMap', function() {
 	});
 	npc2.move(12, 11);
 	npc2.setVelocity(90, 0);
-	this.game_objects.push(npc2);
+	this.gameObjects.push(npc2);
 	
 	Crafty.background('#d2ffa6');
 	Crafty.audio.play('outside', -1);
@@ -93,12 +93,12 @@ Crafty.scene('MainMap', function() {
 		.tween({alpha: 0.0}, 1000);
 	
 	// Place a tree at every edge square on our grid of 16x16 tiles
-	for (var x = 0; x < Game.map_grid.width; x++) {
-		for (var y = 0; y < Game.map_grid.height; y++) {
-			var at_edge = x == 0 || x == Game.map_grid.width - 1 || y == 0 || y == Game.map_grid.height - 1;
+	for (var x = 0; x < Game.mapGrid.width; x++) {
+		for (var y = 0; y < Game.mapGrid.height; y++) {
+			var isAtEdge = x == 0 || x == Game.mapGrid.width - 1 || y == 0 || y == Game.mapGrid.height - 1;
 			var obj = null;
 			
-			if (at_edge) {
+			if (isAtEdge) {
 				// Place a wall entity at the current tile
 				obj = Crafty.e('Wall');				
 			} else if (Math.random() < 0.06 && !isOccupied(x, y)) {
@@ -107,7 +107,7 @@ Crafty.scene('MainMap', function() {
 			
 			if (obj != null) {
 				obj.move(x, y);
-				this.game_objects.push(obj);				
+				this.gameObjects.push(obj);				
 			}
 		}
 	}
@@ -116,8 +116,8 @@ Crafty.scene('MainMap', function() {
 	// Space to interact with stuff
 	this.bind('KeyDown', function(data) {
 		if (data.key == Crafty.keys['SPACE']) {			
-			var x = this.player.grid_x();
-			var y = this.player.grid_y();
+			var x = this.player.gridX();
+			var y = this.player.gridY();
 						
 			var obj = findAdjacentInteractiveObject(x, y);
 			if (obj != null) {				
@@ -129,9 +129,9 @@ Crafty.scene('MainMap', function() {
 	// HELPER FUNCTIONZ
 	// Is a tile occupied?
 	function isOccupied(x, y) {
-		for (var i = 0; i < self.game_objects.length; i++) {
-			var obj = self.game_objects[i];			
-			if (obj.grid_x() == x && obj.grid_y() == y) {
+		for (var i = 0; i < self.gameObjects.length; i++) {
+			var obj = self.gameObjects[i];			
+			if (obj.gridX() == x && obj.gridY() == y) {
 				return true;
 			}
 		}
@@ -141,8 +141,8 @@ Crafty.scene('MainMap', function() {
 	
 	function findAdjacentInteractiveObject(x, y) {
 		// TODO: use spatial partitioning to trim this list down.
-		for (var i = 0; i < self.game_objects.length; i++) {
-			var obj = self.game_objects[i];
+		for (var i = 0; i < self.gameObjects.length; i++) {
+			var obj = self.gameObjects[i];
 			
 			if (obj == self.player || !obj.has('Interactive')) {
 				continue;
@@ -151,7 +151,7 @@ Crafty.scene('MainMap', function() {
 			// d = sqrt[(x1-x2)^2 + (y1-y2)^2]
 			// or: d^2 = (x1-x2)^2 + (y1-y2)^2
 			// d^2 = 2 (1^2 + 1^2 for diagonals)			
-			var dSquared = Math.pow(obj.grid_x() - x, 2) + Math.pow(obj.grid_y() - y, 2);
+			var dSquared = Math.pow(obj.gridX() - x, 2) + Math.pow(obj.gridY() - y, 2);
 			if (dSquared <= 2) {				
 				return obj;
 			}

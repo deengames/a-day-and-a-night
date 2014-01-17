@@ -3,27 +3,27 @@
 Crafty.c('Grid', {
 	init: function() {
 		this.attr({
-			w: Game.map_grid.tile.width,
-			h: Game.map_grid.tile.height
+			w: Game.mapGrid.tile.width,
+			h: Game.mapGrid.tile.height
 		})
 	},
 
 	// Locate this entity at the given position on the grid
 	move: function(x, y) {
 		if (x === undefined && y === undefined) {
-			return { x: this.x / Game.map_grid.tile.width, y: this.y / Game.map_grid.tile.height }
+			return { x: this.x / Game.mapGrid.tile.width, y: this.y / Game.mapGrid.tile.height }
 		} else {
-			this.attr({ x: x * Game.map_grid.tile.width, y: y * Game.map_grid.tile.height });
+			this.attr({ x: x * Game.mapGrid.tile.width, y: y * Game.mapGrid.tile.height });
 			return this;
 		}
 	},
 	
-	grid_x: function() {
-		return Math.floor(this.x / Game.map_grid.tile.width);
+	gridX: function() {
+		return Math.floor(this.x / Game.mapGrid.tile.width);
 	},
 	
-	grid_y: function() {
-		return Math.floor(this.y / Game.map_grid.tile.height);
+	gridY: function() {
+		return Math.floor(this.y / Game.mapGrid.tile.height);
 	}
 });
 

@@ -15,6 +15,7 @@ Crafty.c('Tree', {
 });
 
 // Don't use this. It's an "internal" entity.
+// Contains animation and collision detection (bounces off solid objects).
 Crafty.c('NpcBase', {
 	init: function() {
 		var animationDuration = 600; //ms	
@@ -44,7 +45,7 @@ Crafty.c('NpcBase', {
 		this.velocity.y = y;
 	},
 	
-	moveToTarget: function(data) {
+	moveOnVelocity: function(data) {
 		// Keep the last frame's (x, y) for moving back on a collision
 		this.lastX = this.x;
 		this.lastY = this.y;		
@@ -94,14 +95,15 @@ Crafty.c('NpcBase', {
 	}
 });
 
+// Walks continuously (non-stop). "Bounces" off solid objects (turns around).
 Crafty.c('WalkingNpc', {
 	init: function() {
 		this.requires('NpcBase, sprite_npc1');
-		this.bind('EnterFrame', this.moveToTarget);
+		this.bind('EnterFrame', this.moveOnVelocity);
 	}
 });
 
-// Normal, default NPC. Walks slowly.
+// Normal, default NPC. Walks with breaks in the middle.
 Crafty.c('Npc', {
 	init: function() {
 		this.requires('NpcBase, sprite_npc2');
@@ -143,7 +145,7 @@ Crafty.c('Npc', {
 		}
 		
 		if (this.state == 'moving') {
-			this.moveToTarget(data);
+			this.moveOnVelocity(data);
 		}
 	}
 });
