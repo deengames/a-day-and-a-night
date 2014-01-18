@@ -9,9 +9,14 @@ Crafty.scene('Loading', function() {
 		.textFont({ family: 'Georgia', size: '72px' })
 		.css({ 'color': 'white', 'text-align': 'center' });
 
-	Crafty.load(['assets/images/player.png', 'assets/images/world.png', 'assets/images/deen-games.png', 'assets/images/npc-1.png', 'assets/images/npc-2.png'], function() {
+	Crafty.load(['assets/images/player.png', 'assets/images/world.png', 'assets/images/deen-games.png', 'assets/images/npc-1.png', 'assets/images/npc-2.png', 'assets/images/default-sprite.png'], function() {
 		Crafty.sprite(32, 'assets/images/player.png', {
 			sprite_player:	[1, 0]
+		});
+		
+		// Used to initialize NPCs; displayed if the user doesn't pass in a sprite.
+		Crafty.sprite(32, 'assets/images/default-sprite.png', {
+			default_sprite:	[0, 0]
 		});
 		
 		Crafty.sprite(32, 'assets/images/npc-1.png', {
@@ -69,14 +74,14 @@ Crafty.scene('MainMap', function() {
 	this.player.move(5, 5);
 	this.gameObjects = [this.player];
 	
-	var npc = Crafty.e('Npc');
+	var npc = Crafty.e('Npc', 'sprite_npc2');
 	npc.onInteract(function() {
 		npc.talk('Salam!');
 	});
 	npc.move(8, 8);
 	this.gameObjects.push(npc);
 	
-	var npc2 = Crafty.e('WalkingNpc');
+	var npc2 = Crafty.e('WalkingNpc', 'sprite_npc1');
 	npc2.onInteract(function() {
 		npc2.talk('Catch me if you can!');
 	});
