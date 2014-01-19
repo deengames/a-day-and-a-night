@@ -75,16 +75,12 @@ Crafty.scene('MainMap', function() {
 	this.gameObjects = [this.player];
 	
 	var npc = Crafty.e('Npc', 'sprite_npc2');
-	npc.onInteract(function() {
-		npc.talk('Salam!');
-	});
+	npc.setMessages(["Salam!", "Peace!"]);
 	npc.move(8, 8);
 	this.gameObjects.push(npc);
 	
 	var npc2 = Crafty.e('WalkingNpc', 'sprite_npc1');
-	npc2.onInteract(function() {
-		npc2.talk('Catch me if you can!');
-	});
+	npc2.setMessages(["Catch me if you can!", "Let's see how fast you can run!"]);
 	npc2.move(12, 11);
 	npc2.setVelocity(90, 0);
 	this.gameObjects.push(npc2);

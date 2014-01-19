@@ -45,6 +45,15 @@ Crafty.c('NpcBase', {
 		this.velocity.y = y;
 	},
 	
+	setMessages: function(messages) {
+		this.messages = messages;
+		this.validateMessages();
+
+		if (this.interactFunction == null) {
+			this.onInteract(this.talk);
+		}
+	},
+	
 	moveOnVelocity: function(data) {
 		// Keep the last frame's (x, y) for moving back on a collision
 		this.lastX = this.x;
@@ -79,7 +88,9 @@ Crafty.c('NpcBase', {
 		}
 	},
 	
-	talk: function(message) {
+	talk: function() {
+		this.validateMessages();
+		var message = this.messages[Math.floor(Math.random() * this.messages.length)];
 		
 		if (this.text == null) {
 			this.text = Crafty.e('2D, Canvas, Text, Tween');
@@ -92,6 +103,15 @@ Crafty.c('NpcBase', {
 			.attr({ x: this.x, y: this.y - 16 })
 			.textFont({size: '16px'})			
 			.tween({ alpha: 0.0 }, 5000);
+	},
+	
+	// Private/internal function
+	validateMessages: function() {
+		if (this.messages == null) {
+			throw new Error("Please specify a non-null array of messages.");
+		} else if (!(this.messages instanceof Array)) {
+			throw new Error("Please specify an array of messages.");
+		}		
 	}
 });
 
