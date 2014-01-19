@@ -1,4 +1,4 @@
-(function() {
+(function() { // Keep module global scope separate per module
 
 	module('Component Tests');
 
