@@ -22,5 +22,5 @@ test("NpcBase moveOnVelocity moves according to velocity", function() {
 	base.moveOnVelocity({ dt: 100 });
 	ok(base.x > 0);
 	ok(base.y > 0);
-	ok(base.x > base.y);
+	ok(base.x == 2 * base.y);
 });
