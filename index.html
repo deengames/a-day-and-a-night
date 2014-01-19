@@ -13,6 +13,11 @@
 		<script src="src/entities.js"></script>
 		<script src="src/game.js"></script>
 		<script>
+			// LOCAL ONLY: get the DIR.
+			var loc = window.location.pathname;
+			var dir = loc.substring(0, loc.lastIndexOf('/'));
+			// For production, specify a relative URL
+			var gameUrl = dir;
 			window.addEventListener('load', Game.start);
 		</script>
 	</head>

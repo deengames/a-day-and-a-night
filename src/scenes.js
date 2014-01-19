@@ -9,31 +9,31 @@ Crafty.scene('Loading', function() {
 		.textFont({ family: 'Georgia', size: '72px' })
 		.css({ 'color': 'white', 'text-align': 'center' });
 
-	Crafty.load(['assets/images/player.png', 'assets/images/world.png', 'assets/images/deen-games.png', 'assets/images/npc-1.png', 'assets/images/npc-2.png', 'assets/images/default-sprite.png'], function() {
-		Crafty.sprite(32, 'assets/images/player.png', {
+	Crafty.load([gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/default-sprite.png'], function() {
+		Crafty.sprite(32, gameUrl + '/assets/images/player.png', {
 			sprite_player:	[1, 0]
 		});
 		
 		// Used to initialize NPCs; displayed if the user doesn't pass in a sprite.
-		Crafty.sprite(32, 'assets/images/default-sprite.png', {
+		Crafty.sprite(32, gameUrl + '/assets/images/default-sprite.png', {
 			default_sprite:	[0, 0]
 		});
 		
-		Crafty.sprite(32, 'assets/images/npc-1.png', {
+		Crafty.sprite(32, gameUrl + '/assets/images/npc-1.png', {
 			sprite_npc1:	[1, 0]
 		});
 		
-		Crafty.sprite(32, 'assets/images/npc-2.png', {
+		Crafty.sprite(32, gameUrl + '/assets/images/npc-2.png', {
 			sprite_npc2:	[2, 0]
 		});
 		
-		Crafty.sprite(32, 32, 'assets/images/world.png', {
+		Crafty.sprite(32, 32, gameUrl + '/assets/images/world.png', {
 			sprite_wall: [0, 0],
 			sprite_tree: [1, 0]
 		});
 		
 		Crafty.audio.add({
-			outside: ['assets/audio/birds.mp3']
+			outside: [gameUrl + '/assets/audio/birds.mp3']
 		});
 		
 		// Loading done. Launch game.
@@ -45,7 +45,7 @@ Crafty.scene('SplashScreen', function() {
 	Crafty.background('black');
 	// Canvas is necessary for smooth tweens.
 	var logo = Crafty.e('2D, Canvas, Image, Tween')
-		.image('assets/images/deen-games.png')		
+		.image(gameUrl + '/assets/images/deen-games.png')		
 		.attr({ x: 0, y: (Game.height() - 408) / 2, alpha: 0.0 })
 		
 		// Fade in for 2s
