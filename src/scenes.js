@@ -42,28 +42,30 @@ Crafty.scene('Loading', function() {
 });
 
 Crafty.scene('SplashScreen', function() {
-	Crafty.background('black');
-	// Canvas is necessary for smooth tweens.
-	var logo = Crafty.e('2D, Canvas, Image, Tween')
-		.image(gameUrl + '/assets/images/deen-games.png')		
-		.attr({ x: 0, y: (Game.height() - 408) / 2, alpha: 0.0 })
-		
-		// Fade in for 2s
-		.tween({ alpha: 1.0 }, 2000)		
-		.bind('TweenEnd', function() {
-			// Then, maintain for 2s
-			logo.unbind('TweenEnd')
-			.tween(null, 2000)
+	Crafty.load(gameUrl + '/assets/images/deen-games.png', function() {
+		Crafty.background('black');
+		// Canvas is necessary for smooth tweens.
+		var logo = Crafty.e('2D, Canvas, Image, Tween')
+			.image(gameUrl + '/assets/images/deen-games.png')		
+			.attr({ x: 0, y: (Game.height() - 408) / 2, alpha: 0.0 })
+			
+			// Fade in for 2s
+			.tween({ alpha: 1.0 }, 2000)		
 			.bind('TweenEnd', function() {
-				// Then, fade out for 2s
+				// Then, maintain for 2s
 				logo.unbind('TweenEnd')
-				.tween({ alpha: 0.0 }, 2000)			
+				.tween(null, 2000)
 				.bind('TweenEnd', function() {
-					// Then, change scenes
-					Crafty.scene('MainMap');
+					// Then, fade out for 2s
+					logo.unbind('TweenEnd')
+					.tween({ alpha: 0.0 }, 2000)			
+					.bind('TweenEnd', function() {
+						// Then, change scenes
+						Crafty.scene('MainMap');
+					});
 				});
 			});
-		});
+	});
 });
 
 Crafty.scene('MainMap', function() {
