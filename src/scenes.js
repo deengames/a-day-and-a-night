@@ -61,7 +61,7 @@ Crafty.scene('SplashScreen', function() {
 					.tween({ alpha: 0.0 }, 2000)			
 					.bind('TweenEnd', function() {
 						// Then, change scenes
-						Crafty.scene('MainMap');
+						Crafty.scene('Loading');
 					});
 				});
 			});
