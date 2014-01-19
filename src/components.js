@@ -36,6 +36,8 @@ Crafty.c('Actor', {
 });
 
 // Handy movement helper that slides instead of dead stops when bumping against other solids
+// Warning: depends on internal implementation details (_movement). 
+// This may break when you update CraftyJS.
 Crafty.c('MoveAndCollide', {
 	init: function() {
 		this.requires('Fourway, Collision')
@@ -63,7 +65,6 @@ Crafty.c('MoveAndCollide', {
 });
 
 Crafty.c('Interactive', {
-	
 	onInteract: function(func) {
 		this.interactFunction = func;
 	},
@@ -71,5 +72,4 @@ Crafty.c('Interactive', {
 	interact: function() {
 		this.interactFunction();
 	}
-	
 });
