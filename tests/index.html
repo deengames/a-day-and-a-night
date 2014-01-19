@@ -13,12 +13,15 @@
 		<script type="text/javascript" src="../lib/crafty-min.js"></script>
 		
 		<!-- game source -->
+		<script type="text/javascript" src="../src/scenes.js"></script>
 		<script type="text/javascript" src="../src/game.js"></script>
 		<script type="text/javascript" src="../src/components.js"></script>
 		<script type="text/javascript" src="../src/entities.js"></script>
 		
 		<script type="text/javascript">
-			Crafty.init(500,500);
+			Crafty.init(1, 1);
+			// Loads all necessary entity images (defines constants like default_sprite)
+			Crafty.scene('Loading');			
 		</script>
 						
 		<script type="text/javascript" src="components.js"></script>
