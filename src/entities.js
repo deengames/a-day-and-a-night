@@ -2,7 +2,7 @@
 Crafty.c('Wall', {
 	init: function() {
 		this.requires('Actor, Color, Solid, sprite_wall')
-			.color('none');
+			.color('rgba(0, 0, 0, 0)')		;
 	}
 });
 
@@ -10,7 +10,7 @@ Crafty.c('Wall', {
 Crafty.c('Tree', {
 	init: function() {
 		this.requires('Actor, Color, Solid, sprite_tree')
-			.color('none');
+			.color('rgba(0, 0, 0, 0)')		;
 	}
 });
 
@@ -21,7 +21,7 @@ Crafty.c('NpcBase', {
 		var animationDuration = 600; //ms	
 		
 		this.requires('Actor, Color, SpriteAnimation, Solid, Collision, Interactive, default_sprite')
-			.color('none')			
+			.color('rgba(0, 0, 0, 0)')			
 			.reel('MovingDown', animationDuration, getFramesForRow(0))
 			.reel('MovingLeft', animationDuration, getFramesForRow(1))
 			.reel('MovingRight', animationDuration, getFramesForRow(2))
@@ -177,7 +177,7 @@ Crafty.c('Player', {
 		
 		this.requires('Actor, Color, MoveAndCollide, sprite_player, SpriteAnimation, Solid')
 			.fourway(4)			
-			.color('none')
+			.color('rgba(0, 0, 0, 0)')		
 			.stopOnSolids()
 			
 			// Four animations (one per direction). X, Y, frames (excluding first frame)
