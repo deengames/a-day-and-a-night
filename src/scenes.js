@@ -5,7 +5,7 @@ Crafty.scene('Loading', function() {
 	//  takes a noticeable amount of time to load
 	Crafty.e('2D, DOM, Text')
 		.text('Loading ...')
-		.attr({ x: 0, y: (Game.height() - 72) / 2, w: Game.width() })
+		.attr({ x: 0, y: (Game.view.height - 72) / 2, w: Game.view.width })
 		.textFont({ family: 'Georgia', size: '72px' })
 		.css({ 'color': 'white', 'text-align': 'center' });
 
@@ -27,7 +27,7 @@ Crafty.scene('Loading', function() {
 			sprite_npc2:	[2, 0]
 		});
 		
-		Crafty.sprite(32, 32, gameUrl + '/assets/images/world.png', {
+		Crafty.sprite(32, 32, gameUrl + '/assets/images/world.png', {			
 			sprite_wall: [0, 0],
 			sprite_tree: [1, 0]
 		});
@@ -47,7 +47,7 @@ Crafty.scene('SplashScreen', function() {
 		// Canvas is necessary for smooth tweens.
 		var logo = Crafty.e('2D, Canvas, Image, Tween')
 			.image(gameUrl + '/assets/images/deen-games.png')		
-			.attr({ x: 0, y: (Game.height() - 408) / 2, alpha: 0.0 })
+			.attr({ x: 0, y: (Game.view.height - 408) / 2, alpha: 0.0 })
 			
 			// Fade in for 2s
 			.tween({ alpha: 1.0 }, 2000)		
@@ -73,8 +73,9 @@ Crafty.scene('MainMap', function() {
 	var self = this;
 	
 	this.player = Crafty.e('Player');		
-	this.player.move(5, 5);
+	this.player.move(15, 15);
 	this.gameObjects = [this.player];
+	Crafty.viewport.follow(this.player, 0, 0);
 	
 	var npc = Crafty.e('Npc', 'sprite_npc2');
 	npc.setMessages(["Salam!", "Peace!"]);
@@ -87,17 +88,22 @@ Crafty.scene('MainMap', function() {
 	npc2.setVelocity(90, 0);
 	this.gameObjects.push(npc2);
 	
-	Crafty.background('#d2ffa6');
+	Crafty.background('#d2ffa6');	
 	Crafty.audio.play('outside', -1);
 	
 	var fade = Crafty.e('2D, Canvas, Color, Tween')
 		.attr({w: Game.width(), h: Game.height(), alpha: 1.0, z: 99999 })
 		.color('black')
 		.tween({alpha: 0.0}, 1000);
+		
+	grass = Crafty.e('2D, Canvas, Image')		
+		.attr({w: Game.width(), h: Game.height(), z: -100 })
+		.image('assets/images/grass.png', 'repeat');
 	
 	// Place a tree at every edge square on our grid of 16x16 tiles
 	for (var x = 0; x < Game.mapGrid.width; x++) {
 		for (var y = 0; y < Game.mapGrid.height; y++) {
+			
 			var isAtEdge = x == 0 || x == Game.mapGrid.width - 1 || y == 0 || y == Game.mapGrid.height - 1;
 			var obj = null;
 			
@@ -106,7 +112,7 @@ Crafty.scene('MainMap', function() {
 				obj = Crafty.e('Wall');				
 			} else if (Math.random() < 0.06 && !isOccupied(x, y)) {
 				obj = Crafty.e('Tree');				
-			}
+			}		
 			
 			if (obj != null) {
 				obj.move(x, y);

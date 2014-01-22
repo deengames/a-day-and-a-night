@@ -2,7 +2,7 @@
 Crafty.c('Wall', {
 	init: function() {
 		this.requires('Actor, Color, Solid, sprite_wall')
-			.color('rgba(0, 0, 0, 0)')		;
+			.color('rgba(0, 0, 0, 0)');
 	}
 });
 
@@ -10,7 +10,7 @@ Crafty.c('Wall', {
 Crafty.c('Tree', {
 	init: function() {
 		this.requires('Actor, Color, Solid, sprite_tree')
-			.color('rgba(0, 0, 0, 0)')		;
+			.color('rgba(0, 0, 0, 0)');
 	}
 });
 

@@ -19,6 +19,10 @@
 		<script type="text/javascript" src="../src/entities.js"></script>
 		
 		<script type="text/javascript">
+			// LOCAL ONLY: get the DIR.
+			var loc = window.location.pathname;
+			var dir = loc.substring(0, loc.lastIndexOf('/'));			
+			var gameUrl = dir;
 			Crafty.init(1, 1);
 			// Loads all necessary entity images (defines constants like default_sprite)
 			Crafty.scene('Loading');			
