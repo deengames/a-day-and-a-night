@@ -27,7 +27,11 @@ Game = {
 		
 		// Start the game
 		Crafty.init(Game.view.width, Game.view.height);		
-		Crafty.scene('SplashScreen');		
+		if (debug != null && debug == true) {
+			Crafty.scene('Loading');
+		} else {
+			Crafty.scene('SplashScreen');		
+		}
 	},
 	
 	width: function() {

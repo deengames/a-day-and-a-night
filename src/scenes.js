@@ -73,9 +73,8 @@ Crafty.scene('MainMap', function() {
 	var self = this;
 	
 	this.player = Crafty.e('Player');		
-	this.player.move(15, 15);
-	this.gameObjects = [this.player];
-	Crafty.viewport.follow(this.player, 0, 0);
+	this.player.move(3, 3);
+	this.gameObjects = [this.player];	
 	
 	var npc = Crafty.e('Npc', 'sprite_npc2');
 	npc.setMessages(["Salam!", "Peace!"]);
@@ -120,6 +119,8 @@ Crafty.scene('MainMap', function() {
 			}
 		}
 	}
+	
+	Crafty.viewport.follow(this.player, 0, 0);
 	
 	// Did the player try to interact with something close by?	
 	// Space to interact with stuff
