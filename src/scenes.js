@@ -33,7 +33,8 @@ Crafty.scene('Loading', function() {
 		});
 		
 		Crafty.audio.add({
-			outside: [gameUrl + '/assets/audio/birds.mp3']
+			outside: [gameUrl + '/assets/audio/birds.mp3'], 
+			tone: [gameUrl + '/assets/audio/tone.mp3']
 		});
 		
 		// Loading done. Launch game.
@@ -89,6 +90,11 @@ Crafty.scene('MainMap', function() {
 	
 	Crafty.background('#d2ffa6');
 	Crafty.audio.play('outside', -1);
+	
+	var a = Crafty.e('PositionalAudio');
+	a.PositionalAudio('tone', 3, this.player);
+	a.move(2, 2);
+	a.play();
 	
 	var fade = Crafty.e('2D, Canvas, Color, Tween')
 		.attr({w: Game.width(), h: Game.height(), alpha: 1.0, z: 99999 })

@@ -73,3 +73,48 @@ Crafty.c('Interactive', {
 		this.interactFunction();
 	}
 });
+
+Crafty.c('PositionalAudio', {
+
+	// AudioID: from Crafty.audio.add
+	PositionalAudio: function(audioId, radius, player) {		
+		this.requires('Actor');
+		
+		this.audioId = audioId;
+		this.radiusSquared = radius * radius;
+		this.player = player;
+		this.x = null;
+		this.y = null;
+		
+		this.bind('EnterFrame', function() {
+			if (this.audioId == null) {
+				throw new Error("PositionalAudio created but init() was never called.");
+			}
+			
+			if (this.obj != null && this.x != null && this.y != null) {
+				// Avoid sqrt: a^2 + b^2 = c^2
+				var dSquared = Math.pow(this.gridX() - this.player.gridX(), 2) + Math.pow(this.gridY() - this.player.gridY(), 2);
+				// Map (0 .. d^2) to (1 .. 0)
+				var volume = Math.max(0, this.radiusSquared - dSquared) / this.radiusSquared;
+				this.setVolume(volume);
+			} else {			
+				for (var i = 0; i < Crafty.audio.channels.length; i++) {
+					var c = Crafty.audio.channels[i];
+					if (c.id == this.audioId) {					
+						this.obj = c.obj;
+						console.log("Found: " + this.obj + " for " + this.audioId);
+					}
+				}
+			}			
+		});
+	},
+	
+	play: function() {
+		Crafty.audio.play(this.audioId, -1);
+	},
+	
+	setVolume: function(volume) {
+		this.obj.volume = volume;
+		console.log("volume=" + volume);
+	}
+});
