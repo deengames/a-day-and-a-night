@@ -9,7 +9,7 @@ Crafty.scene('Loading', function() {
 		.textFont({ family: 'Georgia', size: '72px' })
 		.css({ 'color': 'white', 'text-align': 'center' });
 
-	Crafty.load([gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/default-sprite.png', gameUrl + '/assets/audio/birds.mp3'], function() {
+	Crafty.load([gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/default-sprite.png', gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/audio/chicken.mp3'], function() {
 		Crafty.sprite(32, gameUrl + '/assets/images/player.png', {
 			sprite_player:	[1, 0]
 		});
@@ -27,6 +27,10 @@ Crafty.scene('Loading', function() {
 			sprite_npc2:	[2, 0]
 		});
 		
+		Crafty.sprite(32, gameUrl + '/assets/images/chicken-white.png', {
+			sprite_chicken:	[1, 0]
+		});
+		
 		Crafty.sprite(32, 32, gameUrl + '/assets/images/world.png', {			
 			sprite_wall: [0, 0],
 			sprite_tree: [1, 0]
@@ -34,7 +38,8 @@ Crafty.scene('Loading', function() {
 		
 		Crafty.audio.add({
 			outside: [gameUrl + '/assets/audio/birds.mp3'], 
-			tone: [gameUrl + '/assets/audio/tone.mp3']
+			chicken: [gameUrl + '/assets/audio/chicken.mp3']
+			// tone: [gameUrl + '/assets/audio/tone.mp3']
 		});
 		
 		// Loading done. Launch game.
@@ -88,13 +93,14 @@ Crafty.scene('MainMap', function() {
 	npc2.setVelocity(90, 0);
 	this.gameObjects.push(npc2);
 	
+	var chicken = Crafty.e('Npc, PositionalAudio, sprite_chicken');
+	chicken.PositionalAudio('chicken', 5, this.player)
+	chicken.move(18, 18);
+	chicken.play();
+	this.gameObjects.push(chicken);
+	
 	Crafty.background('#d2ffa6');
 	Crafty.audio.play('outside', -1);
-	
-	var a = Crafty.e('PositionalAudio');
-	a.PositionalAudio('tone', 3, this.player);
-	a.move(2, 2);
-	a.play();
 	
 	var fade = Crafty.e('2D, Canvas, Color, Tween')
 		.attr({w: Game.width(), h: Game.height(), alpha: 1.0, z: 99999 })

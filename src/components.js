@@ -65,6 +65,10 @@ Crafty.c('MoveAndCollide', {
 });
 
 Crafty.c('Interactive', {
+	init: function() {
+		this.interactFunction = function() { } // do nothing
+	},
+	
 	onInteract: function(func) {
 		this.interactFunction = func;
 	},
@@ -118,6 +122,5 @@ Crafty.c('PositionalAudio', {
 	
 	setVolume: function(volume) {
 		this.obj.volume = volume;
-		console.log("volume=" + volume);
 	}
 });
