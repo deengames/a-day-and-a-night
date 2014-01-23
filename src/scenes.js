@@ -9,7 +9,8 @@ Crafty.scene('Loading', function() {
 		.textFont({ family: 'Georgia', size: '72px' })
 		.css({ 'color': 'white', 'text-align': 'center' });
 
-	Crafty.load([gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/default-sprite.png', gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/audio/chicken.mp3'], function() {
+	Crafty.load([gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/default-sprite.png', gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/images/chicken-red.png', gameUrl + '/assets/audio/chicken.mp3', gameUrl + '/assets/audio/chicken2.mp3'], function() {
+	
 		Crafty.sprite(32, gameUrl + '/assets/images/player.png', {
 			sprite_player:	[1, 0]
 		});
@@ -28,7 +29,11 @@ Crafty.scene('Loading', function() {
 		});
 		
 		Crafty.sprite(32, gameUrl + '/assets/images/chicken-white.png', {
-			sprite_chicken:	[1, 0]
+			sprite_chicken_white:	[1, 0]
+		});
+		
+		Crafty.sprite(32, gameUrl + '/assets/images/chicken-red.png', {
+			sprite_chicken_red:	[1, 0]
 		});
 		
 		Crafty.sprite(32, 32, gameUrl + '/assets/images/world.png', {			
@@ -38,7 +43,8 @@ Crafty.scene('Loading', function() {
 		
 		Crafty.audio.add({
 			outside: [gameUrl + '/assets/audio/birds.mp3'], 
-			chicken: [gameUrl + '/assets/audio/chicken.mp3']
+			chicken: [gameUrl + '/assets/audio/chicken.mp3'],
+			chicken2: [gameUrl + '/assets/audio/chicken2.mp3']
 			// tone: [gameUrl + '/assets/audio/tone.mp3']
 		});
 		
@@ -93,9 +99,15 @@ Crafty.scene('MainMap', function() {
 	npc2.setVelocity(90, 0);
 	this.gameObjects.push(npc2);
 	
-	var chicken = Crafty.e('Npc, PositionalAudio, sprite_chicken');
+	var chicken = Crafty.e('Npc, PositionalAudio, sprite_chicken_white');
 	chicken.PositionalAudio('chicken', 5, this.player)
 	chicken.move(18, 18);
+	chicken.play();
+	this.gameObjects.push(chicken);
+	
+	chicken = Crafty.e('Npc, PositionalAudio, sprite_chicken_red');
+	chicken.PositionalAudio('chicken2', 5, this.player)
+	chicken.move(40, 30);
 	chicken.play();
 	this.gameObjects.push(chicken);
 	
