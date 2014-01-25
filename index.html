@@ -18,6 +18,14 @@
 			var dir = loc.substring(0, loc.lastIndexOf('/'));
 			// For production, specify a relative URL
 			var gameUrl = dir;
+			
+			// IE requires "file://" prefixed to gameUrl.
+			// To be safe, don't include this in production code.
+			var isIe = Object.hasOwnProperty.call(window, "ActiveXObject") && !window.ActiveXObject;
+			if (isIe && gameUrl.indexOf('http') != 0) {
+				gameUrl = "file://" + gameUrl;
+			}
+			
 			window.addEventListener('load', Game.start);
 			var debug = true;
 		</script>
