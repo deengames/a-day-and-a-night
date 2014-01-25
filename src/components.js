@@ -65,16 +65,15 @@ Crafty.c('MoveAndCollide', {
 });
 
 Crafty.c('Interactive', {
-	init: function() {
-		this.interactFunction = function() { } // do nothing
-	},
-	
+
 	onInteract: function(func) {
 		this.interactFunction = func;
 	},
 	
 	interact: function() {
-		this.interactFunction();
+		if (this.interactFunction != null) {
+			this.interactFunction();
+		}
 	}
 });
 
@@ -108,8 +107,7 @@ Crafty.c('PositionalAudio', {
 				for (var i = 0; i < Crafty.audio.channels.length; i++) {
 					var c = Crafty.audio.channels[i];
 					if (c.id == this.audioId) {					
-						this.obj = c.obj;
-						console.log("Found: " + this.obj + " for " + this.audioId);
+						this.obj = c.obj;						
 					}
 				}
 			}			
