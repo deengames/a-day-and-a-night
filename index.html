@@ -28,9 +28,13 @@
 			
 			window.addEventListener('load', Game.start);
 			var debug = true;
+			
+			function craftyTriggerBlur() {
+				Crafty.trigger('CraftyBlur');
+			}
 		</script>
 	</head>
-	<body>	
+	<body onblur="craftyTriggerBlur()">	
 		<div id='cr-stage'></div>	
 	</body>
 </html>
