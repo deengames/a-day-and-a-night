@@ -52,10 +52,6 @@ Crafty.c('NpcBase', {
 			
 			if (bumpedPlayer != null) {
 				this.pauseAnimation();
-				//this.velocity = { x: 0, y: 0 };
-				// Back off
-				//this.x += bumpedPlayer.normal.x * Math.abs(bumpedPlayer.overlap);
-				//this.y += bumpedPlayer.normal.y * Math.abs(bumpedPlayer.overlap);
 			} else {
 				this.velocity.x *= -1;
 				this.velocity.y *= -1;
@@ -201,7 +197,7 @@ Crafty.c('Player', {
 		var animationDuration = 400; //ms
 		
 		this.requires('Actor, Color, MoveAndCollide, sprite_player, SpriteAnimation, Solid')
-			.fourway(2.5)			
+			.fourway(2) // Use an even whole number so we can pass pixel-perfect narrow passages
 			.color('rgba(0, 0, 0, 0)')		
 			.stopOnSolids()
 			
