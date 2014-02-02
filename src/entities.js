@@ -197,11 +197,17 @@ Crafty.c('Npc', {
 // This is the player-controlled character
 Crafty.c('Player', {
 	init: function() {
+<<<<<<< HEAD
 	
 		var animationDuration = 400; //ms
+||||||| merged common ancestors
+		var animationDuration = 400; //ms
+=======
+		var animationDuration = 500; //ms
+>>>>>>> 0b3452e99e6a9c28f6d7a6b326f81441d5b8c2d0
 		
 		this.requires('Actor, Color, MoveAndCollide, sprite_player, SpriteAnimation, Solid')
-			.fourway(4)			
+			.fourway(2.5)			
 			.color('rgba(0, 0, 0, 0)')		
 			.stopOnSolids()
 			
