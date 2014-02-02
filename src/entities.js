@@ -18,7 +18,7 @@ Crafty.c('Tree', {
 // Contains animation and collision detection (bounces off solid objects).
 Crafty.c('NpcBase', {	
 	init: function() {
-		var animationDuration = 600; //ms	
+		var animationDuration = 600; //ms
 		
 		this.requires('Actor, Color, SpriteAnimation, Solid, Collision, Interactive, default_sprite')
 			.color('rgba(0, 0, 0, 0)')			
@@ -28,21 +28,46 @@ Crafty.c('NpcBase', {
 			.reel('MovingUp', animationDuration, getFramesForRow(3));
 				
 		this.velocity = { x: 0, y: 0 };
+		this.lastPosition = { x: this.x, y: this.y };
 		
 		this.onHit('Solid', function(data) {
-			this.x = this.lastX;
-			this.y = this.lastY
+			if (this.velocity.x != 0) {
+				this.x = this.lastPosition.x;
+			}
 			
-			this.velocity.x *= -1;
-			this.velocity.y *= -1;
+			if (this.velocity.y != 0) {
+				this.y = this.lastPosition.y;
+			}
+			
+			// Stop if we hit the player, or another entity.
+			// Otherwise, just turn around.
+			var bumpedPlayer = null;
+			for (var i = 0; i < data.length; i++) {
+				var bumpedInto = data[0];
+				if (bumpedInto.obj.has('Player')) {
+					bumpedPlayer = bumpedInto;
+					break;
+				}
+			}
+			
+			if (bumpedPlayer != null) {
+				this.pauseAnimation();
+				//this.velocity = { x: 0, y: 0 };
+				// Back off
+				//this.x += bumpedPlayer.normal.x * Math.abs(bumpedPlayer.overlap);
+				//this.y += bumpedPlayer.normal.y * Math.abs(bumpedPlayer.overlap);
+			} else {
+				this.velocity.x *= -1;
+				this.velocity.y *= -1;
+			}
+			
 		}, function() {
 			this.resumeAnimation();
 		});
 	},
 	
 	setVelocity: function(x, y) {
-		this.velocity.x = x;
-		this.velocity.y = y;
+		this.velocity = {x: x, y: y };		
 	},
 	
 	setMessages: function(messages) {
@@ -54,10 +79,9 @@ Crafty.c('NpcBase', {
 		}
 	},
 	
-	moveOnVelocity: function(data) {
+	moveOnVelocity: function(data) {		
 		// Keep the last frame's (x, y) for moving back on a collision
-		this.lastX = this.x;
-		this.lastY = this.y;		
+		this.lastPosition = { x: this.x, y: this.y };
 		
 		var elapsedMs = data.dt / 1000.0;
 		var xMove = this.velocity.x * elapsedMs;
@@ -85,7 +109,7 @@ Crafty.c('NpcBase', {
 			
 			this.lastVelocity.x = this.velocity.x;
 			this.lastVelocity.y = this.velocity.y;
-		}
+		}		
 	},
 	
 	talk: function() {
@@ -173,6 +197,7 @@ Crafty.c('Npc', {
 // This is the player-controlled character
 Crafty.c('Player', {
 	init: function() {
+	
 		var animationDuration = 400; //ms
 		
 		this.requires('Actor, Color, MoveAndCollide, sprite_player, SpriteAnimation, Solid')
