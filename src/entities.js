@@ -87,7 +87,7 @@ Crafty.c('NpcBase', {
 		this.y += yMove;
 		if (this.text != null) {
 			this.text.x = this.x;
-			this.text.y + this.y;
+			this.text.y = this.y - 16;
 		}
 		
 		// Possible direction change
