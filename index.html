@@ -8,6 +8,7 @@
 		</style>
 		
 		<script src="lib/crafty-min.js"></script>
+		<script src="data/maps/worldMap.js"></script>
 		<script src="src/scenes.js"></script>
 		<script src="src/components.js"></script>
 		<script src="src/entities.js"></script>
@@ -16,6 +17,7 @@
 			// LOCAL ONLY: get the DIR.
 			var loc = window.location.pathname;
 			var dir = loc.substring(0, loc.lastIndexOf('/'));
+			
 			// For production, specify a relative URL
 			var gameUrl = dir;
 			

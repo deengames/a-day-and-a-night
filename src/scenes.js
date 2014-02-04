@@ -83,6 +83,8 @@ Crafty.scene('SplashScreen', function() {
 Crafty.scene('MainMap', function() {
 	
 	var self = this;
+		
+	var map = mainMap();
 	
 	this.player = Crafty.e('Player');		
 	this.player.move(3, 3);
@@ -98,7 +100,7 @@ Crafty.scene('MainMap', function() {
 	npc2.move(12, 11);
 	npc2.setVelocity(90, 0);
 	this.gameObjects.push(npc2);
-	
+	/*
 	var chicken = Crafty.e('Npc, PositionalAudio, sprite_chicken_white');
 	chicken.PositionalAudio('chicken', 5, this.player)
 	chicken.move(18, 18);
@@ -110,7 +112,7 @@ Crafty.scene('MainMap', function() {
 	chicken.move(40, 30);
 	chicken.play();
 	this.gameObjects.push(chicken);
-	
+	*/
 	Crafty.background('#d2ffa6');
 	Crafty.audio.play('outside', -1);
 	
