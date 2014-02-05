@@ -85,6 +85,7 @@ Crafty.scene('MainMap', function() {
 	var self = this;
 		
 	var map = mainMap();
+	Game.currentMap = map;
 	
 	this.player = Crafty.e('Player');		
 	this.player.move(3, 3);
@@ -100,7 +101,7 @@ Crafty.scene('MainMap', function() {
 	npc2.move(12, 11);
 	npc2.setVelocity(90, 0);
 	this.gameObjects.push(npc2);
-	/*
+	
 	var chicken = Crafty.e('Npc, PositionalAudio, sprite_chicken_white');
 	chicken.PositionalAudio('chicken', 5, this.player)
 	chicken.move(18, 18);
@@ -112,7 +113,7 @@ Crafty.scene('MainMap', function() {
 	chicken.move(40, 30);
 	chicken.play();
 	this.gameObjects.push(chicken);
-	*/
+	
 	Crafty.background('#d2ffa6');
 	Crafty.audio.play('outside', -1);
 	
@@ -126,10 +127,10 @@ Crafty.scene('MainMap', function() {
 		.image('assets/images/grass.png', 'repeat');
 	
 	// Place a tree at every edge square on our grid of 16x16 tiles
-	for (var x = 0; x < Game.mapGrid.width; x++) {
-		for (var y = 0; y < Game.mapGrid.height; y++) {
+	for (var x = 0; x < Game.currentMap.width; x++) {
+		for (var y = 0; y < Game.currentMap.height; y++) {
 			
-			var isAtEdge = x == 0 || x == Game.mapGrid.width - 1 || y == 0 || y == Game.mapGrid.height - 1;
+			var isAtEdge = x == 0 || x == Game.currentMap.width - 1 || y == 0 || y == Game.currentMap.height - 1;
 			var obj = null;
 			
 			if (isAtEdge) {

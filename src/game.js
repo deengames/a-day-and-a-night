@@ -5,14 +5,7 @@ Game = {
 		height: 600
 	},
 	
-	mapGrid: {
-		width:  50,
-		height: 40,
-		tile: {
-			width:  32,
-			height: 32
-		}
-	},
+	currentMap: null,
 
 	// Initialize and start our game
 	start: function() {
@@ -35,10 +28,10 @@ Game = {
 	},
 	
 	width: function() {
-		return this.mapGrid.width * this.mapGrid.tile.width;
+		return this.currentMap.width * this.currentMap.tile.width;
 	},
 	
 	height: function() {
-		return this.mapGrid.height * this.mapGrid.tile.height;
+		return this.currentMap.height * this.currentMap.tile.height;
 	}
 }

@@ -197,7 +197,7 @@ Crafty.c('Player', {
 		var animationDuration = 400; //ms
 		
 		this.requires('Actor, Color, MoveAndCollide, sprite_player, SpriteAnimation, Solid')
-			.fourway(2) // Use an even whole number so we can pass pixel-perfect narrow passages
+			.fourway(4) // Use an even whole number so we can pass pixel-perfect narrow passages
 			.color('rgba(0, 0, 0, 0)')		
 			.stopOnSolids()
 			

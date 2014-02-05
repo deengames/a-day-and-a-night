@@ -3,27 +3,27 @@
 Crafty.c('Grid', {
 	init: function() {
 		this.attr({
-			w: Game.mapGrid.tile.width,
-			h: Game.mapGrid.tile.height
+			width: Game.currentMap.tile.width,
+			height: Game.currentMap.tile.height
 		})
 	},
 
 	// Locate this entity at the given position on the grid
 	move: function(x, y) {
 		if (x === undefined && y === undefined) {
-			return { x: this.x / Game.mapGrid.tile.width, y: this.y / Game.mapGrid.tile.height }
+			return { x: this.x / this.width, y: this.y / this.height }
 		} else {
-			this.attr({ x: x * Game.mapGrid.tile.width, y: y * Game.mapGrid.tile.height });
+			this.attr({ x: x * this.width, y: y * this.height });
 			return this;
 		}
 	},
 	
 	gridX: function() {
-		return Math.floor(this.x / Game.mapGrid.tile.width);
+		return Math.floor(this.x / this.width);
 	},
 	
 	gridY: function() {
-		return Math.floor(this.y / Game.mapGrid.tile.height);
+		return Math.floor(this.y / this.height);
 	}
 });
 
@@ -91,7 +91,7 @@ Crafty.c('PositionalAudio', {
 		// Use pixels, not tiles, so we get smoother transitions.
 		// To replace with tiles, remove the * width * height here, and change
 		// all instances of x/y to gridX/gridY in the d^2 calculation.
-		this.radiusSquared = radius * radius * Game.mapGrid.tile.width * Game.mapGrid.tile.height;
+		this.radiusSquared = radius * radius * Game.currentMap.tile.width * Game.currentMap.tile.height;
 		this.player = player;
 		this.x = null;
 		this.y = null;
