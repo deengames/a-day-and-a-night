@@ -49,6 +49,7 @@ Crafty.scene('Loading', function() {
 		});
 		
 		// Loading done. Launch game.
+		Game.showMap(mainMap());
 		Crafty.scene('MainMap');
 	});
 });
@@ -83,9 +84,6 @@ Crafty.scene('SplashScreen', function() {
 Crafty.scene('MainMap', function() {
 	
 	var self = this;
-		
-	var map = mainMap();
-	Game.currentMap = map;
 	
 	this.player = Crafty.e('Player');		
 	this.player.move(3, 3);

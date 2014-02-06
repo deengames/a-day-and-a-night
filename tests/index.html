@@ -10,7 +10,7 @@
 		<div id="qunit-fixture"></div>
 		
 		<script type="text/javascript" src="lib/qunit.js"></script>				
-		<script type="text/javascript" src="../lib/crafty-min.js"></script>
+		<script type="text/javascript" src="../lib/crafty-min.js"></script>		
 		
 		<!-- game source -->
 		<script type="text/javascript" src="../src/scenes.js"></script>
@@ -24,8 +24,17 @@
 			var dir = loc.substring(0, loc.lastIndexOf('/'));			
 			var gameUrl = dir;
 			Crafty.init(1, 1);
+			
 			// Loads all necessary entity images (defines constants like default_sprite)
-			Crafty.scene('Loading');			
+			Crafty.scene('Loading');
+			
+			// Some components (Grid) depend on the game map
+			Game.currentMap = { tile: { width: 32, height: 32 } }
+			
+			// Fake it out (dependency injection)
+			mainMap = function() {
+				return Game.currentMap;
+			}
 		</script>
 						
 		<script type="text/javascript" src="components.js"></script>

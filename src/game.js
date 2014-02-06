@@ -4,8 +4,6 @@ Game = {
 		width: 800,
 		height: 600
 	},
-	
-	currentMap: null,
 
 	// Initialize and start our game
 	start: function() {
@@ -24,7 +22,7 @@ Game = {
 			Crafty.scene('Loading');
 		} else {
 			Crafty.scene('SplashScreen');		
-		}
+		}		
 	},
 	
 	width: function() {
@@ -33,5 +31,9 @@ Game = {
 	
 	height: function() {
 		return this.currentMap.height * this.currentMap.tile.height;
+	},
+	
+	showMap: function(map) {
+		this.currentMap = map;
 	}
 }
