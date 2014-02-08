@@ -85,12 +85,13 @@ Crafty.scene('MainMap', function() {
 	var self = this;
 	
 	this.player = Crafty.e('Player');		
-	this.player.size(32, 32);
-	this.player.move(3, 3);
 	this.gameObjects = [this.player];	
 	
 	var map = mainMap(this.player);
 	Game.showMap(map);
+	this.player.size(map.tile.width, map.tile.height);
+	this.player.move(3, 3);
+	
 	
 	Crafty.background('#d2ffa6');
 	Crafty.audio.play('outside', -1);
