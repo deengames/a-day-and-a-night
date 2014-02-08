@@ -48,8 +48,7 @@ Crafty.scene('Loading', function() {
 			// tone: [gameUrl + '/assets/audio/tone.mp3']
 		});
 		
-		// Loading done. Launch game.
-		Game.showMap(mainMap());
+		// Loading done. Launch game.				
 		Crafty.scene('MainMap');
 	});
 });
@@ -86,31 +85,12 @@ Crafty.scene('MainMap', function() {
 	var self = this;
 	
 	this.player = Crafty.e('Player');		
+	this.player.size(32, 32);
 	this.player.move(3, 3);
 	this.gameObjects = [this.player];	
 	
-	var npc = Crafty.e('Npc', 'sprite_npc2');
-	npc.setMessages(["Salam!", "Peace!"]);
-	npc.move(8, 8);
-	this.gameObjects.push(npc);
-	
-	var npc2 = Crafty.e('WalkingNpc', 'sprite_npc1');
-	npc2.setMessages(["Catch me if you can!", "Let's see how fast you can run!"]);
-	npc2.move(12, 11);
-	npc2.setVelocity(90, 0);
-	this.gameObjects.push(npc2);
-	
-	var chicken = Crafty.e('Npc, PositionalAudio, sprite_chicken_white');
-	chicken.PositionalAudio('chicken', 5, this.player)
-	chicken.move(18, 18);
-	chicken.play();
-	this.gameObjects.push(chicken);
-	
-	chicken = Crafty.e('Npc, PositionalAudio, sprite_chicken_red');
-	chicken.PositionalAudio('chicken2', 5, this.player)
-	chicken.move(40, 30);
-	chicken.play();
-	this.gameObjects.push(chicken);
+	var map = mainMap(this.player);
+	Game.showMap(map);
 	
 	Crafty.background('#d2ffa6');
 	Crafty.audio.play('outside', -1);
@@ -124,25 +104,9 @@ Crafty.scene('MainMap', function() {
 		.attr({w: Game.width(), h: Game.height(), z: -100 })
 		.image('assets/images/grass.png', 'repeat');
 	
-	// Place a tree at every edge square on our grid of 16x16 tiles
-	for (var x = 0; x < Game.currentMap.width; x++) {
-		for (var y = 0; y < Game.currentMap.height; y++) {
-			
-			var isAtEdge = x == 0 || x == Game.currentMap.width - 1 || y == 0 || y == Game.currentMap.height - 1;
-			var obj = null;
-			
-			if (isAtEdge) {
-				// Place a wall entity at the current tile
-				obj = Crafty.e('Wall');				
-			} else if (Math.random() < 0.06 && !isOccupied(x, y)) {
-				obj = Crafty.e('Tree');				
-			}		
-			
-			if (obj != null) {
-				obj.move(x, y);
-				this.gameObjects.push(obj);				
-			}
-		}
+	for (var i = 0; i < map.objects.length; i++) {
+		var obj = map.objects[i];
+		this.gameObjects.push(obj);
 	}
 	
 	Crafty.viewport.follow(this.player, 0, 0);

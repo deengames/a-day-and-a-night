@@ -1,13 +1,13 @@
 // The Grid component allows an element to be located
 //	on a grid of tiles
 Crafty.c('Grid', {
-	init: function() {
+	size: function(width, height) {
 		this.attr({
-			width: Game.currentMap.tile.width,
-			height: Game.currentMap.tile.height
+			width: width,
+			height: height
 		})
 	},
-
+	
 	// Locate this entity at the given position on the grid
 	move: function(x, y) {
 		if (x === undefined && y === undefined) {
@@ -91,7 +91,7 @@ Crafty.c('PositionalAudio', {
 		// Use pixels, not tiles, so we get smoother transitions.
 		// To replace with tiles, remove the * width * height here, and change
 		// all instances of x/y to gridX/gridY in the d^2 calculation.
-		this.radiusSquared = radius * radius * Game.currentMap.tile.width * Game.currentMap.tile.height;
+		this.radiusSquared = radius * radius * this.width * this.height;
 		this.player = player;
 		this.x = null;
 		this.y = null;
