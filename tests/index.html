@@ -29,10 +29,10 @@
 			Crafty.scene('Loading');
 			
 			// Some components (Grid) depend on the game map
-			Game.currentMap = { tile: { width: 32, height: 32 } }
+			Game.currentMap = { tile: { width: 32, height: 32 }, objects: [] }
 			
 			// Fake it out (dependency injection)
-			mainMap = function() {
+			mainMap = function() {				
 				return Game.currentMap;
 			}
 		</script>

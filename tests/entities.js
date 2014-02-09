@@ -20,6 +20,7 @@
 	test("NpcBase.moveOnVelocity moves according to velocity", function() {
 		var base = Crafty.e("NpcBase");
 		base.setVelocity(200, 100);
+		base.size(32, 32);
 		base.move(0, 0);
 		base.moveOnVelocity({ dt: 100 });
 		ok(base.x > 0);
