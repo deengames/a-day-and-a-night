@@ -42,6 +42,10 @@ function worldMap() {
 					me.PositionalAudio('chicken2', 5, player);
 					me.play();
 				}
+			},
+			{
+				range: { start: { x: 6, y: 10 }, end: { x: 16, y: 14 } },
+				type: 'Tree'
 			}
 		]
 	};

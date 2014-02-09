@@ -140,35 +140,23 @@ Crafty.scene('map', function() {
 	}
 	
 	for (var i = 0; i < map.objects.length; i++) {
-		var obj = map.objects[i];
+		var def = map.objects[i];
 		// TODO: strategy pattern will work well here
-		var type = obj.type;
-		if (obj.type == null) {
-			throw new Error("Object without specified type found. Definition: " + obj);
-		} else if (obj.type.toUpperCase() == 'NPC' || obj.type.toUpperCase() == 'WALKINGNPC') {
-			// Common NPC properties
-			var name = obj.type
-			if (obj.components != null) {
-				name = name + ', ' + obj.components;
-			}
-			var npc = Crafty.e(name + ', ' + obj.sprite);
-			npc.setMessages(obj.messages);
-			npc.size(map.tile.width, map.tile.height);
-			npc.move(obj.x, obj.y);			
-			// Walking NPCs have velocity, too.
-			if (obj.type.toUpperCase() == 'WALKINGNPC') {
-				npc.velocity = obj.velocity;
-				if (npc.velocity == null) {
-					throw new Error("Walking NPC defined without velocity. Use normal NPC instead.");
-				}
-			}
-			// Did we define custom intiialization? Call it. (eg. chickens)
-			if (obj.initialize != null) {
-				obj.initialize(npc, this.player);
-			}
-			self.gameObjects.push(npc);
+		var type = def.type;
+		if (def.type == null) {
+			throw new Error("Object without specified type found. Definition: " + def);
 		} else {
-			throw new Error('Unsupported object type found: type=' + type + ', obj=' + obj);
+			if (def.range != null) {
+				for (var y = def.range.start.y; y <= def.range.end.y; y++) {
+					for (var x = def.range.start.x; x <= def.range.end.x; x++) {
+						def.x = x;
+						def.y = y;						
+						createObjectFrom(def, this.player);						
+					}
+				}
+			} else {
+				createObjectFrom(def, this.player);				
+			}			
 		}
 	}
 	
@@ -188,7 +176,42 @@ Crafty.scene('map', function() {
 		}
 	});
 	
-	// HELPER FUNCTIONZ
+	///// HELPER FUNCTIONZ /////
+	
+	function createObjectFrom(def, player) {
+		// Common properties
+		var name = def.type
+		if (def.components != null) {
+			name = name + ', ' + def.components;
+		}
+		
+		var obj = Crafty.e(name + ', ' + def.sprite);
+		obj.size(map.tile.width, map.tile.height);			
+		obj.move(def.x, def.y);			
+		
+		if (def.type.toUpperCase() == 'NPC' || def.type.toUpperCase() == 'WALKINGNPC') {											
+			obj.setMessages(def.messages);				
+			// Walking NPCs have velocity, too.
+			if (def.type.toUpperCase() == 'WALKINGNPC') {
+				obj.velocity = def.velocity;
+				if (obj.velocity == null) {
+					throw new Error("Walking NPC defined without velocity. Use normal NPC instead.");
+				}
+			}
+		}
+		
+		initializeAndAdd(def, obj, player);
+	}
+	
+	function initializeAndAdd(def, obj, player) {
+		// Did we define custom intiialization? Call it. (eg. positional audio NPCs)
+		// First argument is the object itself; second is the player.
+		if (def.initialize != null) {
+			def.initialize(obj, player);
+		}
+		self.gameObjects.push(obj);
+	}	
+	
 	// Is a tile occupied?
 	function isOccupied(x, y) {
 		for (var i = 0; i < self.gameObjects.length; i++) {
