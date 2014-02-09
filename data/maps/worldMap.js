@@ -6,11 +6,8 @@ function mainMap(player) {
 			width:  32,
 			height: 32
 		},
-		
-		objects: [
-			{
-				perimeter: 'Wall'
-			}
+		perimeter: 'Wall',
+		objects: [			
 		]
 	};
 	

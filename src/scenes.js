@@ -103,42 +103,42 @@ Crafty.scene('map', function() {
 	grass = Crafty.e('2D, Canvas, Image')		
 		.attr({w: Game.width(), h: Game.height(), z: -100 })
 		.image('assets/images/grass.png', 'repeat');
+			
+	if (map.perimeter != null) {
+		var entityName = map.perimeter;
+		
+		// Top and bottom
+		for (var x = 0; x < map.width; x++) {
+			var e = Crafty.e(entityName);
+			// They're all the same, so check the first one only.
+			if (e.has('Grid') == false) {
+				throw new Error("Can't create entity of type " + entityName + " for map perimeter. Check the name is correct.");
+			}				
+			e.size(map.tile.width, map.tile.height);
+			e.move(x, 0);
+			self.gameObjects.push(e);
+			
+			e = Crafty.e(entityName);
+			e.size(map.tile.width, map.tile.height);
+			e.move(x, map.height - 1);		
+			self.gameObjects.push(e);
+		}
+		
+		// Left and right
+		for (var y = 0; y < map.height; y++) {
+			var e = Crafty.e(entityName);
+			e.size(map.tile.width, map.tile.height);
+			e.move(0, y);
+			self.gameObjects.push(e);
+			
+			e = Crafty.e(entityName);
+			e.size(map.tile.width, map.tile.height);
+			e.move(map.width - 1, y);
+			self.gameObjects.push(e);
+		}
+	}
 	
 	for (var i = 0; i < map.objects.length; i++) {
-		var obj = map.objects[i];
-		if (obj.perimeter != null) {
-			var entityName = obj.perimeter;
-			
-			// Top and bottom
-			for (var x = 0; x < map.width; x++) {
-				var e = Crafty.e(entityName);
-				// They're all the same, so check the first one only.
-				if (e.has('Grid') == false) {
-					throw new Error("Can't create entity of type " + entityName + " for map perimeter. Check the name is correct.");
-				}				
-				e.size(map.tile.width, map.tile.height);
-				e.move(x, 0);
-				self.gameObjects.push(e);
-				
-				e = Crafty.e(entityName);
-				e.size(map.tile.width, map.tile.height);
-				e.move(x, map.height - 1);		
-				self.gameObjects.push(e);
-			}
-			
-			// Left and right
-			for (var y = 0; y < map.height; y++) {
-				var e = Crafty.e(entityName);
-				e.size(map.tile.width, map.tile.height);
-				e.move(0, y);
-				self.gameObjects.push(e);
-				
-				e = Crafty.e(entityName);
-				e.size(map.tile.width, map.tile.height);
-				e.move(map.width - 1, y);
-				self.gameObjects.push(e);
-			}
-		}
 	}
 	
 	Crafty.viewport.follow(this.player, 0, 0);
