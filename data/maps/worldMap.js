@@ -6,25 +6,27 @@ function mainMap(player) {
 			width:  32,
 			height: 32
 		},
+		
 		perimeter: 'Wall',
-		objects: [			
+		
+		objects: [
+			{
+				type: 'Npc',
+				sprite: 'sprite_npc2',
+				messages: ['Salam!', 'Peace!'],
+				x: 8, y: 8
+			},
+			{
+				type: 'WalkingNpc',
+				sprite: 'sprite_npc1',
+				messages: ['Catch me if you can!', "Let's see how fast you can run!"],
+				x: 18, y: 11,
+				velocity: { x: 90, y: 0 }
+			}
 		]
 	};
 	
-	// NPCs (including chickens)
-	var npc = Crafty.e('Npc', 'sprite_npc2');
-	npc.setMessages(["Salam!", "Peace!"]);
-	npc.size(mainMap.tile.width, mainMap.tile.height);
-	npc.move(8, 8);
-	mainMap.objects.push(npc);
-	
-	var npc2 = Crafty.e('WalkingNpc', 'sprite_npc1');
-	npc2.setMessages(["Catch me if you can!", "Let's see how fast you can run!"]);
-	npc2.size(mainMap.tile.width, mainMap.tile.height);
-	npc2.move(18, 11);
-	npc2.setVelocity(90, 0);
-	mainMap.objects.push(npc2);
-	
+	/*	
 	var chicken = Crafty.e('Npc, PositionalAudio, sprite_chicken_white');	
 	chicken.size(mainMap.tile.width, mainMap.tile.height);
 	chicken.PositionalAudio('chicken', 5, player)
@@ -49,6 +51,7 @@ function mainMap(player) {
 			}
 		}
 	}
+	*/
 	
 	return mainMap;
 }

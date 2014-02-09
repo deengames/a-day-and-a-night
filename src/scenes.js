@@ -139,6 +139,28 @@ Crafty.scene('map', function() {
 	}
 	
 	for (var i = 0; i < map.objects.length; i++) {
+		var obj = map.objects[i];
+		// TODO: strategy pattern will work well here
+		var type = obj.type;
+		if (obj.type == null) {
+			throw new Error("Object without specified type found. Definition: " + obj);
+		} else if (obj.type.toUpperCase() == 'NPC' || obj.type.toUpperCase() == 'WALKINGNPC') {
+			var npc = Crafty.e(obj.type, obj.sprite);
+			npc.setMessages(obj.messages);
+			npc.size(map.tile.width, map.tile.height);
+			npc.move(obj.x, obj.y);
+			
+			if (obj.type.toUpperCase() == 'WALKINGNPC') {
+				npc.velocity = obj.velocity;
+				if (npc.velocity == null) {
+					throw new Error("Walking NPC defined without velocity. Use normal NPC instead.");
+				}
+			}
+			
+			self.gameObjects.push(npc);
+		} else {
+			throw new Error('Unsupported object type found: type=' + type + ', obj=' + obj);
+		}
 	}
 	
 	Crafty.viewport.follow(this.player, 0, 0);
