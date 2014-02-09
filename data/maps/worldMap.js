@@ -5,35 +5,14 @@ function mainMap(player) {
 		tile: {
 			width:  32,
 			height: 32
-		},		
-		objects: []
+		},
+		
+		objects: [
+			{
+				perimeter: 'Wall'
+			}
+		]
 	};
-	
-	// Top and bottom walls
-	for (var x = 0; x < mainMap.width; x++) {
-		var obj = Crafty.e('Wall');
-		obj.size(mainMap.tile.width, mainMap.tile.height);
-		obj.move(x, 0);
-		mainMap.objects.push(obj);
-		
-		obj = Crafty.e('Wall');
-		obj.size(mainMap.tile.width, mainMap.tile.height);
-		obj.move(x, mainMap.height - 1);		
-		mainMap.objects.push(obj);
-	}
-	
-	// Left and right walls
-	for (var y = 0; y < mainMap.height; y++) {
-		var obj = Crafty.e('Wall');
-		obj.size(mainMap.tile.width, mainMap.tile.height);
-		obj.move(0, y);
-		mainMap.objects.push(obj);
-		
-		obj = Crafty.e('Wall');
-		obj.size(mainMap.tile.width, mainMap.tile.height);
-		obj.move(mainMap.width - 1, y);
-		mainMap.objects.push(obj);
-	}
 	
 	// NPCs (including chickens)
 	var npc = Crafty.e('Npc', 'sprite_npc2');

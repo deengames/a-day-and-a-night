@@ -49,7 +49,7 @@ Crafty.scene('Loading', function() {
 		});
 		
 		// Loading done. Launch game.				
-		Crafty.scene('MainMap');
+		Crafty.scene('map');
 	});
 });
 
@@ -80,7 +80,7 @@ Crafty.scene('SplashScreen', function() {
 	});
 });
 
-Crafty.scene('MainMap', function() {
+Crafty.scene('map', function() {
 	
 	var self = this;
 	
@@ -91,7 +91,6 @@ Crafty.scene('MainMap', function() {
 	Game.showMap(map);
 	this.player.size(map.tile.width, map.tile.height);
 	this.player.move(3, 3);
-	
 	
 	Crafty.background('#d2ffa6');
 	Crafty.audio.play('outside', -1);
@@ -107,7 +106,39 @@ Crafty.scene('MainMap', function() {
 	
 	for (var i = 0; i < map.objects.length; i++) {
 		var obj = map.objects[i];
-		this.gameObjects.push(obj);
+		if (obj.perimeter != null) {
+			var entityName = obj.perimeter;
+			
+			// Top and bottom
+			for (var x = 0; x < map.width; x++) {
+				var e = Crafty.e(entityName);
+				// They're all the same, so check the first one only.
+				if (e.has('Grid') == false) {
+					throw new Error("Can't create entity of type " + entityName + " for map perimeter. Check the name is correct.");
+				}				
+				e.size(map.tile.width, map.tile.height);
+				e.move(x, 0);
+				self.gameObjects.push(e);
+				
+				e = Crafty.e(entityName);
+				e.size(map.tile.width, map.tile.height);
+				e.move(x, map.height - 1);		
+				self.gameObjects.push(e);
+			}
+			
+			// Left and right
+			for (var y = 0; y < map.height; y++) {
+				var e = Crafty.e(entityName);
+				e.size(map.tile.width, map.tile.height);
+				e.move(0, y);
+				self.gameObjects.push(e);
+				
+				e = Crafty.e(entityName);
+				e.size(map.tile.width, map.tile.height);
+				e.move(map.width - 1, y);
+				self.gameObjects.push(e);
+			}
+		}
 	}
 	
 	Crafty.viewport.follow(this.player, 0, 0);
