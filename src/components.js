@@ -93,8 +93,6 @@ Crafty.c('PositionalAudio', {
 		// all instances of x/y to gridX/gridY in the d^2 calculation.
 		this.radiusSquared = radius * radius * this.width * this.height;
 		this.player = player;
-		this.x = null;
-		this.y = null;
 		
 		this.bind('EnterFrame', function() {
 			if (this.audioId == null) {
@@ -113,6 +111,10 @@ Crafty.c('PositionalAudio', {
 					if (c.id == this.audioId) {					
 						this.obj = c.obj;						
 					}
+				}
+				
+				if (this.obj == null) {
+					throw new Error("Couldn't find audio for " + audioId);
 				}
 			}			
 		});

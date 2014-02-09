@@ -67,10 +67,8 @@ Crafty.c('NpcBase', {
 	},
 	
 	setMessages: function(messages) {
-		this.messages = messages;
-		this.validateMessages();
-
-		if (this.interactFunction == null) {
+		this.messages = messages || [];		
+		if (this.messages != null && this.messages.length > 0 && this.interactFunction == null) {
 			this.onInteract(this.talk);
 		}
 	},
@@ -105,7 +103,7 @@ Crafty.c('NpcBase', {
 			
 			this.lastVelocity.x = this.velocity.x;
 			this.lastVelocity.y = this.velocity.y;
-		}		
+		}
 	},
 	
 	talk: function() {

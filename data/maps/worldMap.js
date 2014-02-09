@@ -1,5 +1,5 @@
-function mainMap(player) {
-	var mainMap = {		
+function worldMap() {
+	var map = {		
 		width:  30,
 		height: 20,
 		tile: {
@@ -22,25 +22,31 @@ function mainMap(player) {
 				messages: ['Catch me if you can!', "Let's see how fast you can run!"],
 				x: 18, y: 11,
 				velocity: { x: 90, y: 0 }
+			},
+			{
+				type: 'Npc',
+				sprite: 'sprite_chicken_white',				
+				x: 18, y: 18,	
+				components: 'PositionalAudio',				
+				initialize: function(me, player) {
+					me.PositionalAudio('chicken', 5, player);
+					me.play();
+				}
+			},
+			{
+				type: 'Npc',
+				sprite: 'sprite_chicken_red',				
+				x: 20, y: 15,	
+				components: 'PositionalAudio',				
+				initialize: function(me, player) {
+					me.PositionalAudio('chicken2', 5, player);
+					me.play();
+				}
 			}
 		]
 	};
 	
 	/*	
-	var chicken = Crafty.e('Npc, PositionalAudio, sprite_chicken_white');	
-	chicken.size(mainMap.tile.width, mainMap.tile.height);
-	chicken.PositionalAudio('chicken', 5, player)
-	chicken.move(18, 18);
-	chicken.play();
-	mainMap.objects.push(chicken);
-	
-	chicken = Crafty.e('Npc, PositionalAudio, sprite_chicken_red');	
-	chicken.size(mainMap.tile.width, mainMap.tile.height);
-	chicken.PositionalAudio('chicken2', 5, player)	
-	chicken.move(20, 15);
-	chicken.play();
-	mainMap.objects.push(chicken);
-	
 	for (var y = 10; y < 14; y++) {
 		for (var x = 6; x < 16; x++) {
 			if (x != 14 && y != 12) {
@@ -53,5 +59,5 @@ function mainMap(player) {
 	}
 	*/
 	
-	return mainMap;
+	return map;
 }
