@@ -1,19 +1,3 @@
-// A Wall is a solid wall.
-Crafty.c('Wall', {
-	init: function() {
-		this.requires('Actor, Color, Solid, sprite_wall')
-			.color('rgba(0, 0, 0, 0)');
-	}
-});
-
-// A tree is like a wall. But greener.
-Crafty.c('Tree', {
-	init: function() {
-		this.requires('Actor, Color, Solid, sprite_tree')
-			.color('rgba(0, 0, 0, 0)');
-	}
-});
-
 // Don't use this. It's an "internal" entity.
 // Contains animation and collision detection (bounces off solid objects).
 Crafty.c('NpcBase', {	

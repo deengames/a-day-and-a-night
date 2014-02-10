@@ -9,7 +9,15 @@ Crafty.scene('Loading', function() {
 		.textFont({ family: 'Georgia', size: '72px' })
 		.css({ 'color': 'white', 'text-align': 'center' });
 
-	Crafty.load([gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/default-sprite.png', gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/images/chicken-red.png', gameUrl + '/assets/audio/chicken.mp3', gameUrl + '/assets/audio/chicken2.mp3'], function() {
+	// Load EVERYTHING, and don't worry about what map uses what stuff.
+	Crafty.load(
+		// Images
+		[gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/default-sprite.png', 
+		gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/images/chicken-red.png', 
+		gameUrl + '/assets/images/indoors.png',
+		// Sounds
+		gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/audio/chicken.mp3', gameUrl + '/assets/audio/chicken2.mp3'],
+	function() {
 	
 		Crafty.sprite(32, gameUrl + '/assets/images/player.png', {
 			sprite_player:	[1, 0]
@@ -37,9 +45,14 @@ Crafty.scene('Loading', function() {
 		});
 		
 		Crafty.sprite(32, 32, gameUrl + '/assets/images/world.png', {
-			sprite_grass:	[0, 0],
-			sprite_wall: 	[1, 0],
-			sprite_tree:	[2, 0]
+			world_grass:	[0, 0],
+			world_wall: 	[1, 0],
+			world_tree:		[2, 0]
+		});
+		
+		Crafty.sprite(32, 32, gameUrl + '/assets/images/indoors.png', {
+			indoor_floor:	[0, 0],
+			indoor_wall: 	[1, 0]			
 		});
 		
 		Crafty.audio.add({
@@ -100,7 +113,7 @@ Crafty.scene('map', function() {
 	
 	for (var y = 0; y < map.height; y++) {
 		for (var x = 0; x < map.width; x++) {
-			var bg = Crafty.e('2D, Grid, Canvas, ' + map.background.image);
+			var bg = Crafty.e('2D, Grid, Canvas, ' + map.background);
 			bg.size(map.tile.width, map.tile.height);			
 			bg.move(x, y);
 			bg.z = -1;
@@ -113,7 +126,7 @@ Crafty.scene('map', function() {
 		.tween({alpha: 0.0}, 1000);
 			
 	if (map.perimeter != null) {
-		var entityName = map.perimeter;
+		var entityName = 'Actor, Solid, ' + map.perimeter;
 		
 		// Top and bottom
 		for (var x = 0; x < map.width; x++) {

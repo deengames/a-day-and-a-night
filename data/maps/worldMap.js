@@ -2,19 +2,16 @@ function worldMap() {
 	var map = {		
 		width:  30,
 		height: 20,
+		
 		tile: {
 			width:  32,
 			height: 32
 		},
 		
-		background: {
-			image: 'sprite_grass', 
-			x: 0, 
-			y: 0
-		},
+		background: 'world_grass',
 		
 		audio: 'outside',		
-		perimeter: 'Wall',
+		perimeter: 'world_wall',
 		
 		objects: [
 			{
@@ -52,7 +49,7 @@ function worldMap() {
 			},
 			{
 				range: { start: { x: 6, y: 10 }, end: { x: 16, y: 14 } },
-				type: 'Tree'
+				type: '2D, Actor, Solid, world_tree'
 			}
 		]
 	};
