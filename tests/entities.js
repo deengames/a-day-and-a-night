@@ -2,16 +2,6 @@
 
 	module('Entity Tests');
 
-	test("Wall is solid", function() {
-		var wall = Crafty.e('Wall');
-		equal(wall.has('Solid'), true);
-	});
-
-	test("Tree is solid", function() {
-		var tree = Crafty.e('Tree');
-		equal(tree.has('Solid'), true);
-	});
-
 	test("NpcBase has default sprite", function() {
 		var base = Crafty.e("NpcBase");
 		equal(base.has('default_sprite'), true);
@@ -28,22 +18,25 @@
 		ok(base.x == 2 * base.y);
 	});
 	
-	test("NpcBase.setMessages throws with null and non-array", function() {
+	test("NpcBase.talk throws with non-array", function() {
 		var npc = Crafty.e("NpcBase");
+		npc.setMessages("hi mom!");
 		
 		throws(function() {
-			npc.setMessages(null);
-		}, Error, "setMessages shouldn't accept null");
-		
-		throws(function() {
-			npc.setMessages("hi mom!");
+			npc.talk();
 		}, Error, "setMessages shouldn't accept non-arrays");
+	});
+	
+	test("NpcBase.setMessages accepts null", function() {
+		var npc = Crafty.e("NpcBase");
+		npc.setMessages(null);
+		ok(true, "setMessages shouldn't throw on null array");
 	});
 	
 	test("NpcBase.setMessages accepts empty array", function() {
 		var npc = Crafty.e("NpcBase");
 		npc.setMessages([]);
-		ok(true, "setMessages didn't throw on empty array");
+		ok(true, "setMessages shoudln't throw on empty array");
 	});
 	
 	test("NpcBase.talk throws when setMessages wasn't called", function() {
