@@ -36,9 +36,10 @@ Crafty.scene('Loading', function() {
 			sprite_chicken_red:	[1, 0]
 		});
 		
-		Crafty.sprite(32, 32, gameUrl + '/assets/images/world.png', {			
-			sprite_wall: [0, 0],
-			sprite_tree: [1, 0]
+		Crafty.sprite(32, 32, gameUrl + '/assets/images/world.png', {
+			sprite_grass:	[0, 0],
+			sprite_wall: 	[1, 0],
+			sprite_tree:	[2, 0]
 		});
 		
 		Crafty.audio.add({
@@ -93,17 +94,23 @@ Crafty.scene('map', function() {
 	this.player.size(map.tile.width, map.tile.height);
 	this.player.move(3, 3);
 	
-	Crafty.background('#d2ffa6');
-	Crafty.audio.play('outside', -1);
+	if (map.audio != null) {
+		Crafty.audio.play(map.audio, -1);
+	}
+	
+	for (var y = 0; y < map.height; y++) {
+		for (var x = 0; x < map.width; x++) {
+			var bg = Crafty.e('2D, Grid, Canvas, ' + map.background.image);
+			bg.size(map.tile.width, map.tile.height);			
+			bg.move(x, y);
+			bg.z = -1;
+		}
+	}
 	
 	var fade = Crafty.e('2D, Canvas, Color, Tween')
 		.attr({w: Game.width(), h: Game.height(), alpha: 1.0, z: 99999 })
 		.color('black')
 		.tween({alpha: 0.0}, 1000);
-		
-	grass = Crafty.e('2D, Canvas, Image')		
-		.attr({w: Game.width(), h: Game.height(), z: -100 })
-		.image('assets/images/grass.png', 'repeat');
 			
 	if (map.perimeter != null) {
 		var entityName = map.perimeter;

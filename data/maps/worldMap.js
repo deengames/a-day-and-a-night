@@ -7,6 +7,13 @@ function worldMap() {
 			height: 32
 		},
 		
+		background: {
+			image: 'sprite_grass', 
+			x: 0, 
+			y: 0
+		},
+		
+		audio: 'outside',		
 		perimeter: 'Wall',
 		
 		objects: [
@@ -49,19 +56,6 @@ function worldMap() {
 			}
 		]
 	};
-	
-	/*	
-	for (var y = 10; y < 14; y++) {
-		for (var x = 6; x < 16; x++) {
-			if (x != 14 && y != 12) {
-			var tree = Crafty.e('Tree');
-			tree.size(mainMap.tile.width, mainMap.tile.height);
-			tree.move(x, y);
-			mainMap.objects.push(tree);
-			}
-		}
-	}
-	*/
 	
 	return map;
 }
