@@ -53,8 +53,8 @@ function worldMap() {
 			},
 			{
 				type: 'Door',				
-				x: 1,
-				y: 1,
+				x: 5,
+				y: 5,
 				initialize: function(me, player) {
 					me.transitionsTo('house1', 3, 3);					
 				}

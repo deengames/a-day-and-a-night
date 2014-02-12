@@ -1,13 +1,19 @@
 // A door between two maps.
 Crafty.c('Door', {
 	init: function() {
+		this.transitioned = false;
 		this.requires('Actor, Collision, indoor_door');
 		this.onHit('Solid', function(data) {
-			var overlap = Math.abs(data[0].overlap);
-			var hit = data[0].obj;
-			if (hit.has('Player') && Math.abs(overlap) >= 16) {
-				console.log("Transitioning to " + this.destination);
-				Game.showMap(this.destination);
+			if (!this.transitioned) {
+				var overlap = Math.abs(data[0].overlap);
+				var hit = data[0].obj;
+				if (hit.has('Player') && Math.abs(overlap) >= 16) {
+					console.log("Transitioning to " + this.destination);
+					Game.showMap(this.destination);
+					Game.player.gridY = this.destinationX;
+					Game.player.gridY = this.destinationY;
+					this.transitioned = true;
+				}
 			}
 		});
 	},

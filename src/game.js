@@ -8,7 +8,7 @@ Game = {
 	// Load all the maps
 	maps: {
 		"worldMap": worldMap(),
-		"house": house1()
+		"house1": house1()
 	},
 	
 	// Initialize and start our game
@@ -40,6 +40,14 @@ Game = {
 	},
 	
 	showMap: function(map) {
+		// Destroy old stuff
+		if (this.gameObjects != null) {
+			for (var i = 0; i < this.gameObjects.length; i++) {
+				var obj = this.gameObjects[i];
+				obj.destroy();
+			}
+		}
+		
 		this.gameObjects = [];
 		
 		this.currentMap = this.maps[map];
@@ -54,6 +62,7 @@ Game = {
 				bg.size(this.currentMap.tile.width, this.currentMap.tile.height);			
 				bg.move(x, y);
 				bg.z = -1;
+				this.gameObjects.push(bg);
 			}
 		}
 		

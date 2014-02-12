@@ -13,7 +13,16 @@ function house1() {
 		audio: '',		
 		perimeter: 'indoor_wall',
 		
-		objects: []
+		objects: [		
+			{
+				type: 'Door',				
+				x: 1,
+				y: 1,
+				initialize: function(me, player) {
+					me.transitionsTo('worldMap', 3, 3);					
+				}
+			}
+		]
 	};
 	
 	return map;
