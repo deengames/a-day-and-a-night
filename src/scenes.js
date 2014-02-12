@@ -52,7 +52,8 @@ Crafty.scene('Loading', function() {
 		
 		Crafty.sprite(32, 32, gameUrl + '/assets/images/indoors.png', {
 			indoor_floor:	[0, 0],
-			indoor_wall: 	[1, 0]			
+			indoor_wall: 	[1, 0],
+			indoor_door:	[2, 0]
 		});
 		
 		Crafty.audio.add({
@@ -98,170 +99,29 @@ Crafty.scene('map', function() {
 	
 	var self = this;
 	
-	this.player = Crafty.e('Player');		
-	this.gameObjects = [this.player];	
+	var player = Crafty.e('Player');
+	Game.player = player;
 	
-	var map = worldMap();
-	Game.showMap(map);
+	var startingMap = "worldMap";
+	var map = Game.maps[startingMap]
+	Game.showMap(startingMap);
 	
-	this.player.size(map.tile.width, map.tile.height);
-	this.player.move(3, 3);
+	player.size(map.tile.width, map.tile.height);
+	player.move(3, 3);	
 	
-	if (map.audio != null) {
-		Crafty.audio.play(map.audio, -1);
-	}
-	
-	for (var y = 0; y < map.height; y++) {
-		for (var x = 0; x < map.width; x++) {
-			var bg = Crafty.e('2D, Grid, Canvas, ' + map.background);
-			bg.size(map.tile.width, map.tile.height);			
-			bg.move(x, y);
-			bg.z = -1;
-		}
-	}
-	
-	var fade = Crafty.e('2D, Canvas, Color, Tween')
-		.attr({w: Game.width(), h: Game.height(), alpha: 1.0, z: 99999 })
-		.color('black')
-		.tween({alpha: 0.0}, 1000);
-			
-	if (map.perimeter != null) {
-		var entityName = 'Actor, Solid, ' + map.perimeter;
-		
-		// Top and bottom
-		for (var x = 0; x < map.width; x++) {
-			var e = Crafty.e(entityName);
-			// They're all the same, so check the first one only.
-			if (e.has('Grid') == false) {
-				throw new Error("Can't create entity of type " + entityName + " for map perimeter. Check the name is correct.");
-			}				
-			e.size(map.tile.width, map.tile.height);
-			e.move(x, 0);
-			self.gameObjects.push(e);
-			
-			e = Crafty.e(entityName);
-			e.size(map.tile.width, map.tile.height);
-			e.move(x, map.height - 1);		
-			self.gameObjects.push(e);
-		}
-		
-		// Left and right
-		for (var y = 0; y < map.height; y++) {
-			var e = Crafty.e(entityName);
-			e.size(map.tile.width, map.tile.height);
-			e.move(0, y);
-			self.gameObjects.push(e);
-			
-			e = Crafty.e(entityName);
-			e.size(map.tile.width, map.tile.height);
-			e.move(map.width - 1, y);
-			self.gameObjects.push(e);
-		}
-	}
-	
-	for (var i = 0; i < map.objects.length; i++) {
-		var def = map.objects[i];
-		// TODO: strategy pattern will work well here
-		var type = def.type;
-		if (def.type == null) {
-			throw new Error("Object without specified type found. Definition: " + def);
-		} else {
-			if (def.range != null) {
-				for (var y = def.range.start.y; y <= def.range.end.y; y++) {
-					for (var x = def.range.start.x; x <= def.range.end.x; x++) {
-						def.x = x;
-						def.y = y;						
-						createObjectFrom(def, this.player);						
-					}
-				}
-			} else {
-				createObjectFrom(def, this.player);				
-			}			
-		}
-	}
-	
-	Crafty.viewport.follow(this.player, 0, 0);
+	Crafty.viewport.follow(player, 0, 0);
 	
 	// Did the player try to interact with something close by?	
 	// Space to interact with stuff
 	this.bind('KeyDown', function(data) {
 		if (data.key == Crafty.keys['SPACE']) {			
-			var x = this.player.gridX();
-			var y = this.player.gridY();
+			var x = player.gridX();
+			var y = player.gridY();
 						
-			var obj = findAdjacentInteractiveObject(x, y);
+			var obj = Game.findAdjacentInteractiveObject(x, y);
 			if (obj != null) {				
 				obj.interact();
 			}
 		}
 	});
-	
-	///// HELPER FUNCTIONZ /////
-	
-	function createObjectFrom(def, player) {
-		// Common properties
-		var name = def.type
-		if (def.components != null) {
-			name = name + ', ' + def.components;
-		}
-		
-		var obj = Crafty.e(name + ', ' + def.sprite);
-		obj.size(map.tile.width, map.tile.height);			
-		obj.move(def.x, def.y);			
-		
-		if (def.type.toUpperCase() == 'NPC' || def.type.toUpperCase() == 'WALKINGNPC') {											
-			obj.setMessages(def.messages);				
-			// Walking NPCs have velocity, too.
-			if (def.type.toUpperCase() == 'WALKINGNPC') {
-				obj.velocity = def.velocity;
-				if (obj.velocity == null) {
-					throw new Error("Walking NPC defined without velocity. Use normal NPC instead.");
-				}
-			}
-		}
-		
-		initializeAndAdd(def, obj, player);
-	}
-	
-	function initializeAndAdd(def, obj, player) {
-		// Did we define custom intiialization? Call it. (eg. positional audio NPCs)
-		// First argument is the object itself; second is the player.
-		if (def.initialize != null) {
-			def.initialize(obj, player);
-		}
-		self.gameObjects.push(obj);
-	}	
-	
-	// Is a tile occupied?
-	function isOccupied(x, y) {
-		for (var i = 0; i < self.gameObjects.length; i++) {
-			var obj = self.gameObjects[i];			
-			if (obj.gridX() == x && obj.gridY() == y) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	function findAdjacentInteractiveObject(x, y) {
-		// TODO: use spatial partitioning to trim this list down.
-		for (var i = 0; i < self.gameObjects.length; i++) {
-			var obj = self.gameObjects[i];
-			
-			if (obj == self.player || !obj.has('Interactive')) {
-				continue;
-			}			
-			
-			// d = sqrt[(x1-x2)^2 + (y1-y2)^2]
-			// or: d^2 = (x1-x2)^2 + (y1-y2)^2
-			// d^2 = 2 (1^2 + 1^2 for diagonals)			
-			var dSquared = Math.pow(obj.gridX() - x, 2) + Math.pow(obj.gridY() - y, 2);
-			if (dSquared <= 2) {				
-				return obj;
-			}
-		}
-		
-		return null;
-	}
 });

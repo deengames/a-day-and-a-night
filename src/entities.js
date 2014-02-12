@@ -1,11 +1,40 @@
+// A door between two maps.
+Crafty.c('Door', {
+	init: function() {
+		this.requires('Actor, Collision, indoor_door');
+		this.onHit('Solid', function(data) {
+			var overlap = Math.abs(data[0].overlap);
+			var hit = data[0].obj;
+			if (hit.has('Player') && Math.abs(overlap) >= 16) {
+				console.log("Transitioning to " + this.destination);
+				Game.showMap(this.destination);
+			}
+		});
+	},
+	
+	transitionsTo: function(destination, x, y) {
+		// ToDo: test validation
+		if (destination == null) {
+			throw new Error("Must specify a door destination.");
+		} else if (x == null) {
+			throw new Error("Must specify a door x coordinate.");
+		} else if (y == null) {
+			throw new Error("Must specify a door y coordinate.");
+		}
+		
+		this.destination = destination;
+		this.destinationX = x;
+		this.destinationY = y;
+	}
+});
+
 // Don't use this. It's an "internal" entity.
 // Contains animation and collision detection (bounces off solid objects).
 Crafty.c('NpcBase', {	
 	init: function() {
 		var animationDuration = 600; //ms
 		
-		this.requires('Actor, Color, SpriteAnimation, Solid, Collision, Interactive, default_sprite')
-			.color('rgba(0, 0, 0, 0)')			
+		this.requires('Actor, SpriteAnimation, Solid, Collision, Interactive, default_sprite')
 			.reel('MovingDown', animationDuration, getFramesForRow(0))
 			.reel('MovingLeft', animationDuration, getFramesForRow(1))
 			.reel('MovingRight', animationDuration, getFramesForRow(2))
@@ -176,7 +205,7 @@ Crafty.c('Npc', {
 Crafty.c('Player', {
 	init: function() {
 
-		var animationDuration = 480; //ms
+		var animationDuration = 480; //ms		
 		
 		this.requires('Actor, Color, MoveAndCollide, sprite_player, SpriteAnimation, Solid')
 			.fourway(4) // Use an even whole number so we can pass pixel-perfect narrow passages
@@ -188,7 +217,9 @@ Crafty.c('Player', {
 			.reel('MovingLeft', animationDuration, getFramesForRow(1))
 			.reel('MovingRight', animationDuration, getFramesForRow(2))
 			.reel('MovingUp', animationDuration, getFramesForRow(3));
-			
+		
+		this.z = 100;
+		
 		// Change direction: tap into event		
 		this.bind('NewDirection', function(data) {
 			if (data.x > 0) {
@@ -198,7 +229,7 @@ Crafty.c('Player', {
 			} else if (data.y > 0) {
 				this.animate('MovingDown', -1);
 			} else if (data.y < 0) {
-				this.animate('MovingUp', -1);
+				this.animate('MovingUp', -1);				
 			} else {
 				this.pauseAnimation();
 			}

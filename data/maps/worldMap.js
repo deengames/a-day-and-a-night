@@ -50,6 +50,14 @@ function worldMap() {
 			{
 				range: { start: { x: 6, y: 10 }, end: { x: 16, y: 14 } },
 				type: '2D, Actor, Solid, world_tree'
+			},
+			{
+				type: 'Door',				
+				x: 1,
+				y: 1,
+				initialize: function(me, player) {
+					me.transitionsTo('house1', 3, 3);					
+				}
 			}
 		]
 	};
