@@ -12,7 +12,7 @@ Crafty.scene('Loading', function() {
 	// Load EVERYTHING, and don't worry about what map uses what stuff.
 	Crafty.load(
 		// Images
-		[gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/default-sprite.png', 
+		[gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/npc-3.png', gameUrl + '/assets/images/default-sprite.png', 
 		gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/images/chicken-red.png', 
 		gameUrl + '/assets/images/indoors.png',
 		// Sounds
@@ -34,6 +34,10 @@ Crafty.scene('Loading', function() {
 		
 		Crafty.sprite(32, gameUrl + '/assets/images/npc-2.png', {
 			sprite_npc2:	[2, 0]
+		});
+		
+		Crafty.sprite(32, gameUrl + '/assets/images/npc-3.png', {
+			sprite_npc3:	[2, 0]
 		});
 		
 		Crafty.sprite(32, gameUrl + '/assets/images/chicken-white.png', {

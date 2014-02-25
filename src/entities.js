@@ -8,10 +8,9 @@ Crafty.c('Door', {
 				var overlap = Math.abs(data[0].overlap);
 				var hit = data[0].obj;
 				if (hit.has('Player') && Math.abs(overlap) >= 16) {
-					console.log("Transitioning to " + this.destination);
+					console.debug("Transitioning to " + this.destination);
 					Game.showMap(this.destination);
-					Game.player.gridY = this.destinationX;
-					Game.player.gridY = this.destinationY;
+					Game.player.move(this.destinationX, this.destinationY);
 					this.transitioned = true;
 				}
 			}

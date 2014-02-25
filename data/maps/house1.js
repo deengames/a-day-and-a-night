@@ -19,9 +19,15 @@ function house1() {
 				x: 1,
 				y: 1,
 				initialize: function(me, player) {
-					me.transitionsTo('worldMap', 3, 3);					
+					me.transitionsTo('worldMap', 11, 16);					
 				}
-			}
+			},
+			{
+				type: 'Npc',
+				sprite: 'sprite_npc3',
+				messages: ["Isn't my house awesome?", "Do you like my house?"],
+				x: 6, y: 6
+			},
 		]
 	};
 	
