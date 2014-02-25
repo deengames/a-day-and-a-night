@@ -24,7 +24,7 @@ Game = {
 		
 		// Start the game
 		Crafty.init(Game.view.width, Game.view.height);		
-		if (debug != null && debug == true) {
+		if (typeof(debug) != "undefined" && debug != null && debug == true) {
 			Crafty.scene('Loading');
 		} else {
 			Crafty.scene('SplashScreen');		
@@ -50,9 +50,13 @@ Game = {
 		
 		this.gameObjects = [];
 		
+		if (typeof(this.currentMap) != 'undefined') {
+			Crafty.audio.stop(this.currentMap.audio);
+		}
+		
 		this.currentMap = this.maps[map];
 		
-		if (this.currentMap.audio != null) {
+		if (this.currentMap.audio != null) {			
 			Crafty.audio.play(this.currentMap.audio, -1);
 		}
 		

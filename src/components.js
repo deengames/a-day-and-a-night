@@ -118,6 +118,12 @@ Crafty.c('PositionalAudio', {
 				}
 			}			
 		});
+		
+		this.bind('Remove', function() {
+			if (this.audioId != null) {
+				Crafty.audio.stop(this.audioId);				
+			}
+		});
 	},
 	
 	play: function() {
