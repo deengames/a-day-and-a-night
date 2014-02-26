@@ -8,9 +8,14 @@ if ARGV[0].nil?
 else
 	version = ARGV[0]
 	dir = "#{releases_dir}/#{version}"
-	FileUtils.rm_rf(dir) if File.directory?(dir)
+	puts "Publishing to #{dir} ..."
+	if File.directory?(dir) then
+		puts "Re-creating directory."
+		FileUtils.rm_rf(dir) 		
+	end
 	FileUtils.mkdir_p(dir)
 	
+	### Copy over all the necessary files ###
 	files = []
 	Dir.glob("**/*") { |fileName|
 		is_excluded = false
@@ -22,6 +27,8 @@ else
 	}
 	
 	#FileUtils.cp_r(files, dir) dumps files into the root directory
+	index_file = nil
+	
 	files.each do |file|		
 		target = "#{dir}\\#{file}"
 		FileUtils.mkdir_p(File.dirname(target))
@@ -30,6 +37,33 @@ else
 		else
 			FileUtils.cp(file, target)
 		end
-	end
 		
+		index_file = file if file.end_with?('index.html')
+	end
+	
+	### Edit index.html and combine all the data files into one	
+	if index_file.nil?
+		raise 'Didn\'t find the index.html file. Uhoh.'
+	else		
+		puts 'Compressing data/maps/*.js into data/maps.js ...'
+		contents = File.read(index_file)
+		data_file_regex = /<script.+src=['"](data\/maps\/[^'"]+)['"].*<\/script>/i
+		data_files = contents.scan(data_file_regex)
+		# Replace first instance with conglamorated data
+		contents = contents.sub(data_file_regex, '***placeholder***')
+		contents = contents.gsub(data_file_regex, '')
+		contents = contents.sub('***placeholder***', '<script src="data/maps.js"></script>')
+		File.write("#{dir}/index.html", contents)
+		maps = ''
+		
+		data_files.each do  |d|
+			d.each do |x|
+				puts "  Added #{x}"
+				maps += File.read(x) + "\n"
+			end
+		end
+		FileUtils.rm_rf("#{dir}/data/maps")
+		File.write("#{dir}/data/maps.js", maps)
+		puts 'Done.'
+	end
 end
