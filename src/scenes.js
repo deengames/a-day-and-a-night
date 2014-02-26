@@ -40,11 +40,11 @@ Crafty.scene('Loading', function() {
 			sprite_npc3:	[2, 0]
 		});
 		
-		Crafty.sprite(32, gameUrl + '/assets/images/chicken-white.png', {
+		Crafty.sprite(24, 21, gameUrl + '/assets/images/chicken-white.png', {
 			sprite_chicken_white:	[1, 0]
 		});
 		
-		Crafty.sprite(32, gameUrl + '/assets/images/chicken-red.png', {
+		Crafty.sprite(24, 21, gameUrl + '/assets/images/chicken-red.png', {
 			sprite_chicken_red:	[1, 0]
 		});
 		
