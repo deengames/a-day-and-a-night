@@ -6,7 +6,7 @@ function PersistentStore(dbName) {
 	this.useSessionStore = (indexedDb == null);
 	
 	if (this.useSessionStore) {
-		alert("Your browser doesn't support IndexedDB; please update to the latest version or a different browser. Save data will be deleted if you refresh or close the window.");
+		alert("Your browser doesn't support IndexedDB; please update to the latest version or a different browser. Save data will be deleted if you close the window.");
 		this.storage = sessionStorage;
 	} else {
 		this.storage = new PouchDB(dbName);	
@@ -27,7 +27,8 @@ PersistentStore.prototype.get = function(key, callback) {
 			}
 		});
 	} else {
-		return sessionStorage.getItem(key);
+		var obj = JSON.parse(sessionStorage.getItem(key));
+		callback(obj);
 	}
 }
 
@@ -41,7 +42,8 @@ PersistentStore.prototype.set = function(key, value) {
 				} 
 			});
 		} else {
-			sessionStorage.setItem(key, value);
+			var obj = JSON.stringify(value);
+			sessionStorage.setItem(key, obj);
 		}
 	}
 }
