@@ -91,7 +91,7 @@ Crafty.scene('SplashScreen', function() {
 					logo.unbind('TweenEnd')
 					.tween({ alpha: 0.0 }, 2000)			
 					.bind('TweenEnd', function() {
-						// Then, change scenes
+						// Then, change scenes						
 						Crafty.scene('Loading');
 					});
 				});
@@ -101,7 +101,19 @@ Crafty.scene('SplashScreen', function() {
 
 Crafty.scene('map', function() {
 	
-	var self = this;
+	var self = this;	
+	var store = new PersistentStore("DeenGames-ADayAndANight");
+	var times_played = { plays: 0 };
+	
+	store.get('times_played', function(value) {		
+		if (value == null) { 
+			value = times_played;
+		} else {
+			value.plays += 1;
+		}
+		store.set('times_played', value);
+		alert("Played " + value.plays + " times!");
+	});
 	
 	var player = Crafty.e('Player');
 	Game.player = player;
