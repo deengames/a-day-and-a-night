@@ -6,8 +6,12 @@ function PersistentStore(dbName) {
 	this.useSessionStore = (indexedDb == null);
 	
 	if (this.useSessionStore) {
-		alert("Your browser doesn't support IndexedDB; please update to the latest version or a different browser. Save data will be deleted if you close the window.");
-		this.storage = sessionStorage;
+		if (typeof(Storage) !== 'undefined') {
+			alert("Your browser doesn't support IndexedDB; please update to the latest version or a different browser. Save data will be deleted if you close the window.");
+			this.storage = sessionStorage;
+		} else {
+			alert("Your browser doesn't support IndexedDB or Web Storage; please update to the latest version or a different browser. The game may not function properly.");
+		}
 	} else {
 		this.storage = new PouchDB(dbName);	
 	}
@@ -17,6 +21,7 @@ PersistentStore.prototype.get = function(key, callback) {
 	if (!this.useSessionStore) {
 		this.storage.get(key, function(error, doc) {
 			if (error) {
+				// Key is not in the store
 				if (error.status == 404) {
 					callback(null);
 				} else {

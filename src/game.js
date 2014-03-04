@@ -144,8 +144,14 @@ Game = {
 		obj.size(this.currentMap.tile.width, this.currentMap.tile.height);			
 		obj.move(def.x, def.y);			
 		
-		if (def.type.toUpperCase() == 'NPC' || def.type.toUpperCase() == 'WALKINGNPC') {											
-			obj.setMessages(def.messages);				
+		if (def.type.toUpperCase() == 'NPC' || def.type.toUpperCase() == 'WALKINGNPC') {
+			// List of static messages
+			obj.messages = def.messages || [];
+			
+			// Message generated from code
+			if (def.onTalk != null) {
+				obj.onTalk = def.onTalk;
+			}
 			// Walking NPCs have velocity, too.
 			if (def.type.toUpperCase() == 'WALKINGNPC') {
 				obj.velocity = def.velocity;

@@ -102,19 +102,6 @@ Crafty.scene('SplashScreen', function() {
 Crafty.scene('map', function() {
 	
 	var self = this;	
-	var store = new PersistentStore("DeenGames-ADayAndANight");
-	var times_played = { plays: 0 };
-	
-	//store.remove('times_played');
-	store.get('times_played', function(value) {		
-		if (value == null) { 
-			value = times_played;
-		} else {
-			value.plays += 1;
-		}
-		store.set('times_played', value);
-		alert("Played " + value.plays + " times!");
-	});
 	
 	var player = Crafty.e('Player');
 	Game.player = player;

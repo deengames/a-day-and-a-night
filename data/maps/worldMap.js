@@ -22,10 +22,19 @@ function worldMap() {
 			},
 			{
 				type: 'WalkingNpc',
-				sprite: 'sprite_npc1',
-				messages: ['Catch me if you can!', "Let's see how fast you can run!"],
+				sprite: 'sprite_npc1',				
 				x: 18, y: 11,
-				velocity: { x: 90, y: 0 }
+				velocity: { x: 90, y: 0 },
+				onTalk: function() {
+					var store = new SessionStore();
+					var times = store.get('times_talked');
+					if (times == null) {
+						times = { times: 0 };
+					}
+					times.times += 1;					
+					store.set('times_talked', times);
+					return 'You talked to me ' + times.times + ' times!';
+				}
 			},
 			{
 				type: 'Npc',
