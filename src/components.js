@@ -102,7 +102,7 @@ Crafty.c('PositionalAudio', {
 			if (this.obj != null && this.x != null && this.y != null) {
 				// Avoid sqrt: a^2 + b^2 = c^2
 				var dSquared = Math.pow(this.x - this.player.x, 2) + Math.pow(this.y - this.player.y, 2);
-				// Map (0 .. d^2) to (1 .. 0)
+				// Map (0 .. r^2) to (1 .. 0)
 				var volume = Math.max(0, this.radiusSquared - dSquared) / this.radiusSquared;
 				this.setVolume(volume);
 			} else {			

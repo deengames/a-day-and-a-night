@@ -96,9 +96,8 @@ Crafty.c('NpcBase', {
 		
 		this.x += xMove;
 		this.y += yMove;
-		if (this.text != null) {
-			this.text.x = this.x;
-			this.text.y = this.y - 16;
+		if (typeof(dialog) != 'undefined' && dialog != null && dialog.source != null && dialog.source.npc == this) {			
+			dialog.setSource(this, this.x, this.y);
 		}
 		
 		// Possible direction change
@@ -134,6 +133,7 @@ Crafty.c('NpcBase', {
 		}
 		
 		dialog.message(message);
+		dialog.setSource(this, this.x, this.y);
 	}
 });
 
@@ -195,7 +195,8 @@ Crafty.c('Npc', {
 // This is the player-controlled character
 Crafty.c('Player', {
 	init: function() {
-
+		player = this; // global variable
+		
 		var animationDuration = 480; //ms		
 		
 		this.requires('Actor, Color, MoveAndCollide, sprite_player, SpriteAnimation, Solid')
@@ -228,8 +229,10 @@ Crafty.c('Player', {
 	}
 });
 
-Crafty.c('DialogBox', {
+Crafty.c('DialogBox', {	
+	
 	init: function() {		
+			
 		this.requires('2D, Canvas, Image, Text')			
 			.image('assets/images/message-window.png')
 			.attr({ z: 999 });
@@ -240,7 +243,8 @@ Crafty.c('DialogBox', {
 			.attr({ z: 999 });
 			
 		this.reposition(0, 0);
-			
+		
+		// Stay within the viewport. This fails on really small maps.			
 		this.bind('ViewportScroll', function() {
 			var x = -Crafty.viewport.x;
 			var y = -Crafty.viewport.y;
@@ -255,10 +259,28 @@ Crafty.c('DialogBox', {
 			
 			this.reposition(x, y)
 		});
+		
+		this.bind('EnterFrame', function() {
+			// 6 tiles squared
+			var limit = 6 * 6 * Game.currentMap.tile.width * Game.currentMap.tile.height;
+			if (this.source != null) {
+				var dSquared = Math.pow(this.source.x - player.x, 2) + Math.pow(this.source.y - player.y, 2);								
+				if (dSquared >= limit) {					
+					this.text.text('');
+					this.alpha = 0;
+					this.source = null;
+				}
+			}
+		});
 	},
 	
 	message: function(message) {
 		this.text.text(message);
+		this.alpha = 1;
+	},
+	
+	setSource: function(npc, x, y) {
+		this.source = { npc: npc, x: x, y: y };
 	},
 	
 	reposition: function(x, y) {
