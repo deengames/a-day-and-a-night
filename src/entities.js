@@ -128,19 +128,12 @@ Crafty.c('NpcBase', {
 			message = this.messages[Math.floor(Math.random() * this.messages.length)];
 		}
 		
-		if (message != null && message != '') {
-			if (this.text == null) {
-				this.text = Crafty.e('2D, Canvas, Text, Tween');
-			} else {
-				this.text.alpha = 1.0;
-			}
-			
-			this.text
-				.text(message)
-				.attr({ x: this.x, y: this.y - 16 })
-				.textFont({size: '16px'})			
-				.tween({ alpha: 0.0 }, 5000);
+		if (typeof(dialog) == 'undefined') {
+			// no "var" keyword => global scope
+			dialog = Crafty.e('DialogBox');
 		}
+		
+		dialog.message(message);
 	}
 });
 
@@ -232,6 +225,23 @@ Crafty.c('Player', {
 				this.pauseAnimation();
 			}
 		});
+	}
+});
+
+Crafty.c('DialogBox', {
+	init: function() {
+		this.requires('2D, Canvas, Image, Text')			
+			.image('assets/images/message-window.png')
+			.attr({ x: 0, y: 450 })			
+			
+		this.text = Crafty.e('2D, Canvas, Text')
+			.attr({x : 16, y: 450 + 16 })
+			.textFont({size: '24px'})
+			.textColor('FFFFFF');
+	},
+	
+	message: function(message) {
+		this.text.text(message);
 	}
 });
 
