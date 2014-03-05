@@ -127,13 +127,15 @@ Crafty.c('NpcBase', {
 			message = this.messages[Math.floor(Math.random() * this.messages.length)];
 		}
 		
-		if (typeof(dialog) == 'undefined') {
-			// no "var" keyword => global scope
-			dialog = Crafty.e('DialogBox');
+		if (message != null) {
+			if (typeof(dialog) == 'undefined') {
+				// no "var" keyword => global scope
+				dialog = Crafty.e('DialogBox');
+			}
+			
+			dialog.message(message);
+			dialog.setSource(this, this.x, this.y);
 		}
-		
-		dialog.message(message);
-		dialog.setSource(this, this.x, this.y);
 	}
 });
 
