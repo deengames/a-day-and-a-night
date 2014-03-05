@@ -4,6 +4,13 @@ Game = {
 		width: 800,
 		height: 600
 	},
+	
+	// Unfortunately, necessary for positioning, due to the life cycle
+	// of different methods and when this gets populated for real.
+	avatar: {
+		width: 134,
+		height: 134
+	},
 
 	// Load all the maps
 	maps: {
@@ -142,22 +149,22 @@ Game = {
 		
 		var obj = Crafty.e(name + ', ' + def.sprite);
 		obj.size(this.currentMap.tile.width, this.currentMap.tile.height);			
-		obj.move(def.x, def.y);			
+		obj.move(def.x, def.y);
 		
-		if (def.type.toUpperCase() == 'NPC' || def.type.toUpperCase() == 'WALKINGNPC') {
-			// List of static messages
-			obj.messages = def.messages || [];
-			
-			// Message generated from code
-			if (def.onTalk != null) {
-				obj.onTalk = def.onTalk;
-			}
-			// Walking NPCs have velocity, too.
-			if (def.type.toUpperCase() == 'WALKINGNPC') {
-				obj.velocity = def.velocity;
-				if (obj.velocity == null) {
-					throw new Error("Walking NPC defined without velocity. Use normal NPC instead.");
-				}
+		// A myriad of objects can talk
+		// List of static messages
+		obj.messages = def.messages || [];
+		
+		// Message generated from code
+		if (def.onTalk != null) {
+			obj.onTalk = def.onTalk;
+		}
+		
+		if (def.type.toUpperCase() == 'WALKINGNPC') {			
+			// Walking NPCs have velocity, too.		
+			obj.velocity = def.velocity;
+			if (obj.velocity == null) {
+				throw new Error("Walking NPC defined without velocity. Use normal NPC instead.");
 			}
 		}
 		
@@ -198,11 +205,13 @@ Game = {
 			// or: d^2 = (x1-x2)^2 + (y1-y2)^2
 			// d^2 = 2 (1^2 + 1^2 for diagonals)			
 			var dSquared = Math.pow(obj.gridX() - x, 2) + Math.pow(obj.gridY() - y, 2);
-			if (dSquared <= 2) {				
+			if (dSquared <= 2) {
+				console.log("found: " + obj);
 				return obj;
 			}
 		}
 		
+		console.log("Nothing close by.");
 		return null;
 	}
 }

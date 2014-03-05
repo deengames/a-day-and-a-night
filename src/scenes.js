@@ -14,7 +14,8 @@ Crafty.scene('Loading', function() {
 		// Images
 		[gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/npc-3.png', gameUrl + '/assets/images/default-sprite.png', 
 		gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/images/chicken-red.png', 
-		gameUrl + '/assets/images/indoors.png',
+		gameUrl + '/assets/images/indoors.png', gameUrl + '/assets/images/objects-outdoors.png',
+		gameUrl + '/assets/images/main-character.png',
 		// Sounds
 		gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/audio/chicken.mp3', gameUrl + '/assets/audio/chicken2.mp3'],
 	function() {
@@ -60,13 +61,21 @@ Crafty.scene('Loading', function() {
 			indoor_door:	[2, 0]
 		});
 		
+		Crafty.sprite(32, 32, gameUrl + '/assets/images/objects-outdoors.png', {
+			sprite_mushroom: [0, 0]
+		});
+		
+		Crafty.sprite(134, 134, gameUrl + '/assets/images/main-character.png', {
+			player_avatar: [0, 0]
+		});
+		
 		Crafty.audio.add({
 			outside: [gameUrl + '/assets/audio/birds.mp3'], 
 			chicken: [gameUrl + '/assets/audio/chicken.mp3'],
 			chicken2: [gameUrl + '/assets/audio/chicken2.mp3']
 			// tone: [gameUrl + '/assets/audio/tone.mp3']
 		});
-		
+				
 		// Loading done. Launch game.				
 		Crafty.scene('map');
 	});

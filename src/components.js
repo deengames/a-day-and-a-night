@@ -32,7 +32,7 @@ Crafty.c('Grid', {
 Crafty.c('Actor', {
 	init: function() {
 		this.requires('2D, Canvas, Grid');
-	},
+	}
 });
 
 // Handy movement helper that slides instead of dead stops when bumping against other solids
@@ -77,6 +77,27 @@ Crafty.c('Interactive', {
 	interact: function() {
 		if (this.interactFunction != null) {
 			this.interactFunction();
+		}
+	},
+	
+	talk: function() {	
+		var message = null;		
+		
+		if (this.onTalk != null) {
+			message = this.onTalk();
+		} else {
+			message = this.messages[Math.floor(Math.random() * this.messages.length)];
+		}
+		
+		if (message != null) {
+			if (typeof(dialog) == 'undefined') {
+				// no "var" keyword => global scope
+				dialog = Crafty.e('DialogBox');
+			}
+			
+			var type = typeof(message);			
+			dialog.message(message);			
+			dialog.setSource(this, this.x, this.y);
 		}
 	}
 });

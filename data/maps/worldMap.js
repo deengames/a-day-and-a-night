@@ -20,6 +20,17 @@ function worldMap() {
 				messages: ['Salam!', 'Peace!'],
 				x: 8, y: 8
 			},
+			
+			{
+				type: '2D',
+				components: 'Actor, Interactive',
+				sprite: 'sprite_mushroom',
+				x: 2, y: 1,				
+				messages: [{ avatar: 'assets/images/main-character.png', text: '... a mushroom? ...' }],
+				initialize: function(me, player) {					
+					me.interact = me.talk;
+				}				
+			},
 			{
 				type: 'WalkingNpc',
 				sprite: 'sprite_npc1',				

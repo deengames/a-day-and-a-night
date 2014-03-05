@@ -116,26 +116,6 @@ Crafty.c('NpcBase', {
 			this.lastVelocity.x = this.velocity.x;
 			this.lastVelocity.y = this.velocity.y;
 		}
-	},
-	
-	talk: function() {	
-		var message = '';		
-		
-		if (this.onTalk != null) {
-			message = this.onTalk();
-		} else {
-			message = this.messages[Math.floor(Math.random() * this.messages.length)];
-		}
-		
-		if (message != null) {
-			if (typeof(dialog) == 'undefined') {
-				// no "var" keyword => global scope
-				dialog = Crafty.e('DialogBox');
-			}
-			
-			dialog.message(message);
-			dialog.setSource(this, this.x, this.y);
-		}
 	}
 });
 
@@ -243,7 +223,10 @@ Crafty.c('DialogBox', {
 			.textFont({size: '24px'})
 			.textColor('FFFFFF')
 			.attr({ z: 999 });
-			
+		
+		this.avatar = Crafty.e('2D, Canvas, Image')
+			.attr({ x: 16, y: 16, alpha: 0, z: this.z + 1 })
+		
 		this.reposition(0, 0);
 		
 		// Stay within the viewport. This fails on really small maps.			
@@ -271,14 +254,24 @@ Crafty.c('DialogBox', {
 					this.text.text('');
 					this.alpha = 0;
 					this.source = null;
+					this.avatar.alpha = 0;
 				}
 			}
 		});
 	},
 	
-	message: function(message) {
-		this.text.text(message);
-		this.alpha = 1;
+	message: function(obj) {		
+		if (typeof(obj) == 'string') {
+			this.text.text(obj);
+			this.avatar.attr({ alpha: 0 });
+			this.text.x = this.x + 16;
+		} else {			
+			this.avatar.attr({ alpha: 1 });
+			this.avatar.image(obj.avatar);
+			this.text.text(obj.text);						
+			this.text.x += (this.avatar.alpha > 0 ? this.avatar.x + Game.avatar.width : 0);
+		}
+		this.alpha = 1;		
 	},
 	
 	setSource: function(npc, x, y) {
@@ -289,8 +282,11 @@ Crafty.c('DialogBox', {
 		this.x = x;
 		this.y = 450 + y; // 600 height - 150 image	
 		
-		this.text.x = this.x + 16;
+		this.text.x = this.x + 16 + (this.avatar.alpha > 0 ? this.avatar.x + this.avatar.w + 16 : 0);
 		this.text.y = this.y + 16;
+		
+		this.avatar.x = this.x + 16;
+		this.avatar.y = this.y + 16;		
 	}
 });
 
