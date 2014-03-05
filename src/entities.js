@@ -229,19 +229,44 @@ Crafty.c('Player', {
 });
 
 Crafty.c('DialogBox', {
-	init: function() {
+	init: function() {		
 		this.requires('2D, Canvas, Image, Text')			
 			.image('assets/images/message-window.png')
-			.attr({ x: 0, y: 450 })			
+			.attr({ z: 999 });
 			
-		this.text = Crafty.e('2D, Canvas, Text')
-			.attr({x : 16, y: 450 + 16 })
+		this.text = Crafty.e('2D, Canvas, Text')			
 			.textFont({size: '24px'})
-			.textColor('FFFFFF');
+			.textColor('FFFFFF')
+			.attr({ z: 999 });
+			
+		this.reposition(0, 0);
+			
+		this.bind('ViewportScroll', function() {
+			var x = -Crafty.viewport.x;
+			var y = -Crafty.viewport.y;
+			
+			// Don't go off the screen (top/left)
+			x = Math.max(0, x);
+			y = Math.max(0, y);
+			
+			// Don't go off the screen (bottom/right)			
+			x = Math.min(Game.width() - this.w, x);			
+			y = Math.min(Game.height() - this.h - (Game.view.height - this.h), y);
+			
+			this.reposition(x, y)
+		});
 	},
 	
 	message: function(message) {
 		this.text.text(message);
+	},
+	
+	reposition: function(x, y) {
+		this.x = x;
+		this.y = 450 + y; // 600 height - 150 image	
+		
+		this.text.x = this.x + 16;
+		this.text.y = this.y + 16;
 	}
 });
 
