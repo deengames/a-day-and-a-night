@@ -152,28 +152,28 @@ Crafty.c('Npc', {
 		var now = new Date().getTime() / 1000;
 		var stateTime = now - this.stateStart;
 		if (stateTime >= 1 && this.state == 'moving') {
-				this.state = 'waiting';
-				this.pauseAnimation();
-				this.stateStart = now;
-				
-				this.velocity.x = 0;
-				this.velocity.y = 0;
+			this.state = 'waiting';
+			this.pauseAnimation();
+			this.stateStart = now;
+			
+			this.velocity.x = 0;
+			this.velocity.y = 0;
 		} else if (stateTime >= 3 && this.state == 'waiting') {
-				this.state = 'moving';
-				this.resumeAnimation();
-				this.stateStart = now;
-				
-				// Pick direction. 0=up, 1=right, 2=down, 3=left
-				var dir = Math.floor(Math.random() * 4);
-				if (dir % 2 == 0) {
-					// up or down
-					this.velocity.y = this.movementSpeed * (dir == 0 ? -1 : 1);
-					this.velocity.x = 0;
-				} else {
-					// left or right
-					this.velocity.x = this.movementSpeed * (dir == 3 ? -1 : 1);
-					this.velocity.y = 0;
-				}
+			this.state = 'moving';
+			this.resumeAnimation();
+			this.stateStart = now;
+			
+			// Pick direction. 0=up, 1=right, 2=down, 3=left
+			var dir = Math.floor(Math.random() * 4);
+			if (dir % 2 == 0) {
+				// up or down
+				this.velocity.y = this.movementSpeed * (dir == 0 ? -1 : 1);
+				this.velocity.x = 0;
+			} else {
+				// left or right
+				this.velocity.x = this.movementSpeed * (dir == 3 ? -1 : 1);
+				this.velocity.y = 0;
+			}
 		}
 		
 		if (this.state == 'moving') {
@@ -236,10 +236,15 @@ Crafty.c('Player', {
 Crafty.c('DialogBox', {	
 	
 	init: function() {		
-			
+		// Initialized here? w/h values are not set, sadly.
+		// Hence, hard-coding. Sorry, old bean.
+		
 		this.requires('2D, Canvas, Image, Text')			
 			.image('assets/images/message-window.png')
-			.attr({ z: 999 });
+			.attr({
+				z: 999,
+				w: Game.view.width, h: Game.view.height / 4
+			});
 			
 		this.text = Crafty.e('2D, Canvas, Text')			
 			.textFont({size: '24px'})
@@ -247,24 +252,16 @@ Crafty.c('DialogBox', {
 			.attr({ z: 999 });
 		
 		this.avatar = Crafty.e('2D, Canvas, Image')
-			.attr({ x: 16, y: 16, alpha: 0, z: this.z + 1 })
+			.attr({
+				x: 16, y: 16, alpha: 0, z: this.z + 1,
+				w: 118, h: 118
+			})
 		
-		this.reposition(0, 0);
+		this.reposition();
 		
 		// Stay within the viewport. This fails on really small maps.			
 		this.bind('ViewportScroll', function() {
-			var x = -Crafty.viewport.x;
-			var y = -Crafty.viewport.y;
-			
-			// Don't go off the screen (top/left)
-			x = Math.max(0, x);
-			y = Math.max(0, y);
-			
-			// Don't go off the screen (bottom/right)			
-			x = Math.min(Game.width() - this.w, x);			
-			y = Math.min(Game.height() - this.h - (Game.view.height - this.h), y);
-			
-			this.reposition(x, y)
+			this.reposition()
 		});
 		
 		this.bind('EnterFrame', function() {
@@ -275,8 +272,8 @@ Crafty.c('DialogBox', {
 				if (dSquared >= limit) {					
 					this.text.text('');
 					this.alpha = 0;
-					this.source = null;
 					this.avatar.alpha = 0;
+					this.source = null;					
 				}
 			}
 		});
@@ -285,26 +282,36 @@ Crafty.c('DialogBox', {
 	message: function(obj) {		
 		if (typeof(obj) == 'string') {
 			this.text.text(obj);
-			this.avatar.attr({ alpha: 0 });
-			this.text.x = this.x + 16;
+			this.avatar.attr({ alpha: 0 });			
 		} else {			
 			this.avatar.attr({ alpha: 1 });
 			this.avatar.image(obj.avatar);
-			this.text.text(obj.text);						
-			this.text.x += (this.avatar.alpha > 0 ? this.avatar.x + Game.avatar.width : 0);
+			this.text.text(obj.text);									
 		}
-		this.alpha = 1;		
+		this.alpha = 1;
+		this.reposition(this.x, this.y);
 	},
 	
 	setSource: function(npc, x, y) {
 		this.source = { npc: npc, x: x, y: y };
 	},
 	
-	reposition: function(x, y) {
-		this.x = x;
-		this.y = 450 + y; // 600 height - 150 image	
+	reposition: function() {		
+		var x = -Crafty.viewport.x;
+		var y = -Crafty.viewport.y;
 		
-		this.text.x = this.x + 16 + (this.avatar.alpha > 0 ? this.avatar.x + this.avatar.w + 16 : 0);
+		// Don't go off the screen (top/left)
+		x = Math.max(0, x);
+		y = Math.max(0, y);
+		
+		// Don't go off the screen (bottom/right)			
+		x = Math.min(Game.width() - this.w, x);			
+		y = Math.min(Game.height() - this.h - (Game.view.height - this.h), y);
+				
+		this.x = x;
+		this.y = Game.view.height - this.h + y;
+		
+		this.text.x = this.x + 16 + (this.avatar.alpha > 0 ? this.avatar.x + this.avatar.w : 0);
 		this.text.y = this.y + 16;
 		
 		this.avatar.x = this.x + 16;

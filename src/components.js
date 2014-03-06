@@ -83,20 +83,21 @@ Crafty.c('Interactive', {
 	talk: function() {	
 		var message = null;		
 		
-		if (this.onTalk != null) {
-			message = this.onTalk();
-		} else {
-			message = this.messages[Math.floor(Math.random() * this.messages.length)];
-		}
-		
-		if (message != null) {
+		// Do we have a message?
+		if (this.onTalk != null || this.messages.length > 0) {
+			// Initialize dialog.
 			if (typeof(dialog) == 'undefined') {
 				// no "var" keyword => global scope
 				dialog = Crafty.e('DialogBox');
 			}
 			
-			var type = typeof(message);			
-			dialog.message(message);			
+			if (this.onTalk != null) {
+				message = this.onTalk();
+			} else {
+				message = this.messages[Math.floor(Math.random() * this.messages.length)];
+			}
+						
+			dialog.message(message);
 			dialog.setSource(this, this.x, this.y);
 		}
 	}
