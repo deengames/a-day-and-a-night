@@ -65,10 +65,6 @@ Crafty.scene('Loading', function() {
 			sprite_mushroom: [0, 0]
 		});
 		
-		Crafty.sprite(134, 134, gameUrl + '/assets/images/main-character.png', {
-			player_avatar: [0, 0]
-		});
-		
 		Crafty.audio.add({
 			outside: [gameUrl + '/assets/audio/birds.mp3'], 
 			chicken: [gameUrl + '/assets/audio/chicken.mp3'],

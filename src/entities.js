@@ -7,11 +7,19 @@ Crafty.c('Door', {
 			if (!this.transitioned) {
 				var overlap = Math.abs(data[0].overlap);
 				var hit = data[0].obj;
+				// Magic number 16: sufficiently overlap the door.
+				// TODO: remove this when the player collision rect
+				// is only the bottom half of him.
 				if (hit.has('Player') && Math.abs(overlap) >= 16) {
-					console.debug("Transitioning to " + this.destination);
-					Game.showMap(this.destination);
-					Game.player.move(this.destinationX, this.destinationY);
-					this.transitioned = true;
+					var self = this;
+					Game.player.freeze();
+					this.transitioned = true; // Don't register more than once
+					Game.fadeOut();
+					window.setTimeout(function() {						
+						Game.showMap(self.destination);						
+						Game.player.move(self.destinationX, self.destinationY);
+						Game.player.unfreeze();
+					}, 1000);					
 				}
 			}
 		});
@@ -178,7 +186,7 @@ Crafty.c('Npc', {
 Crafty.c('Player', {
 	init: function() {
 		player = this; // global variable
-		
+		this.frozen = false;
 		var animationDuration = 480; //ms		
 		
 		this.requires('Actor, Color, MoveAndCollide, sprite_player, SpriteAnimation, Solid')
@@ -195,19 +203,33 @@ Crafty.c('Player', {
 		this.z = 100;
 		
 		// Change direction: tap into event		
-		this.bind('NewDirection', function(data) {
-			if (data.x > 0) {
-				this.animate('MovingRight', -1);
-			} else if (data.x < 0) {
-				this.animate('MovingLeft', -1);
-			} else if (data.y > 0) {
-				this.animate('MovingDown', -1);
-			} else if (data.y < 0) {
-				this.animate('MovingUp', -1);				
-			} else {
-				this.pauseAnimation();
+		this.bind('NewDirection', function(data) {			
+			if (this.frozen == false) {
+				if (data.x > 0) {
+					this.animate('MovingRight', -1);
+				} else if (data.x < 0) {
+					this.animate('MovingLeft', -1);
+				} else if (data.y > 0) {
+					this.animate('MovingDown', -1);
+				} else if (data.y < 0) {
+					this.animate('MovingUp', -1);				
+				} else {
+					this.pauseAnimation();
+				}
 			}
 		});
+	},
+	
+	freeze: function() {
+		this.disableControl();
+		this.pauseAnimation();
+		this.frozen = true;
+	},
+	
+	unfreeze: function() {
+		this.enableControl();
+		this.animate();
+		this.frozen = false;
 	}
 });
 

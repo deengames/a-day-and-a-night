@@ -39,11 +39,21 @@ Game = {
 	},
 	
 	width: function() {
-		return this.currentMap.width * this.currentMap.tile.width;
+		// No map loaded? Okay. Lie.
+		// Makes it easier to initialize fades, etc.
+		if (this.currentMap != null) {
+			return this.currentMap.width * this.currentMap.tile.width;
+		} else {
+			return this.view.width;
+		}
 	},
 	
 	height: function() {
-		return this.currentMap.height * this.currentMap.tile.height;
+		if (this.currentMap != null) {
+			return this.currentMap.height * this.currentMap.tile.height;
+		} else {
+			return this.view.height;
+		}
 	},
 	
 	showMap: function(map) {
@@ -77,11 +87,15 @@ Game = {
 			}
 		}
 		
-		var fade = Crafty.e('2D, Canvas, Color, Tween')
-			.attr({w: Game.width(), h: Game.height(), alpha: 1.0, z: 99999 })
-			.color('black')
-			.tween({alpha: 0.0}, 1000);
-				
+		if (this.fade == null) {
+			this.fade = Crafty.e('2D, Canvas, Color, Tween')
+				.attr({w: Game.width(), h: Game.height(), z: 99999 })
+				.color('black');			
+		}
+
+		this.fade.alpha = 1.0;
+		this.fade.tween({alpha: 0.0}, 1000);		
+			
 		if (this.currentMap.perimeter != null) {
 			var entityName = 'Actor, Solid, ' + this.currentMap.perimeter;
 			
@@ -136,6 +150,12 @@ Game = {
 				}			
 			}
 		}
+	},
+	
+	fadeOut: function() {
+		this.fade
+			.attr({ alpha: 0.0 })
+			.tween({alpha: 1.0}, 1000);				
 	},
 	
 	///// HELPER FUNCTIONZ /////
@@ -205,13 +225,11 @@ Game = {
 			// or: d^2 = (x1-x2)^2 + (y1-y2)^2
 			// d^2 = 2 (1^2 + 1^2 for diagonals)			
 			var dSquared = Math.pow(obj.gridX() - x, 2) + Math.pow(obj.gridY() - y, 2);
-			if (dSquared <= 2) {
-				console.log("found: " + obj);
+			if (dSquared <= 2) {				
 				return obj;
 			}
 		}
 		
-		console.log("Nothing close by.");
 		return null;
 	}
 }
