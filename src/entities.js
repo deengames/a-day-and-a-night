@@ -240,7 +240,7 @@ Crafty.c('DialogBox', {
 		// Hence, hard-coding. Sorry, old bean.
 		
 		this.requires('2D, Canvas, Image, Text')			
-			.image('assets/images/message-window.png')
+			.image(gameUrl + '/assets/images/message-window.png')
 			.attr({
 				z: 999,
 				w: Game.view.width, h: Game.view.height / 4
