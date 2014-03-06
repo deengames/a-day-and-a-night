@@ -246,10 +246,10 @@ Crafty.c('DialogBox', {
 				w: Game.view.width, h: Game.view.height / 4
 			});
 			
-		this.text = Crafty.e('2D, Canvas, Text')			
+		this.text = Crafty.e('2D, DOM, Text')			
 			.textFont({size: '24px'})
 			.textColor('FFFFFF')
-			.attr({ z: 999 });
+			.attr({ w: Game.view.width - 32, z: 999 });
 		
 		this.avatar = Crafty.e('2D, Canvas, Image')
 			.attr({
@@ -307,12 +307,18 @@ Crafty.c('DialogBox', {
 		// Don't go off the screen (bottom/right)			
 		x = Math.min(Game.width() - this.w, x);			
 		y = Math.min(Game.height() - this.h - (Game.view.height - this.h), y);
-				
+
 		this.x = x;
 		this.y = Game.view.height - this.h + y;
 		
-		this.text.x = this.x + 16 + (this.avatar.alpha > 0 ? this.avatar.x + this.avatar.w : 0);
+		this.text.x = this.x + 16;
 		this.text.y = this.y + 16;
+		this.text.w = this.w - 32;
+		
+		if (this.avatar.alpha > 0) {
+			this.text.x += this.avatar.x + this.avatar.w;
+			this.text.w -= (this.avatar.w + 16);
+		}
 		
 		this.avatar.x = this.x + 16;
 		this.avatar.y = this.y + 16;		

@@ -26,7 +26,7 @@ function worldMap() {
 				components: 'Actor, Interactive',
 				sprite: 'sprite_mushroom',
 				x: 2, y: 1,				
-				messages: [{ avatar: 'assets/images/main-character.png', text: '... a mushroom? ...' }],
+				messages: [{ avatar: 'assets/images/main-character.png', text: '... A mushroom? Growing here, near the borders of the town? ... Hmm ...' }],
 				initialize: function(me, player) {					
 					me.interact = me.talk;
 				}				
