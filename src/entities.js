@@ -236,13 +236,12 @@ Crafty.c('Player', {
 Crafty.c('DialogBox', {	
 	
 	init: function() {		
-		// Initialized here? w/h values are not set, sadly.
-		// Hence, hard-coding. Sorry, old bean.
-		
 		this.requires('2D, Canvas, Image, Text')			
 			.image(gameUrl + '/assets/images/message-window.png')
 			.attr({
 				z: 999,
+				// Initialized here? w/h values are not set, sadly.
+				// Hence, hard-coding. Sorry, old bean.		
 				w: Game.view.width, h: Game.view.height / 4
 			});
 			
@@ -270,20 +269,21 @@ Crafty.c('DialogBox', {
 			if (this.source != null) {
 				var dSquared = Math.pow(this.source.x - player.x, 2) + Math.pow(this.source.y - player.y, 2);								
 				if (dSquared >= limit) {					
-					this.text.text('');
-					this.alpha = 0;
-					this.avatar.alpha = 0;
-					this.source = null;					
+					this.close();
 				}
 			}
 		});
 	},
 	
-	message: function(obj) {		
+	message: function(obj) {
+		// Three types of messages are acceptable here:
+		// 1) String (eg. "Hi mom!")
+		// 2) Object (eg. { avatar: '/images/player.png', message: 'Lick my face?!' }
+		// 3) Array of 1) or 2) (or both)
 		if (typeof(obj) == 'string') {
 			this.text.text(obj);
-			this.avatar.attr({ alpha: 0 });			
-		} else {			
+			this.avatar.attr({ alpha: 0 });
+		} else { // object
 			this.avatar.attr({ alpha: 1 });
 			this.avatar.image(obj.avatar);
 			this.text.text(obj.text);									
@@ -293,6 +293,10 @@ Crafty.c('DialogBox', {
 	},
 	
 	setSource: function(npc, x, y) {
+		// Changed conversations, maybe in the middle ...
+		if (this.source != null && this.source.npc != npc) {
+			delete conversationIndex;
+		}
 		this.source = { npc: npc, x: x, y: y };
 	},
 	
@@ -322,6 +326,15 @@ Crafty.c('DialogBox', {
 		
 		this.avatar.x = this.x + 16;
 		this.avatar.y = this.y + 16;		
+	},
+	
+	close: function() {
+		this.text.text('');
+		this.alpha = 0;
+		this.avatar.alpha = 0;
+		this.source = null;
+		// If it was a conversation, forget the conversation
+		delete conversationIndex;
 	}
 });
 

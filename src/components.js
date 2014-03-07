@@ -81,7 +81,7 @@ Crafty.c('Interactive', {
 	},
 	
 	talk: function() {	
-		var message = null;		
+		var obj = null;		
 		
 		// Do we have a message?
 		if (this.onTalk != null || this.messages.length > 0) {
@@ -92,13 +92,29 @@ Crafty.c('Interactive', {
 			}
 			
 			if (this.onTalk != null) {
-				message = this.onTalk();
+				obj = this.onTalk();
 			} else {
-				message = this.messages[Math.floor(Math.random() * this.messages.length)];
+				obj = this.messages[Math.floor(Math.random() * this.messages.length)];
+			}
+			
+			dialog.setSource(this, this.x, this.y);
+			if (obj instanceof Array) {
+				if (typeof(conversationIndex) == 'undefined') {
+					conversationIndex = 0;
+				} else {
+					conversationIndex += 1;
+					if (conversationIndex >= obj.length) {
+						dialog.close();						
+						return;
+					}
+				}
+				
+				message = obj[conversationIndex];
+			} else {
+				message = obj;
 			}
 						
 			dialog.message(message);
-			dialog.setSource(this, this.x, this.y);
 		}
 	}
 });
