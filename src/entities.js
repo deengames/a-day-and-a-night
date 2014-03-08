@@ -290,6 +290,7 @@ Crafty.c('DialogBox', {
 				this.avatar.attr({ alpha: 1 });
 				this.avatar.image(obj.avatar);
 			}
+			
 			if (typeof(obj.choices) != 'undefined') {
 				// Freeze when making choices
 				player.freeze();
@@ -317,6 +318,10 @@ Crafty.c('DialogBox', {
 					.text(choices.join('<br />'))
 					.attr({x: choiceBox.x + 16, y: choiceBox.y + 16, z: choiceBox.z + 2})
 					.attr({w: choiceBox.w - 32, h: choiceBox.h - 32 });
+					
+				// Fix issue where you pressing space to show the choices, and
+				// the first choice is automatically picked.
+				var chose = false; 
 				
 				var selectionBox = Crafty.e('2D, Canvas, Color')
 					.color('rgb(192, 225, 255)')
@@ -329,16 +334,20 @@ Crafty.c('DialogBox', {
 							selectionBox.y -= 28;							
 						} else if (e.key == Crafty.keys.DOWN_ARROW && selectionBox.y + 26 <= choiceText.y + 21 + (28 * (choices.length - 1))) {
 							selectionBox.y += 28;							
-						} else if (e.key == Crafty.keys.ENTER) {
-							var n = Math.floor((selectionBox.y - choiceBox.y) / 26);
-							var decided = choices[n];
+						} else if (e.key == Crafty.keys.SPACE) {
+							if (chose) {								
+								var n = Math.floor((selectionBox.y - choiceBox.y) / 26);
+								var decided = choices[n];
 
-							player.unfreeze();
-							choiceBox.destroy();
-							choiceText.destroy();
-							selectionBox.destroy();
-														
-							self.message(responses[n]);							
+								player.unfreeze();
+								choiceBox.destroy();
+								choiceText.destroy();
+								selectionBox.destroy();
+															
+								self.message(responses[n]);							
+							} else { 
+								chose = true;
+							}
 						}
 					});		
 			}

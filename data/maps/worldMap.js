@@ -21,7 +21,10 @@ function worldMap() {
 					avatar: "assets/images/old-man-avatar.png",
 					text: "Well? Speak up!",
 					choices: ['Yes', 'No'],
-					responses: ['Me too!', 'Oh, really? Hmm.']
+					responses: [
+						{ avatar: "assets/images/old-man-avatar.png", text: 'Me too!' },
+						{ avatar: "assets/images/old-man-avatar.png", text: 'Oh, really? Hmm.' }
+					]
 				} ]],
 				x: 8, y: 8
 			},
