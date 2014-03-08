@@ -276,16 +276,72 @@ Crafty.c('DialogBox', {
 	},
 	
 	message: function(obj) {
-		// Three types of messages are acceptable here:
-		// 1) String (eg. "Hi mom!")
-		// 2) Object (eg. { avatar: '/images/player.png', message: 'Lick my face?!' }
-		// 3) Array of 1) or 2) (or both)
+		var self = this;
+		// Only these types of messages are acceptable here:
+		// 1) 	String (eg. "Hi mom!")
+		// 2) 	Object. It can have an avatar (eg. { avatar: '/images/player.png', message: 'Lick my face?!' },
+		// 			and a choice object (eg. { choices: ['Yes', 'No'], responses: ['Me too!', 'Oh, really? I disagree.'] }
+		// 3) 	Array of any combination and number of the above
 		if (typeof(obj) == 'string') {
 			this.text.text(obj);
 			this.avatar.attr({ alpha: 0 });
 		} else { // object
-			this.avatar.attr({ alpha: 1 });
-			this.avatar.image(obj.avatar);
+			if (typeof(obj.avatar) != 'undefined') {
+				this.avatar.attr({ alpha: 1 });
+				this.avatar.image(obj.avatar);
+			}
+			if (typeof(obj.choices) != 'undefined') {
+				// Freeze when making choices
+				player.freeze();
+				var choices = obj.choices;
+				var responses = obj.responses;
+				if (choices.length != responses.length) {
+					throw new Error("Choices and responses should be equal in number; got " + choices.length + " choices and " + responses.length + " responses.");
+				}
+				
+				var choiceBox = Crafty.e('2D, Canvas, Image')
+					.image(gameUrl + '/assets/images/choice-box.png')
+					.attr({ x: (Game.view.width - 200) / 2, y: Game.view.height / 4, z: this.z + 1 });
+				
+				// TODO: less hacks, more codez.
+				// At 24px, each line is 17px high, plus 11px space
+				// With Y offset of 16, there are 21px above the first line
+				// Assuming window is at X, the choices are from:
+				// 1) 22-37
+				// 2) 49-64
+				// n) 21 + 28n
+				// Or we could, you know, create one text per item. :)
+				var choiceText = Crafty.e('2D, DOM, Text')
+					.textFont({size: '24px'})
+					.textColor('FFFFFF')
+					.text(choices.join('<br />'))
+					.attr({x: choiceBox.x + 16, y: choiceBox.y + 16, z: choiceBox.z + 2})
+					.attr({w: choiceBox.w - 32, h: choiceBox.h - 32 });
+				
+				var selectionBox = Crafty.e('2D, Canvas, Color')
+					.color('rgb(192, 225, 255)')
+					// 26, not 24, because we pad by 2px.
+					// Other places, 28, pad by 4 (2 + 2)
+					.attr({x: choiceText.x - 2, y: choiceText.y, z: choiceText.z - 1 })
+					.attr({w: choiceText.w + 4, h: 26 })
+					.bind('KeyUp', function(e) {												
+						if (e.key == Crafty.keys.UP_ARROW && selectionBox.y > choiceText.y) {
+							selectionBox.y -= 28;							
+						} else if (e.key == Crafty.keys.DOWN_ARROW && selectionBox.y + 26 <= choiceText.y + 21 + (28 * (choices.length - 1))) {
+							selectionBox.y += 28;							
+						} else if (e.key == Crafty.keys.ENTER) {
+							var n = Math.floor((selectionBox.y - choiceBox.y) / 26);
+							var decided = choices[n];
+
+							player.unfreeze();
+							choiceBox.destroy();
+							choiceText.destroy();
+							selectionBox.destroy();
+														
+							self.message(responses[n]);							
+						}
+					});		
+			}
 			this.text.text(obj.text);									
 		}
 		this.alpha = 1;
@@ -315,7 +371,7 @@ Crafty.c('DialogBox', {
 		this.x = x;
 		this.y = Game.view.height - this.h + y;
 		
-		this.text.x = this.x + 16;
+		this.text.x = 16;
 		this.text.y = this.y + 16;
 		this.text.w = this.w - 32;
 		

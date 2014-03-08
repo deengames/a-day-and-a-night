@@ -17,7 +17,12 @@ function worldMap() {
 			{
 				type: 'Npc',
 				sprite: 'sprite_npc2',
-				messages: ['Salam!', 'Peace!'],
+				messages: [[ { text: 'Do you like apples?', avatar: "assets/images/old-man-avatar.png" },  {
+					avatar: "assets/images/old-man-avatar.png",
+					text: "Well? Speak up!",
+					choices: ['Yes', 'No'],
+					responses: ['Me too!', 'Oh, really? Hmm.']
+				} ]],
 				x: 8, y: 8
 			},
 			{

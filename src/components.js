@@ -98,6 +98,7 @@ Crafty.c('Interactive', {
 			}
 			
 			dialog.setSource(this, this.x, this.y);
+			
 			if (obj instanceof Array) {
 				if (typeof(conversationIndex) == 'undefined') {
 					conversationIndex = 0;

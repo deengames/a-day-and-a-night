@@ -12,10 +12,15 @@ Crafty.scene('Loading', function() {
 	// Load EVERYTHING, and don't worry about what map uses what stuff.
 	Crafty.load(
 		// Images
-		[gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/npc-3.png', gameUrl + '/assets/images/default-sprite.png', 
+		[gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', 
+		gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', 
+		gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/npc-3.png',
+		gameUrl + '/assets/images/default-sprite.png', 
 		gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/images/chicken-red.png', 
 		gameUrl + '/assets/images/indoors.png', gameUrl + '/assets/images/objects-outdoors.png',
-		gameUrl + '/assets/images/main-character.png',
+		gameUrl + '/assets/images/main-character.png', gameUrl + '/assets/images/old-man-avatar.png', 
+		// UI
+		gameUrl + '/assets/images/message-window.png', gameUrl + '/assets/images/choice-box.png', 
 		// Sounds
 		gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/audio/chicken.mp3', gameUrl + '/assets/audio/chicken2.mp3'],
 	function() {
