@@ -40,7 +40,7 @@ Crafty.c('Actor', {
 // This may break when you update CraftyJS.
 Crafty.c('MoveAndCollide', {
 	init: function() {
-		this.requires('Fourway, Collision')
+		this.requires('Fourway, Collision');			
 	},
 	
 	stopOnSolids: function() {

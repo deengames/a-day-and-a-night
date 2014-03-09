@@ -193,6 +193,7 @@ Crafty.c('Player', {
 			.fourway(4) // Use an even whole number so we can pass pixel-perfect narrow passages
 			.color('rgba(0, 0, 0, 0)')		
 			.stopOnSolids()
+			.collision([0, this.h / 2], [this.w, this.h / 2], [this.w, this.h],  [0, this.h])
 			
 			// Four animations (one per direction). X, Y, frames (excluding first frame)
 			.reel('MovingDown', animationDuration, getFramesForRow(0))
@@ -200,7 +201,7 @@ Crafty.c('Player', {
 			.reel('MovingRight', animationDuration, getFramesForRow(2))
 			.reel('MovingUp', animationDuration, getFramesForRow(3));
 		
-		this.z = 100;
+		this.z = 100;		
 		
 		// Change direction: tap into event		
 		this.bind('NewDirection', function(data) {			
