@@ -66,7 +66,7 @@ Crafty.scene('Loading', function() {
 			indoor_door:	[2, 0]
 		});
 		
-		Crafty.sprite(32, 32, gameUrl + '/assets/images/objects-outdoors.png', {
+		Crafty.sprite(16, 16, gameUrl + '/assets/images/objects-outdoors.png', {
 			sprite_mushroom: [0, 0]
 		});
 		
