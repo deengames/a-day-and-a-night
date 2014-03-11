@@ -381,7 +381,7 @@ Crafty.c('DialogBox', {
 		this.x = x;
 		this.y = Game.view.height - this.h + y;
 		
-		this.text.x = 16;
+		this.text.x = this.x + 16;
 		this.text.y = this.y + 16;
 		this.text.w = this.w - 32;
 		
