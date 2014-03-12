@@ -366,32 +366,34 @@ Crafty.c('DialogBox', {
 		this.source = { npc: npc, x: x, y: y };
 	},
 	
-	reposition: function() {		
-		var x = -Crafty.viewport.x;
-		var y = -Crafty.viewport.y;
-		
-		// Don't go off the screen (top/left)
-		x = Math.max(0, x);
-		y = Math.max(0, y);
-		
-		// Don't go off the screen (bottom/right)			
-		x = Math.min(Game.width() - this.w, x);			
-		y = Math.min(Game.height() - this.h - (Game.view.height - this.h), y);
+	reposition: function() {
+		if (this.alpha == 1) {
+			var x = -Crafty.viewport.x;
+			var y = -Crafty.viewport.y;
+			
+			// Don't go off the screen (top/left)
+			x = Math.max(0, x);
+			y = Math.max(0, y);
+			
+			// Don't go off the screen (bottom/right)			
+			x = Math.min(Game.width() - this.w, x);			
+			y = Math.min(Game.height() - this.h - (Game.view.height - this.h), y);
 
-		this.x = x;
-		this.y = Game.view.height - this.h + y;
-		
-		this.text.x = this.x + 16;
-		this.text.y = this.y + 16;
-		this.text.w = this.w - 32;
-		
-		if (this.avatar.alpha > 0) {
-			this.text.x += this.avatar.x + this.avatar.w;
-			this.text.w -= (this.avatar.w + 16);
+			this.x = x;
+			this.y = Game.view.height - this.h + y;
+						
+			this.text.x = this.x + 16;
+			this.text.y = this.y + 16;
+			this.text.w = this.w - 32;
+			
+			if (this.avatar.alpha > 0) {
+				this.text.x += (this.avatar.w + 16);
+				this.text.w -= (this.avatar.w + 16);
+			}
+			
+			this.avatar.x = this.x + 16;
+			this.avatar.y = this.y + 16;
 		}
-		
-		this.avatar.x = this.x + 16;
-		this.avatar.y = this.y + 16;		
 	},
 	
 	close: function() {
