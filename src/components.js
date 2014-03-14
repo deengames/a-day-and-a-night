@@ -86,36 +86,43 @@ Crafty.c('Interactive', {
 		// Do we have a message?
 		if (this.onTalk != null || this.messages.length > 0) {
 			// Initialize dialog.
-			if (typeof(dialog) == 'undefined') {
-				// no "var" keyword => global scope
-				dialog = Crafty.e('DialogBox');				
-			}
-			
-			if (this.onTalk != null) {
-				obj = this.onTalk();
-			} else {
-				obj = this.messages[Math.floor(Math.random() * this.messages.length)];
-			}
-			
-			dialog.setSource(this, this.x, this.y);
-			
-			if (obj instanceof Array) {
-				if (typeof(conversationIndex) == 'undefined') {
-					conversationIndex = 0;
-				} else {
-					conversationIndex += 1;
-					if (conversationIndex >= obj.length) {
-						dialog.close();						
-						return;
-					}
+			// If there's no dialog, or multiple messages, do this.			
+			if (typeof(dialog) == 'undefined' || this.messages.length > 0) {
+					
+				if (typeof(dialog) == 'undefined') {
+					// no "var" keyword => global scope
+					dialog = Crafty.e('DialogBox');				
 				}
 				
-				message = obj[conversationIndex];
+				if (this.onTalk != null) {
+					obj = this.onTalk();
+				} else {
+					obj = this.messages[Math.floor(Math.random() * this.messages.length)];
+				}
+				
+				dialog.setSource(this, this.x, this.y);
+				
+				if (obj instanceof Array) {
+					if (typeof(conversationIndex) == 'undefined') {
+						conversationIndex = 0;
+					} else {
+						conversationIndex += 1;
+						if (conversationIndex >= obj.length) {
+							dialog.close();						
+							return;
+						}
+					}
+					
+					message = obj[conversationIndex];
+				} else {
+					message = obj;
+				}
+				
+				dialog.message(message);				
 			} else {
-				message = obj;
+				dialog.close();
+				delete dialog;
 			}
-			
-			dialog.message(message);			
 		}
 	}
 });
