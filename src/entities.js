@@ -264,6 +264,12 @@ Crafty.c('DialogBox', {
 			this.reposition()
 		});
 		
+		this.bind('KeyDown', function(e) {
+			if (this.closeNextKeyPress && e.key == Crafty.keys.SPACE) {
+				this.close();
+			}
+		});
+		
 		this.bind('EnterFrame', function() {
 			// 6 tiles squared
 			var limit = 6 * 6 * Game.currentMap.tile.width * Game.currentMap.tile.height;
@@ -278,6 +284,7 @@ Crafty.c('DialogBox', {
 	
 	message: function(obj) {
 		var self = this;
+		this.closeNextKeyPress = false;
 		// Only these types of messages are acceptable here:
 		// 1) 	String (eg. "Hi mom!")
 		// 2) 	Object. It can have an avatar (eg. { avatar: '/images/player.png', message: 'Lick my face?!' },
@@ -335,7 +342,7 @@ Crafty.c('DialogBox', {
 							selectionBox.y -= 28;							
 						} else if (e.key == Crafty.keys.DOWN_ARROW && selectionBox.y + 26 <= choiceText.y + 21 + (28 * (choices.length - 1))) {
 							selectionBox.y += 28;							
-						} else if (e.key == Crafty.keys.SPACE) {
+						} else if (e.key == Crafty.keys.SPACE) {					
 							if (chose) {								
 								var n = Math.floor((selectionBox.y - choiceBox.y) / 26);
 								var decided = choices[n];
@@ -344,10 +351,11 @@ Crafty.c('DialogBox', {
 								choiceBox.destroy();
 								choiceText.destroy();
 								selectionBox.destroy();
-															
-								self.message(responses[n]);							
+								
+								self.message(responses[n]);
+								self.closeNextKeyPress = true;
 							} else { 
-								chose = true;
+								chose = true;								
 							}
 						}
 					});		
@@ -400,7 +408,7 @@ Crafty.c('DialogBox', {
 		this.text.text('');
 		this.alpha = 0;
 		this.avatar.alpha = 0;
-		this.source = null;
+		this.source = null;		
 		// If it was a conversation, forget the conversation
 		delete conversationIndex;
 	}

@@ -88,7 +88,7 @@ Crafty.c('Interactive', {
 			// Initialize dialog.
 			if (typeof(dialog) == 'undefined') {
 				// no "var" keyword => global scope
-				dialog = Crafty.e('DialogBox');
+				dialog = Crafty.e('DialogBox');				
 			}
 			
 			if (this.onTalk != null) {
@@ -114,8 +114,8 @@ Crafty.c('Interactive', {
 			} else {
 				message = obj;
 			}
-						
-			dialog.message(message);
+			
+			dialog.message(message);			
 		}
 	}
 });
