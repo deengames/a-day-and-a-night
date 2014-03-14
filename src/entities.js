@@ -7,10 +7,10 @@ Crafty.c('Door', {
 			if (!this.transitioned) {
 				var overlap = Math.abs(data[0].overlap);
 				var hit = data[0].obj;
-				// Magic number 16: sufficiently overlap the door.
+				// Magic number 11: sufficiently overlap the door.
 				// TODO: remove this when the player collision rect
 				// is only the bottom half of him.
-				if (hit.has('Player') && Math.abs(overlap) >= 16) {
+				if (hit.has('Player') && Math.abs(overlap) >= 11) {
 					var self = this;
 					Game.player.freeze();
 					this.transitioned = true; // Don't register more than once
@@ -253,8 +253,8 @@ Crafty.c('DialogBox', {
 		
 		this.avatar = Crafty.e('2D, Canvas, Image')
 			.attr({
-				x: 16, y: 16, alpha: 0, z: this.z + 1,
-				w: 118, h: 118
+				x: 11, y: 11, alpha: 0, z: this.z + 1,
+				w: 128, h: 128 ////////// hard-coded
 			})
 		
 		this.reposition();
@@ -307,7 +307,7 @@ Crafty.c('DialogBox', {
 				
 				// TODO: less hacks, more codez.
 				// At 24px, each line is 17px high, plus 11px space
-				// With Y offset of 16, there are 21px above the first line
+				// With Y offset of 11, there are 21px above the first line
 				// Assuming window is at X, the choices are from:
 				// 1) 22-37
 				// 2) 49-64
@@ -317,7 +317,7 @@ Crafty.c('DialogBox', {
 					.textFont({size: '24px'})
 					.textColor('FFFFFF')
 					.text(choices.join('<br />'))
-					.attr({x: choiceBox.x + 16, y: choiceBox.y + 16, z: choiceBox.z + 2})
+					.attr({x: choiceBox.x + 11, y: choiceBox.y + 11, z: choiceBox.z + 2})
 					.attr({w: choiceBox.w - 32, h: choiceBox.h - 32 });
 					
 				// Fix issue where you pressing space to show the choices, and
@@ -382,17 +382,17 @@ Crafty.c('DialogBox', {
 			this.x = x;
 			this.y = Game.view.height - this.h + y;
 						
-			this.text.x = this.x + 16;
-			this.text.y = this.y + 16;
+			this.text.x = this.x + 11;
+			this.text.y = this.y + 11;
 			this.text.w = this.w - 32;
 			
 			if (this.avatar.alpha > 0) {
-				this.text.x += (this.avatar.w + 16);
-				this.text.w -= (this.avatar.w + 16);
+				this.text.x += (this.avatar.w + 11);
+				this.text.w -= (this.avatar.w + 11);
 			}
 			
-			this.avatar.x = this.x + 16;
-			this.avatar.y = this.y + 16;
+			this.avatar.x = this.x + 11;
+			this.avatar.y = this.y + 11;
 		}
 	},
 	
