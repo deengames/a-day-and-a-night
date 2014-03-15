@@ -268,8 +268,7 @@ Crafty.c('DialogBox', {
 			if (typeof(closeNextKeyPress) != 'undefined' && e.key == Crafty.keys.SPACE) {
 				this.close();
                 delete this;
-                console.debug("Close 2");
-			}
+            }
 		});
 		
 		this.bind('EnterFrame', function() {

@@ -110,8 +110,9 @@ Crafty.c('Interactive', {
                         console.debug("w=" + typeof(awaitingChoice));
 						if (conversationIndex >= obj.length) {
                             // This is for conversations (without choices)
-                            console.debug("Close 3");
-                            dialog.close();						
+                            if (typeof(awaitingChoice) == 'undefined') {
+                                dialog.close();
+                            }
 							return;
 						}
 					}
@@ -124,8 +125,7 @@ Crafty.c('Interactive', {
 				dialog.message(message);				
 			} else {
 				dialog.close();
-                console.debug("Close 4");
-				delete dialog;
+                delete dialog;
 			}
 		}
 	}
