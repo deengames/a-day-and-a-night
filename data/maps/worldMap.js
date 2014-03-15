@@ -26,7 +26,7 @@ function worldMap() {
 						{ avatar: "assets/images/old-man-avatar.png", text: 'Oh, really? Hmm.' }
 					]
 				} ]],
-				x: 8, y: 8
+				x: 21, y: 11
 			},
 			{
 				type: '2D',

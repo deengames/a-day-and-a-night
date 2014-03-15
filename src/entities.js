@@ -265,8 +265,10 @@ Crafty.c('DialogBox', {
 		});
 		
 		this.bind('KeyDown', function(e) {
-			if (this.closeNextKeyPress && e.key == Crafty.keys.SPACE) {
+			if (typeof(closeNextKeyPress) != 'undefined' && e.key == Crafty.keys.SPACE) {
 				this.close();
+                delete this;
+                console.debug("Close 2");
 			}
 		});
 		
@@ -277,6 +279,7 @@ Crafty.c('DialogBox', {
 				var dSquared = Math.pow(this.source.x - player.x, 2) + Math.pow(this.source.y - player.y, 2);								
 				if (dSquared >= limit) {					
 					this.close();
+                    delete closeNextKeyPress;
 				}
 			}
 		});
@@ -284,7 +287,7 @@ Crafty.c('DialogBox', {
 	
 	message: function(obj) {
 		var self = this;
-		this.closeNextKeyPress = false;
+		delete closeNextKeyPress;
 		// Only these types of messages are acceptable here:
 		// 1) 	String (eg. "Hi mom!")
 		// 2) 	Object. It can have an avatar (eg. { avatar: '/images/player.png', message: 'Lick my face?!' },
@@ -300,6 +303,7 @@ Crafty.c('DialogBox', {
 			}
 			
 			if (typeof(obj.choices) != 'undefined') {
+                awaitingChoice = true;
 				// Freeze when making choices
 				player.freeze();
 				var choices = obj.choices;
@@ -354,6 +358,7 @@ Crafty.c('DialogBox', {
 								
 								self.message(responses[n]);
 								self.closeNextKeyPress = true;
+                                delete awaitingChoice;
 							} else { 
 								chose = true;								
 							}
@@ -411,6 +416,7 @@ Crafty.c('DialogBox', {
 		this.source = null;		
 		// If it was a conversation, forget the conversation
 		delete conversationIndex;
+        //console.debug("Close 1");
 	}
 });
 

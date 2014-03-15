@@ -107,8 +107,11 @@ Crafty.c('Interactive', {
 						conversationIndex = 0;
 					} else {
 						conversationIndex += 1;
+                        console.debug("w=" + typeof(awaitingChoice));
 						if (conversationIndex >= obj.length) {
-							dialog.close();						
+                            // This is for conversations (without choices)
+                            console.debug("Close 3");
+                            dialog.close();						
 							return;
 						}
 					}
@@ -121,6 +124,7 @@ Crafty.c('Interactive', {
 				dialog.message(message);				
 			} else {
 				dialog.close();
+                console.debug("Close 4");
 				delete dialog;
 			}
 		}
