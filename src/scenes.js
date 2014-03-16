@@ -115,6 +115,8 @@ Crafty.scene('map', function() {
 	
 	var player = Crafty.e('Player');
 	Game.player = player;
+    
+    Crafty.e('Fps');
 	
 	var startingMap = "worldMap";
 	var map = Game.maps[startingMap]
