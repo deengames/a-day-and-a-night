@@ -106,8 +106,7 @@ Crafty.c('Interactive', {
 					if (typeof(conversationIndex) == 'undefined') {
 						conversationIndex = 0;
 					} else {
-						conversationIndex += 1;
-                        console.debug("w=" + typeof(awaitingChoice));
+						conversationIndex += 1;                        
 						if (conversationIndex >= obj.length) {
                             // This is for conversations (without choices)
                             if (typeof(awaitingChoice) == 'undefined') {

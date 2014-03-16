@@ -414,8 +414,7 @@ Crafty.c('DialogBox', {
 		this.avatar.alpha = 0;
 		this.source = null;		
 		// If it was a conversation, forget the conversation
-		delete conversationIndex;
-        //console.debug("Close 1");
+		delete conversationIndex;        
 	}
 });
 
