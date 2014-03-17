@@ -52,7 +52,7 @@ Crafty.c('MoveAndCollide', {
 		var overlap = data[0].overlap;
 		// null: MBR collision. It's solid.
 		// 1.5: prevent getting stuck in collisions.
-		var overlaps = (overlap == null || Math.abs(overlap) >= 1.5);
+		var overlaps = true;//(overlap == null || Math.abs(overlap) >= 1.5);
 		if (this._movement && overlaps) {
 			this.x -= this._movement.x;
 			if (this.hit('Solid') != false) {
