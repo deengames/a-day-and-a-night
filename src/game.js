@@ -158,6 +158,28 @@ Game = {
 			.tween({alpha: 1.0}, 1000);				
 	},
 	
+	// TODO: can benefit from using the quad tree.
+	findAdjacentInteractiveObject: function(x, y) {
+		// TODO: use spatial partitioning to trim this list down.
+		for (var i = 0; i < this.gameObjects.length; i++) {
+			var obj = this.gameObjects[i];
+			
+			if (obj == this.player || !obj.has('Interactive')) {
+				continue;
+			}			
+			
+			// d = sqrt[(x1-x2)^2 + (y1-y2)^2]
+			// or: d^2 = (x1-x2)^2 + (y1-y2)^2
+			// d^2 = 2 (1^2 + 1^2 for diagonals)			
+			var dSquared = Math.pow(obj.gridX() - x, 2) + Math.pow(obj.gridY() - y, 2);
+			if (dSquared <= 2) {				
+				return obj;
+			}
+		}
+		
+		return null;
+	},
+	
 	///// HELPER FUNCTIONZ /////
 	
 	createObjectFrom: function(def, player) {
@@ -201,6 +223,7 @@ Game = {
 	},
 	
 	// Is a tile occupied?
+	// TODO: can benefit from using the quad tree.
 	isOccupied: function(x, y) {
 		for (var i = 0; i < this.gameObjects.length; i++) {
 			var obj = this.gameObjects[i];			
@@ -210,26 +233,5 @@ Game = {
 		}
 		
 		return false;
-	},
-	
-	findAdjacentInteractiveObject: function(x, y) {
-		// TODO: use spatial partitioning to trim this list down.
-		for (var i = 0; i < this.gameObjects.length; i++) {
-			var obj = this.gameObjects[i];
-			
-			if (obj == this.player || !obj.has('Interactive')) {
-				continue;
-			}			
-			
-			// d = sqrt[(x1-x2)^2 + (y1-y2)^2]
-			// or: d^2 = (x1-x2)^2 + (y1-y2)^2
-			// d^2 = 2 (1^2 + 1^2 for diagonals)			
-			var dSquared = Math.pow(obj.gridX() - x, 2) + Math.pow(obj.gridY() - y, 2);
-			if (dSquared <= 2) {				
-				return obj;
-			}
-		}
-		
-		return null;
 	}
 }

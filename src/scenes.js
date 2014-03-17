@@ -117,7 +117,7 @@ Crafty.scene('map', function() {
 	Game.player = player;
     
     Crafty.e('Fps');
-	
+    
 	var startingMap = "worldMap";
 	var map = Game.maps[startingMap]
 	Game.showMap(startingMap);
@@ -126,6 +126,10 @@ Crafty.scene('map', function() {
 	player.move(3, 3);	
 	
 	Crafty.viewport.follow(player, 0, 0);
+	
+	var quadTree = Crafty.e('QuadTree');
+	quadTree.setup(Game.width(), Game.height());
+	quadTree.trackEverything('Solid');
 	
 	// Did the player try to interact with something close by?	
 	// Space to interact with stuff
