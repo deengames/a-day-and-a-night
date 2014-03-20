@@ -59,15 +59,24 @@ Crafty.c('NpcBase', {
 		this.onInteract(this.talk);
 		
 		this.onHit('Solid', function(data) {
-			if (this.velocity.x != 0) {
-				this.x = this.lastPosition.x;
+
+			var target = data[0];
+			if (target != null) {
+				if (target.normal != null) {
+					if (this.velocity.x != 0) {
+						this.x -= target.normal.x * target.overlap;
+					}
+					
+					if (this.velocity.y != 0) {
+						this.y -= target.normal.y * target.overlap;
+					}
+				} else {
+					this.x = this.lastPosition.x;
+					this.y = this.lastPosition.y;
+				}
 			}
 			
-			if (this.velocity.y != 0) {
-				this.y = this.lastPosition.y;
-			}
-			
-			// Stop if we hit the player, or another entity.
+			// Stop if we hit the player.
 			// Otherwise, just turn around.
 			var bumpedPlayer = null;
 			for (var i = 0; i < data.length; i++) {
@@ -80,13 +89,29 @@ Crafty.c('NpcBase', {
 			
 			if (bumpedPlayer != null) {
 				this.pauseAnimation();
+				// Stop, don't keep colliding.
+				// But, noHit will trigger rapidly; wait.
+				this.oldVelocity = this.velocity;
+				this.velocity = { x: 0, y: 0 };
 			} else {
 				this.velocity.x *= -1;
 				this.velocity.y *= -1;
 			}
 			
-		}, function() {
-			this.resumeAnimation();
+		});
+		
+		this.bind('EnterFrame', function() {
+			// noHit keeps triggering after we stop; we can't reset v.
+			// Easy way out: wait and make sure we're ~3 tiles away ...
+			if (this.velocity.x == 0 && this.velocity.y == 0) {
+				var player = Crafty('Player');
+				var d = Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2);
+				// 9 = 3^2 (three tiles away)
+				if (typeof(this.oldVelocity) != 'undefined' && d >= 3 * 3 * Game.currentMap.tile.width * Game.currentMap.tile.height) {
+					this.velocity = this.oldVelocity;
+					this.resumeAnimation();
+				}
+			}
 		});
 	},
 	
