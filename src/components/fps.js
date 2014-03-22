@@ -14,10 +14,11 @@ Crafty.c('Fps', {
             .attr({w: 256, x: 4, y: 4 });
         
         this.bind('EnterFrame', function() {
-            var now = new Date().getTime();
+            var now = new Date().getTime();            
+            var seconds = (now - this.lastReportedOn) / 1000;
             
-            if (now - this.lastReportedOn >= 1000) {
-                this.text.text(this.ticks + " fps");
+            if (seconds >= 1) {
+                this.text.text(Math.round(this.ticks / seconds) + " fps");
                 this.ticks = 0;
                 this.lastReportedOn = now;
             }
