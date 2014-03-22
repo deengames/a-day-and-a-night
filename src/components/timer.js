@@ -34,9 +34,10 @@ Crafty.c('Timer', {
 	
 	// Starts running the timer
 	start: function() {
+		console.debug("Timer started");
 		var self = this;
 		this._ref = setInterval(function() { self.callback() }, this.intervalMs);
-		return this;
+		return this;		
 	},
 	
 	// Stops and cleans up the timer

@@ -46,6 +46,7 @@ Crafty.c('Door', {
 Crafty.c('NpcBase', {	
 	init: function() {
 		var animationDuration = 600; //ms
+		var npc = this;
 		
 		this.requires('Actor, SpriteAnimation, Solid, Collision, Interactive, default_sprite')
 			.reel('MovingDown', animationDuration, getFramesForRow(0))
@@ -92,26 +93,25 @@ Crafty.c('NpcBase', {
 				// Stop, don't keep colliding.
 				// But, noHit will trigger rapidly; wait.
 				this.oldVelocity = this.velocity;
-				this.velocity = { x: 0, y: 0 };
+				this.velocity = { x: 0, y: 0 };				
+				var timer = Crafty.e('Timer')
+					.interval(1000)
+					.callback(function() {						
+						var player = Crafty('Player');
+						var d = Math.pow(npc.x - player.x, 2) + Math.pow(npc.y - player.y, 2);						
+						// 9 = 3^2 (three tiles away)
+						if (typeof(npc.oldVelocity) != 'undefined' && d >= 3 * 3 * Game.currentMap.tile.width * Game.currentMap.tile.height) {
+							npc.velocity = npc.oldVelocity;
+							npc.resumeAnimation();							
+							timer.stop();
+							delete timer;
+						}
+					}).start();
 			} else {
 				this.velocity.x *= -1;
 				this.velocity.y *= -1;
 			}
 			
-		});
-		
-		this.bind('EnterFrame', function() {
-			// noHit keeps triggering after we stop; we can't reset v.
-			// Easy way out: wait and make sure we're ~3 tiles away ...
-			if (this.velocity.x == 0 && this.velocity.y == 0) {
-				var player = Crafty('Player');
-				var d = Math.pow(this.x - player.x, 2) + Math.pow(this.y - player.y, 2);
-				// 9 = 3^2 (three tiles away)
-				if (typeof(this.oldVelocity) != 'undefined' && d >= 3 * 3 * Game.currentMap.tile.width * Game.currentMap.tile.height) {
-					this.velocity = this.oldVelocity;
-					this.resumeAnimation();
-				}
-			}
 		});
 	},
 	
