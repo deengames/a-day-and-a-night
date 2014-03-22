@@ -133,7 +133,7 @@ Crafty.c('Interactive', {
 Crafty.c('PositionalAudio', {
 
 	// AudioID: from Crafty.audio.add
-	PositionalAudio: function(audioId, radius, player) {		
+	PositionalAudio: function(audioId, radius) {		
 		this.requires('Actor');
 		
 		this.audioId = audioId;
@@ -141,37 +141,43 @@ Crafty.c('PositionalAudio', {
 		// To replace with tiles, remove the * width * height here, and change
 		// all instances of x/y to gridX/gridY in the d^2 calculation.
 		this.radiusSquared = radius * radius * this.width * this.height;
-		this.player = player;
+		this.player = Crafty('Player');
+		var self = this;
 		
-		this.bind('EnterFrame', function() {
-			if (this.audioId == null) {
-				throw new Error("PositionalAudio created but init() was never called.");
-			}
-			
-			if (this.obj != null && this.x != null && this.y != null) {
-				// Avoid sqrt: a^2 + b^2 = c^2
-				var dSquared = Math.pow(this.x - this.player.x, 2) + Math.pow(this.y - this.player.y, 2);
-				// Map (0 .. r^2) to (1 .. 0)
-				var volume = Math.max(0, this.radiusSquared - dSquared) / this.radiusSquared;
-				this.setVolume(volume);
-			} else {			
-				for (var i = 0; i < Crafty.audio.channels.length; i++) {
-					var c = Crafty.audio.channels[i];
-					if (c.id == this.audioId) {					
-						this.obj = c.obj;						
-					}
+		this.timer = Crafty.e('Timer')
+			.interval(100)
+			.callback(function() {
+				if (self.audioId == null) {
+					throw new Error("PositionalAudio created but init() was never called.");
 				}
 				
-				if (this.obj == null) {
-					throw new Error("Couldn't find audio for " + audioId);
-				}
-			}			
-		});
+				if (self.obj != null && self.x != null && self.y != null) {
+					// Avoid sqrt: a^2 + b^2 = c^2
+					var dSquared = Math.pow(self.x - self.player.x, 2) + Math.pow(self.y - self.player.y, 2);
+					// Map (0 .. r^2) to (1 .. 0)
+					var volume = Math.max(0, self.radiusSquared - dSquared) / self.radiusSquared;
+					self.setVolume(volume);					
+				} else {			
+					for (var i = 0; i < Crafty.audio.channels.length; i++) {
+						var c = Crafty.audio.channels[i];
+						if (c.id == self.audioId) {					
+							self.obj = c.obj;						
+						}
+					}
+					
+					if (self.obj == null) {
+						throw new Error("Couldn't find audio for " + audioId);
+					}
+				}		
+			})
+			.start();
 		
 		this.bind('Remove', function() {
 			if (this.audioId != null) {
 				Crafty.audio.stop(this.audioId);				
 			}
+			this.timer.stop();
+			delete this.timer;
 		});
 	},
 	
