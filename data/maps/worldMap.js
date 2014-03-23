@@ -17,13 +17,13 @@ function worldMap() {
 			{
 				type: 'Npc',
 				sprite: 'sprite_npc2',
-				messages: [[ { text: 'Do you like apples?', avatar: "assets/images/old-man-avatar.png" },  {
+				messages: [[ { text: 'Do you like apples?', character: 'old man' },  {
 					avatar: "assets/images/old-man-avatar.png",
 					text: "Well? Speak up!",
 					choices: ['Yes', 'No'],
 					responses: [
-						{ avatar: "assets/images/old-man-avatar.png", text: 'Me too!' },
-						{ avatar: "assets/images/old-man-avatar.png", text: 'Oh, really? Hmm.' }
+						{ text: 'Me too!', character: 'old man' },
+						{ text: 'Oh, really? Hmm.', character: 'old man' }
 					]
 				} ]],
 				x: 21, y: 11
@@ -34,9 +34,9 @@ function worldMap() {
 				sprite: 'sprite_mushroom',
 				x: 2, y: 1,				
 				messages: [
-					[{ avatar: 'assets/images/main-character.png', text: '... A mushroom? Growing here, near the borders of the town? ... Hmm ...' },
+					[{ text: '... A mushroom? Growing here, near the borders of the town? ... Hmm ...', character: 'hero' },
 					"Mushroom: BITE ME!",
-					{ avatar: 'assets/images/main-character.png', text: '?!' }]
+					{ text: '?!', character: 'hero' }]
 				],
 				initialize: function(me, player) {					
 					me.interact = me.talk;

@@ -307,6 +307,10 @@ Crafty.c('DialogBox', {
 				}
 			}
 		});
+		
+		if (typeof(characters) != 'undefined') {
+			this.characters = characters();
+		}
 	},
 	
 	message: function(obj) {
@@ -320,10 +324,25 @@ Crafty.c('DialogBox', {
 		if (typeof(obj) == 'string') {
 			this.text.text(obj);
 			this.avatar.attr({ alpha: 0 });
-		} else { // object
-			if (typeof(obj.avatar) != 'undefined') {
-				this.avatar.attr({ alpha: 1 });
-				this.avatar.image(obj.avatar);
+		} else { // object			
+			var text = "";
+			// Is it a character? A valid one? With an avatar?
+			if (typeof(obj.character) != 'undefined') {
+				if (typeof(this.characters) != 'undefined') {
+					var id = obj.character;				
+					if (id in this.characters) {
+						var char = this.characters[id];
+						if ('avatar' in char) {
+							this.avatar.attr({ alpha: 1 });
+							this.avatar.image(char.avatar);
+						}
+						text = char.name + ': ';
+					} else {
+						throw new Error("characters.js doesn't have a character named " + id);
+					}
+				} else {
+					throw new Error("Dialog specifices a character, but /data/character.js doesn't exist or isn't loaded.");
+				}
 			}
 			
 			if (typeof(obj.choices) != 'undefined') {
@@ -389,7 +408,9 @@ Crafty.c('DialogBox', {
 						}
 					});		
 			}
-			this.text.text(obj.text);									
+			
+			text += obj.text;
+			this.text.text(text);									
 		}
 		this.alpha = 1;
 		this.reposition(this.x, this.y);
