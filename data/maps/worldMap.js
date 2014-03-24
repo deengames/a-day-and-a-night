@@ -26,7 +26,7 @@ function worldMap() {
 						{ text: 'Oh, really? Hmm.', character: 'old man' }
 					]
 				} ]],
-				range: { start: { x: 21, y: 11 }, end: { x: 23, y: 13 } },
+				x: 21, y: 11
 			},
 			{
 				type: '2D',
