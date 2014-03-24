@@ -73,7 +73,7 @@ Crafty.c('DialogBox', {
 						var char = this.characters[id];
 						if ('avatar' in char) {
 							this.avatar.attr({ alpha: 1 });
-							this.avatar.image(char.avatar);
+							this.avatar.image(gameUrl + '/' + char.avatar);
 						}
 						if ('name' in char) {
 							text = char.name + ': ';
