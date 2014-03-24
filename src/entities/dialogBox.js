@@ -75,7 +75,9 @@ Crafty.c('DialogBox', {
 							this.avatar.attr({ alpha: 1 });
 							this.avatar.image(char.avatar);
 						}
-						text = char.name + ': ';
+						if ('name' in char) {
+							text = char.name + ': ';
+						}
 					} else {
 						throw new Error("characters.js doesn't have a character named " + id);
 					}

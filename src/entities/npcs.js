@@ -59,7 +59,9 @@ Crafty.c('NpcBase', {
 						// 9 = 3^2 (three tiles away)
 						if (typeof(npc.oldVelocity) != 'undefined' && d >= 3 * 3 * Game.currentMap.tile.width * Game.currentMap.tile.height) {
 							npc.velocity = npc.oldVelocity;
-							npc.resumeAnimation();							
+							if (npc.state == 'moving') {
+								npc.resumeAnimation();								
+							}
 							timer.stop();
 							delete timer;
 						}
