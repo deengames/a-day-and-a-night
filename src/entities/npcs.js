@@ -126,6 +126,7 @@ Crafty.c('Npc', {
 		this.bind('EnterFrame', this.moveDiscretely);
 		this.stateStart = new Date().getTime() / 1000;
 		this.state = 'moving'; // 'moving' or 'waiting'
+		this.randomOffset = 2 * Math.random();
 		
 		// 32 is a good "slow"; 64 is normal; 100 is pretty fast.
 		this.movementSpeed = 64;
@@ -135,14 +136,14 @@ Crafty.c('Npc', {
 		// First, change state if necessary
 		var now = new Date().getTime() / 1000;
 		var stateTime = now - this.stateStart;
-		if (stateTime >= 1 && this.state == 'moving') {
+		if (stateTime >= 1 + this.randomOffset && this.state == 'moving') {
 			this.state = 'waiting';
 			this.pauseAnimation();
 			this.stateStart = now;
 			
 			this.velocity.x = 0;
 			this.velocity.y = 0;
-		} else if (stateTime >= 3 && this.state == 'waiting') {
+		} else if (stateTime >= 3 + this.randomOffset && this.state == 'waiting') {
 			this.state = 'moving';
 			this.resumeAnimation();
 			this.stateStart = now;
