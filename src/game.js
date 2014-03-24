@@ -161,6 +161,9 @@ Game = {
 	// TODO: can benefit from using the quad tree.
 	findAdjacentInteractiveObject: function(x, y) {
 		// TODO: use spatial partitioning to trim this list down.
+		var minDistance = 9999999;
+		var minObject = null;
+		
 		for (var i = 0; i < this.gameObjects.length; i++) {
 			var obj = this.gameObjects[i];
 			
@@ -172,12 +175,13 @@ Game = {
 			// or: d^2 = (x1-x2)^2 + (y1-y2)^2
 			// d^2 = 2 (1^2 + 1^2 for diagonals)			
 			var dSquared = Math.pow(obj.gridX() - x, 2) + Math.pow(obj.gridY() - y, 2);
-			if (dSquared <= 2) {				
-				return obj;
+			if (dSquared <= 2 && dSquared <= minDistance) {
+				minDistance = dSquared;
+				minObject = obj;				
 			}
 		}
 		
-		return null;
+		return minObject;
 	},
 	
 	///// HELPER FUNCTIONZ /////

@@ -60,7 +60,8 @@ Crafty.c('NpcBase', {
 						if (typeof(npc.oldVelocity) != 'undefined' && d >= 3 * 3 * Game.currentMap.tile.width * Game.currentMap.tile.height) {
 							npc.velocity = npc.oldVelocity;
 							if (npc.state == 'moving') {
-								npc.resumeAnimation();								
+								npc.resumeAnimation();
+								console.debug("Resume: v=" + npc.velocity.x + ", " + npc.velocity.y);						
 							}
 							timer.stop();
 							delete timer;
