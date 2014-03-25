@@ -30,12 +30,8 @@ Game = {
 		}, false);
 		
 		// Start the game
-		Crafty.init(Game.view.width, Game.view.height);		
-		if (typeof(debug) != "undefined" && debug != null && debug == true) {
-			Crafty.scene('Loading');
-		} else {
-			Crafty.scene('SplashScreen');		
-		}		
+		Crafty.init(Game.view.width, Game.view.height);				
+		Crafty.scene('Loading');		
 	},
 	
 	width: function() {

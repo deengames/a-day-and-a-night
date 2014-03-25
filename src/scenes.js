@@ -8,14 +8,14 @@ Crafty.scene('Loading', function() {
 		.attr({ x: 0, y: (Game.view.height - 72) / 2, w: Game.view.width })
 		.textFont({ family: 'Georgia', size: '72px' })
 		.css({ 'color': 'white', 'text-align': 'center' });
-
+	
 	// Load EVERYTHING, and don't worry about what map uses what stuff.
 	Crafty.load(
 		// Images
-		[gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', 
-		gameUrl + '/assets/images/deen-games.png', gameUrl + '/assets/images/npc-1.png', 
-		gameUrl + '/assets/images/npc-2.png', gameUrl + '/assets/images/npc-3.png',
-		gameUrl + '/assets/images/default-sprite.png', 
+		[gameUrl + '/assets/images/titlescreen.png', gameUrl + '/assets/images/deen-games.png',
+		gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', 		
+		gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png',
+		gameUrl + '/assets/images/npc-3.png', gameUrl + '/assets/images/default-sprite.png', 
 		gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/images/chicken-red.png', 
 		gameUrl + '/assets/images/indoors.png', gameUrl + '/assets/images/objects-outdoors.png',
 		gameUrl + '/assets/images/main-character.png', gameUrl + '/assets/images/old-man-avatar.png', 
@@ -23,8 +23,9 @@ Crafty.scene('Loading', function() {
 		gameUrl + '/assets/images/message-window.png', gameUrl + '/assets/images/choice-box.png', 
 		// Sounds
 		gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/audio/chicken.mp3', gameUrl + '/assets/audio/chicken2.mp3'],
+		
 	function() {
-	
+		
 		Crafty.sprite(32, gameUrl + '/assets/images/player.png', {
 			sprite_player:	[1, 0]
 		});
@@ -76,40 +77,68 @@ Crafty.scene('Loading', function() {
 			chicken2: [gameUrl + '/assets/audio/chicken2.mp3']
 			// tone: [gameUrl + '/assets/audio/tone.mp3']
 		});
-				
-		// Loading done. Launch game.				
-		Crafty.scene('map');
+		
+		if (typeof(debug) != "undefined" && debug != null && debug == true) {
+			Crafty.scene('Titlescreen');
+		} else {
+			// Loading done. Launch game.				
+			Crafty.scene('SplashScreen');
+		}
 	});
 });
 
-Crafty.scene('SplashScreen', function() {
-	Crafty.load(gameUrl + '/assets/images/deen-games.png', function() {
-		Crafty.background('black');
-		// Canvas is necessary for smooth tweens.
-		var logo = Crafty.e('2D, Canvas, Image, Tween')
-			.image(gameUrl + '/assets/images/deen-games.png')		
-			.attr({ x: 0, y: (Game.view.height - 408) / 2, alpha: 0.0 })
-			
-			// Fade in for 2s
-			.tween({ alpha: 1.0 }, 2000)		
+Crafty.scene('SplashScreen', function() {	
+	Crafty.background('black');
+	// Canvas is necessary for smooth tweens.
+	var logo = Crafty.e('2D, Canvas, Image, Tween')
+		.image(gameUrl + '/assets/images/deen-games.png')		
+		.attr({ x: 0, y: (Game.view.height - 408) / 2, alpha: 0.0 })
+		
+		// Fade in for 2s
+		.tween({ alpha: 1.0 }, 2000)		
+		.bind('TweenEnd', function() {
+			// Then, maintain for 2s
+			logo.unbind('TweenEnd')
+			.tween(null, 2000)
 			.bind('TweenEnd', function() {
-				// Then, maintain for 2s
+				// Then, fade out for 2s
 				logo.unbind('TweenEnd')
-				.tween(null, 2000)
+				.tween({ alpha: 0.0 }, 2000)			
 				.bind('TweenEnd', function() {
-					// Then, fade out for 2s
-					logo.unbind('TweenEnd')
-					.tween({ alpha: 0.0 }, 2000)			
-					.bind('TweenEnd', function() {
-						// Then, change scenes						
-						Crafty.scene('Loading');
-					});
+					// Then, change scenes						
+					Crafty.scene('Titlescreen');
 				});
 			});
-	});
+		});
 });
 
-Crafty.scene('map', function() {
+Crafty.scene('Titlescreen', function() {
+	Crafty.background('black');
+	// Canvas is necessary for smooth tweens.
+	var logo = Crafty.e('2D, Canvas, Image, Tween')
+		.image(gameUrl + '/assets/images/titlescreen.png')		
+		.attr({ x: 0, y: 0, alpha: 0.0 })
+		
+		// Fade in for 2s
+		.tween({ alpha: 1.0 }, 2000)		
+		.bind('TweenEnd', function() {
+			// Then, maintain for 2s
+			logo.unbind('TweenEnd')
+			.tween(null, 2000)
+			.bind('TweenEnd', function() {
+				// Then, fade out for 2s
+				logo.unbind('TweenEnd')
+				.tween({ alpha: 0.0 }, 2000)			
+				.bind('TweenEnd', function() {
+					// Then, change scenes						
+					Crafty.scene('Map');
+				});
+			});
+		});
+
+});
+
+Crafty.scene('Map', function() {
 	
 	var self = this;	
 	
