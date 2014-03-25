@@ -37,7 +37,7 @@ Crafty.c('DialogBox', {
 		
 		this.bind('EnterFrame', function() {
 			// 6 tiles squared
-			var limit = 6 * 6 * Game.currentMap.tile.width * Game.currentMap.tile.height;
+			var limit = 16 * 16 * Game.currentMap.tile.width * Game.currentMap.tile.height;
 			if (this.source != null) {
 				var dSquared = Math.pow(this.source.x - player.x, 2) + Math.pow(this.source.y - player.y, 2);								
 				if (dSquared >= limit) {					
@@ -170,17 +170,17 @@ Crafty.c('DialogBox', {
 			var x = -Crafty.viewport.x;
 			var y = -Crafty.viewport.y;
 			
+			// Don't go off the screen (bottom/right)			
+			x = Math.min(Game.width() - this.w, x);			
+			y = Math.min(Game.height() - this.h - (Game.view.height - this.h), y);
+			
 			// Don't go off the screen (top/left)
 			x = Math.max(0, x);
 			y = Math.max(0, y);
 			
-			// Don't go off the screen (bottom/right)			
-			x = Math.min(Game.width() - this.w, x);			
-			y = Math.min(Game.height() - this.h - (Game.view.height - this.h), y);
-
 			this.x = x;
 			this.y = Game.view.height - this.h + y;
-						
+			
 			this.text.x = this.x + 11;
 			this.text.y = this.y + 11;
 			this.text.w = this.w - 32;
@@ -191,7 +191,7 @@ Crafty.c('DialogBox', {
 			}
 			
 			this.avatar.x = this.x + 11;
-			this.avatar.y = this.y + 11;
+			this.avatar.y = this.y + 11;			
 		}
 	},
 	
