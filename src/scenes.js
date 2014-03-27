@@ -3,7 +3,7 @@ Crafty.scene('Loading', function() {
 	
 	// Draw some text for the player to see in case the file
 	//  takes a noticeable amount of time to load
-	Crafty.e('2D, DOM, Text')
+	var loadingText = Crafty.e('2D, DOM, Text')
 		.text('Loading ...')
 		.attr({ x: 0, y: (Game.view.height - 72) / 2, w: Game.view.width })
 		.textFont({ family: 'Georgia', size: '72px' })
@@ -20,7 +20,7 @@ Crafty.scene('Loading', function() {
 		gameUrl + '/assets/images/indoors.png', gameUrl + '/assets/images/objects-outdoors.png',
 		gameUrl + '/assets/images/main-character.png', gameUrl + '/assets/images/old-man-avatar.png', 
 		// UI
-		gameUrl + '/assets/images/message-window.png', gameUrl + '/assets/images/choice-box.png', 
+		gameUrl + '/assets/images/message-window.png', gameUrl + '/assets/images/choice-box.png',
 		// Sounds
 		gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/audio/chicken.mp3', gameUrl + '/assets/audio/chicken2.mp3'],
 		
@@ -78,12 +78,16 @@ Crafty.scene('Loading', function() {
 			// tone: [gameUrl + '/assets/audio/tone.mp3']
 		});
 		
+		// Loading done. Launch game.
 		if (typeof(debug) != "undefined" && debug != null && debug == true) {
-			Crafty.scene('Titlescreen');
-		} else {
-			// Loading done. Launch game.				
+			Crafty.scene('TitleScreen');
+		} else {					
 			Crafty.scene('SplashScreen');
 		}
+	}, function(progress) {
+		loadingText.text(Math.round(progress.percent) + "% loaded");
+	}, function(e) {
+		console.debug(e);
 	});
 });
 
@@ -112,30 +116,37 @@ Crafty.scene('SplashScreen', function() {
 		});
 });
 
-Crafty.scene('Titlescreen', function() {
+Crafty.scene('TitleScreen', function() {
 	Crafty.background('black');
 	// Canvas is necessary for smooth tweens.
-	var logo = Crafty.e('2D, Canvas, Image, Tween')
+	var logo = Crafty.e('2D, Canvas, Image, Tween, Mouse')
 		.image(gameUrl + '/assets/images/titlescreen.png')		
 		.attr({ x: 0, y: 0, alpha: 0.0 })
 		
 		// Fade in for 2s
-		.tween({ alpha: 1.0 }, 2000)		
+		.tween({ alpha: 1.0 }, 1000)		
 		.bind('TweenEnd', function() {
-			// Then, maintain for 2s
+			// Then, maintain for 1s
 			logo.unbind('TweenEnd')
-			.tween(null, 2000)
+			.tween(null, 1000)
 			.bind('TweenEnd', function() {
-				// Then, fade out for 2s
+				// Then, fade out for 1s
 				logo.unbind('TweenEnd')
-				.tween({ alpha: 0.0 }, 2000)			
+				.tween({ alpha: 0.0 }, 1000)			
 				.bind('TweenEnd', function() {
 					// Then, change scenes						
 					Crafty.scene('Map');
 				});
 			});
 		});
-
+	
+	logo.bind('Click', function() {		
+		logo.tween({ alpha: 0.0 }, 500)			
+		.bind('TweenEnd', function() {
+			// Then, change scenes						
+			Crafty.scene('Map');
+		});
+	});
 });
 
 Crafty.scene('Map', function() {
