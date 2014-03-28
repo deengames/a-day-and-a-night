@@ -36,36 +36,38 @@ Crafty.c('NpcBase', {
 			
 			// Stop if we hit the player.
 			// Otherwise, just turn around.
-			var bumpedPlayer = null;
+			var bumpedIntoWalker = null;
 			for (var i = 0; i < data.length; i++) {
-				var bumpedInto = data[0];
-				if (bumpedInto.obj.has('Player')) {
-					bumpedPlayer = bumpedInto;
+				var bumpedInto = data[i];
+				if (bumpedInto.obj.has('Player') || bumpedInto.obj.has('NpcBase')) {
+					bumpedIntoWalker = bumpedInto;
 					break;
 				}
 			}
 			
-			if (bumpedPlayer != null) {
+			if (bumpedIntoWalker != null) {
 				this.pauseAnimation();
 				// Stop, don't keep colliding.
 				// But, noHit will trigger rapidly; wait.
-				this.oldVelocity = this.velocity;
-				this.velocity = { x: 0, y: 0 };				
-				var timer = Crafty.e('Timer')
-					.interval(1000)
-					.callback(function() {						
-						var player = Crafty('Player');
-						var d = Math.pow(npc.x - player.x, 2) + Math.pow(npc.y - player.y, 2);						
-						// 9 = 3^2 (three tiles away)
-						if (typeof(npc.oldVelocity) != 'undefined' && d >= 3 * 3 * Game.currentMap.tile.width * Game.currentMap.tile.height) {
-							npc.velocity = npc.oldVelocity;
-							if (npc.state == 'moving') {
-								npc.resumeAnimation();								
+				if (this.velocity.x != 0 || this.velocity.y != 0) {
+					this.oldVelocity = this.velocity;
+					this.velocity = { x: 0, y: 0 };
+					var timer = Crafty.e('Timer')
+						.interval(1000)
+						.callback(function() {
+							var target = bumpedIntoWalker.obj;
+							var d = Math.pow(npc.x - target.x, 2) + Math.pow(npc.y - target.y, 2);
+							// 9 = 3^2 (three tiles away)
+							if (typeof(npc.oldVelocity) != 'undefined' && d >= 3 * 3 * Game.currentMap.tile.width * Game.currentMap.tile.height) {
+								npc.velocity = npc.oldVelocity;
+								if (npc.state == 'moving') {
+									npc.resumeAnimation();								
+								}
+								timer.stop();
+								delete timer;
 							}
-							timer.stop();
-							delete timer;
-						}
-					}).start();
+						}).start();
+				}
 			} else {
 				this.velocity.x *= -1;
 				this.velocity.y *= -1;
