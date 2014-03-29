@@ -34,6 +34,27 @@ Game = {
 		Crafty.scene('Loading');		
 	},
 	
+	pause: function() {
+		if (!Crafty.isPaused()) {
+			this.blackout = Crafty.e('2D, Canvas, Color')
+				.color("black")
+				.attr({w: Game.width(), h: Game.height(), z: 99999 });
+			this.pauseText = Crafty.e('2D, Canvas, Text')
+				.textFont({size: '24px'})
+				.textColor('FFFFFF')
+				.attr({ x: -Crafty.viewport.x, y: -Crafty.viewport.y, z: 100000 })
+				.text("HI MOMZ");
+				
+			this.blackout.alpha = 0.5;
+			console.debug("Pausing");
+		} else {
+			this.blackout.destroy();
+			this.pauseText.text("");
+			console.debug("Resuming");
+		}
+		Crafty.pause();
+	},
+	
 	width: function() {
 		// No map loaded? Okay. Lie.
 		// Makes it easier to initialize fades, etc.

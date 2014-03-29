@@ -18,6 +18,18 @@ Crafty.c('Timer', {
 	
 	init: function() {
 		this.intervalMs = 0;
+		this._state = "stopped";
+		
+		this.bind('Pause', function() {
+			this._oldState = this._state;
+			this.stop();
+		});
+		
+		this.bind('Unpause', function() {
+			if (this._oldState == "running") {
+				this.start();
+			}
+		});
 	},
 	
 	// Sets how often to trigger (in milliseconds)
@@ -36,13 +48,15 @@ Crafty.c('Timer', {
 	start: function() {
 		var self = this;
 		this._ref = setInterval(function() { self.callback() }, this.intervalMs);
-		return this;		
+		this._state = "running";
+		return this;
 	},
 	
 	// Stops and cleans up the timer
 	stop: function() {
 		clearInterval(this._ref);
 		delete this._ref;
+		this._state = "stopped";
 		return this;
 	}
 	
