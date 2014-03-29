@@ -57,11 +57,10 @@ Game = {
 			this.blackout.alpha = 0;
 			this.pauseText.text("");
 		}
-		
+				
 		// Crafty pauses too fast. Wait for a few milliseconds.
-		setTimeout(function() {
-			Crafty.pause();
-		}, 25);		
+		Crafty.trigger("RenderScene");		
+		Crafty.pause();		
 	},
 	
 	width: function() {

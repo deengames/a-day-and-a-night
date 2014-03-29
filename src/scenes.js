@@ -157,6 +157,11 @@ Crafty.scene('Map', function() {
 	Game.player = player;
     
     Crafty.e('Fps');
+    var gameTime = Crafty.e('GameTime').begin("6:00").timePerSecond(30);
+    
+    Crafty.e('Delay').delay(function() { 
+		console.debug(new Date() + " | The time is now " + gameTime.hour + ":" + gameTime.minute);
+	}, 60000, -1);
     
 	var startingMap = "worldMap";
 	var map = Game.maps[startingMap]
