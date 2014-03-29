@@ -36,23 +36,32 @@ Game = {
 	
 	pause: function() {
 		if (!Crafty.isPaused()) {
-			this.blackout = Crafty.e('2D, Canvas, Color')
-				.color("black")
-				.attr({w: Game.width(), h: Game.height(), z: 99999 });
-			this.pauseText = Crafty.e('2D, Canvas, Text')
-				.textFont({size: '24px'})
-				.textColor('FFFFFF')
-				.attr({ x: -Crafty.viewport.x, y: -Crafty.viewport.y, z: 100000 })
-				.text("HI MOMZ");
+		//isPaused = (typeof(isPaused) == 'undefined' ? false : !isPaused);
+		//if (!isPaused) {
+			if (typeof(this.blackout) == 'undefined') {
+				this.blackout = Crafty.e('2D, Canvas, Color')
+					.color("black")
+					.attr({w: Game.width(), h: Game.height(), z: 99999 });			
 				
+				this.pauseText = Crafty.e('2D, Canvas, Text')
+					.textFont({size: '24px'})
+					.textColor('FFFFFF')
+					.attr({ x: -Crafty.viewport.x, y: -Crafty.viewport.y, z: 100000 });
+			}
+			
 			this.blackout.alpha = 0.5;
-			console.debug("Pausing");
+			this.pauseText.text("Paused.");
+
+			
 		} else {
-			this.blackout.destroy();
+			this.blackout.alpha = 0;
 			this.pauseText.text("");
-			console.debug("Resuming");
 		}
-		Crafty.pause();
+		
+		// Crafty pauses too fast. Wait for a few milliseconds.
+		setTimeout(function() {
+			Crafty.pause();
+		}, 25);		
 	},
 	
 	width: function() {
