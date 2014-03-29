@@ -130,7 +130,7 @@ Crafty.scene('TitleScreen', function() {
 			logo.unbind('TweenEnd')
 			.tween(null, 1000)
 			.bind('TweenEnd', function() {
-				// Then, fade out for 1s
+				// Then, fade out for 1s    
 				logo.unbind('TweenEnd')
 				.tween({ alpha: 0.0 }, 1000)			
 				.bind('TweenEnd', function() {
@@ -141,11 +141,7 @@ Crafty.scene('TitleScreen', function() {
 		});
 	
 	logo.bind('Click', function() {		
-		logo.tween({ alpha: 0.0 }, 500)			
-		.bind('TweenEnd', function() {
-			// Then, change scenes						
-			Crafty.scene('Map');
-		});
+		logo.tween({ alpha: 0.0 }, 500);
 	});
 });
 
@@ -157,11 +153,23 @@ Crafty.scene('Map', function() {
 	Game.player = player;
     
     Crafty.e('Fps');
-    var gameTime = Crafty.e('GameTime').begin("6:00").timePerSecond(30);
-    
-    Crafty.e('Delay').delay(function() { 
-		console.debug(new Date() + " | The time is now " + gameTime.hour + ":" + gameTime.minute);
-	}, 60000, -1);
+    var startTime = "6:00";
+    var gameTime = Crafty.e('GameTime').timePerSecond(24).begin(startTime);
+            
+    // 24s per second = 12 hours game time in 30 minutes
+    var gameTimeDisplay = Crafty.e('2D, Canvas, Text')
+		.textFont({size: '18px'})
+		.textColor('FFFFFF')
+		.attr({ w: 64, z: 999 })
+		.text(startTime)
+		.bind("EnterFrame", function() {
+			this.x = Game.view.width - Crafty.viewport.x - 40;
+			this.y = -Crafty.viewport.y + 4;
+            this.text.y = -Crafty.viewport.y + 4;
+		})
+		.bind("GameTimeChanged", function() {
+			this.text(gameTime.hour + ":" + (gameTime.minute < 10 ? "0" + gameTime.minute : gameTime.minute));
+		});
     
 	var startingMap = "worldMap";
 	var map = Game.maps[startingMap]

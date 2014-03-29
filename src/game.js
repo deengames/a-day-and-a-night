@@ -46,7 +46,10 @@ Game = {
 				this.pauseText = Crafty.e('2D, Canvas, Text')
 					.textFont({size: '24px'})
 					.textColor('FFFFFF')
-					.attr({ x: -Crafty.viewport.x, y: -Crafty.viewport.y, z: 100000 });
+					.attr({
+						x: -Crafty.viewport.x + (Game.view.width - 100) / 2,
+						y: -Crafty.viewport.y + (Game.view.height - 32) / 2,
+						z: 100000 });
 			}
 			
 			this.blackout.alpha = 0.5;

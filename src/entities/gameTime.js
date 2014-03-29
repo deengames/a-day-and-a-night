@@ -1,9 +1,15 @@
+// Emits a "GameTimeChanged" event when time changes
+// timePerSecond is how many seconds of game time pass per 1s of real time
+// Use the .hour and .minute properties to tell the current time.
 Crafty.c('GameTime', {
 	
 	init: function() {		
-		this.timer = this.requires('Delay');			
+		this._timer = this.requires('Delay');
+		this.hour = 0;
+		this.minute = 0;	
 	},
 	
+	// How much game time elapses per second of realtime?
 	timePerSecond: function(seconds) {
 		this.timePerSecond = seconds;
 		return this;
@@ -16,19 +22,31 @@ Crafty.c('GameTime', {
 		}
 		var match = timeRegex.exec(timeString);
 		
-		this.startHour = parseInt(match[1]);
-		this.startMinute = parseInt(match[2]);
+		this._startHour = parseInt(match[1]);
+		this._startMinute = parseInt(match[2]);
+		
+		this.hour = this._startHour;
+		this.minute = this._startMinute;
+		
 		this.elapsedMilliseconds = 0;
 		
-		this.timer.delay(function() {
+		this._timer.delay(function() {
 			this.elapsedMilliseconds += 1000 * this.timePerSecond;
 			var elapsedSeconds = this.elapsedMilliseconds / 1000;
-			var elapsedMinutes = elapsedSeconds / 60;
-			var elapsedHours = elapsedMinutes / 60;
+			var elapsedMinutes = this.elapsedMilliseconds / (1000 * 60);
+			var elapsedHours = elapsedMinutes / (1000 * 60 * 60);
 						
-			var minute = Math.floor(this.startMinute + elapsedMinutes);
-			this.hour = Math.floor(this.startHour + (elapsedMinutes / 60)) % 24;
-			this.minute = minute % 60;
+			var prevMinute = this.minute;
+			var prevHour = this.hour;
+			
+			var minute = Math.floor(this._startMinute + elapsedMinutes);
+			this.hour = (this._startHour + Math.floor(elapsedMinutes / 60)) % 24;
+			this.minute = minute % 60;			
+			
+			if (this.minute != prevMinute || this.hour != prevHour) {
+				Crafty.trigger("GameTimeChanged");
+			}
+			
 		}, 1000, -1);
 		
 		return this;		
