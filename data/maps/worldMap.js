@@ -40,7 +40,7 @@ function worldMap() {
 				],
 				initialize: function(me, player) {					
 					me.interact = me.talk;
-				}				
+				}
 			},
 			{
 				type: 'WalkingNpc',
@@ -53,7 +53,11 @@ function worldMap() {
 					if (times == null) {
 						times = { times: 0 };
 					}
-					times.times += 1;					
+					times.times += 1;
+					
+					//Crafty('PointsManager').trigger('PointsEvent', { event: "Socialized", points: 1 });
+					Crafty('PointsManager').event("Socialized", 1);
+					
 					store.set('times_talked', times);
 					return 'You talked to me ' + times.times + ' times!';
 				}
@@ -64,7 +68,7 @@ function worldMap() {
 				x: 18, y: 18,	
 				components: 'PositionalAudio',				
 				initialize: function(me, player) {
-					me.PositionalAudio('chicken', 5, player);
+					me.audio('chicken', 5, player);
 					me.play();
 				}
 			},
@@ -74,7 +78,7 @@ function worldMap() {
 				x: 20, y: 15,	
 				components: 'PositionalAudio',				
 				initialize: function(me, player) {
-					me.PositionalAudio('chicken2', 5, player);
+					me.audio('chicken2', 5, player);
 					me.play();
 				}
 			},

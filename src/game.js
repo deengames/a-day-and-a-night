@@ -36,8 +36,6 @@ Game = {
 	
 	pause: function() {
 		if (!Crafty.isPaused()) {
-		//isPaused = (typeof(isPaused) == 'undefined' ? false : !isPaused);
-		//if (!isPaused) {
 			if (typeof(this.blackout) == 'undefined') {
 				this.blackout = Crafty.e('2D, Canvas, Color')
 					.color("black")
@@ -53,7 +51,7 @@ Game = {
 			}
 			
 			this.blackout.alpha = 0.5;
-			this.pauseText.text("Paused.");
+			this.pauseText.text(Crafty('PointsManager').totalPoints() + " points");
 
 			
 		} else {
@@ -61,7 +59,7 @@ Game = {
 			this.pauseText.text("");
 		}
 				
-		// Crafty pauses too fast. Wait for a few milliseconds.
+		// Crafty pauses too fast. Draw first.
 		Crafty.trigger("RenderScene");		
 		Crafty.pause();		
 	},

@@ -22,7 +22,8 @@ Crafty.scene('Loading', function() {
 		// UI
 		gameUrl + '/assets/images/message-window.png', gameUrl + '/assets/images/choice-box.png',
 		// Sounds
-		gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/audio/chicken.mp3', gameUrl + '/assets/audio/chicken2.mp3'],
+		gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/audio/chicken.mp3', gameUrl + '/assets/audio/chicken2.mp3',
+		gameUrl + '/assets/audio/points-positive.mp3', gameUrl + '/assets/audio/points-negative.mp3'],
 		
 	function() {
 		
@@ -74,7 +75,9 @@ Crafty.scene('Loading', function() {
 		Crafty.audio.add({
 			outside: [gameUrl + '/assets/audio/birds.mp3'], 
 			chicken: [gameUrl + '/assets/audio/chicken.mp3'],
-			chicken2: [gameUrl + '/assets/audio/chicken2.mp3']
+			chicken2: [gameUrl + '/assets/audio/chicken2.mp3'],
+			pointsPos: [gameUrl + '/assets/audio/points-positive.mp3'],
+			pointsNeg: [gameUrl + '/assets/audio/points-negative.mp3'],
 			// tone: [gameUrl + '/assets/audio/tone.mp3']
 		});
 		
@@ -153,9 +156,11 @@ Crafty.scene('Map', function() {
 	Game.player = player;
     
     Crafty.e('Fps');
+    Crafty.e("PointsManager");
+    
     var startTime = "6:00";
     var gameTime = Crafty.e('GameTime').timePerSecond(24).begin(startTime);
-            
+    
     // 24s per second = 12 hours game time in 30 minutes
     var gameTimeDisplay = Crafty.e('2D, Canvas, Text')
 		.textFont({size: '18px'})
@@ -163,13 +168,13 @@ Crafty.scene('Map', function() {
 		.attr({ w: 64, z: 999 })
 		.text(startTime)
 		.bind("EnterFrame", function() {
-			this.x = Game.view.width - Crafty.viewport.x - 40;
+			this.x = Game.view.width - Crafty.viewport.x - 48;
 			this.y = -Crafty.viewport.y + 4;
             this.text.y = -Crafty.viewport.y + 4;
 		})
 		.bind("GameTimeChanged", function() {
 			this.text(gameTime.hour + ":" + (gameTime.minute < 10 ? "0" + gameTime.minute : gameTime.minute));
-		});
+	});    
     
 	var startingMap = "worldMap";
 	var map = Game.maps[startingMap]

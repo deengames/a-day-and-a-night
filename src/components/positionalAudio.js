@@ -1,7 +1,7 @@
 Crafty.c('PositionalAudio', {
 
 	// AudioID: from Crafty.audio.add
-	PositionalAudio: function(audioId, radius) {		
+	audio: function(audioId, radius) {		
 		this.requires('Actor');
 		
 		this.audioId = audioId;
