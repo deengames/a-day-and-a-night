@@ -46,7 +46,6 @@ Game = {
 			
 			this.blackout.alpha = 0.5;
 			this.pauseText.text(Crafty('PointsManager').totalPoints() + " points");
-
 			
 		} else {
 			this.blackout.alpha = 0;

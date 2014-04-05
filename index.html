@@ -76,8 +76,7 @@
 				var scriptElement = document.createElement('script');
 				scriptElement.type = 'text/javascript';
 				scriptElement.src = file + '?' + (new Date).getTime();
-				document.getElementsByTagName('head')[0].appendChild(scriptElement);
-				console.debug("Reloaded " + file);
+				document.getElementsByTagName('head')[0].appendChild(scriptElement);				
 			}			
 			
 			window.addEventListener('load', Game.start);
@@ -85,6 +84,10 @@
 		</script>
 	</head>
 	<body>	
-		<div id='cr-stage'></div>	
+		<div id='cr-stage'></div>
+		<input value="list maps" type="submit" onclick="console.debug('Maps:'); var maps = document.getElementsByTagName('script'); for (var i = 0; i < maps.length; i++) { var m = maps[i].src; if (m.indexOf('data/maps') !== -1) { console.debug(m.substring(m.lastIndexOf('/') + 1, m.lastIndexOf('.'))); } }" />
+		<input type="text" id="mapName" />
+		<input value="change map" type="submit" onclick="loadMap(document.getElementById('mapName').value)" />
+		<input value="reload current map" type="submit" onclick="reloadMap()" />
 	</body>
 </html>
