@@ -38,7 +38,7 @@ Crafty.c('Player', {
 		
 		this.bind('KeyDown', function(data) {
 			if (data.key == Crafty.keys.ESC) {
-				Game.pause();				
+				Game.pause();
 			}
 		});
 	},

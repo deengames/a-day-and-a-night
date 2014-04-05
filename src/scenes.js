@@ -176,9 +176,9 @@ Crafty.scene('Map', function() {
 			this.text(gameTime.hour + ":" + (gameTime.minute < 10 ? "0" + gameTime.minute : gameTime.minute));
 	});    
     
-	var startingMap = "worldMap";
-	var map = Game.maps[startingMap]
+	var startingMap = "worldMap";	
 	Game.showMap(startingMap);
+	var map = Game.currentMap;
 	
 	player.size(map.tile.width, map.tile.height);
 	player.move(3, 3);	

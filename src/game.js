@@ -12,12 +12,6 @@ Game = {
 		height: 134
 	},
 
-	// Load all the maps
-	maps: {
-		"worldMap": worldMap(),
-		"house1": house1()
-	},
-	
 	// Initialize and start our game
 	start: function() {		
 		// Disable scrolling so people can't scroll the browser screen with arrows.
@@ -94,10 +88,11 @@ Game = {
 		this.gameObjects = [];
 		
 		if (typeof(this.currentMap) != 'undefined') {
-			Crafty.audio.stop(this.currentMap.audio);
+			Crafty.audio.stop(this.currentMap.audio);			
 		}
-		
-		this.currentMap = this.maps[map];
+				
+		this.currentMap = eval(map + "()");		
+		this.currentMap.fileName = map;
 		
 		if (this.currentMap.audio != null) {			
 			Crafty.audio.play(this.currentMap.audio, -1);

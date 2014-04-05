@@ -51,6 +51,35 @@
 				gameUrl = "file://" + gameUrl;
 			}
 			
+			// Reloads the curernt map
+			function reloadMap() {				
+				var mapName = Game.currentMap.fileName;
+				loadMap(mapName);
+			}
+			
+			// Reloads a new map. eg. loadMap("house1")
+			function loadMap(mapName) {
+				reload("data/maps/" + mapName + ".js");				
+				// Not sure why, but the function doesn't re-evaluate
+				// to the new value until this function call ends.
+				// (eg. worldMap()) -- changing maps works though.
+				setTimeout(function() {
+					Game.showMap(mapName);
+					Game.player.move(3, 3);
+				}, 10);				
+			}
+			
+			// private method
+			// MOAR debugz: reload scripts on-the-fly
+			// http://stackoverflow.com/questions/5285006/is-there-a-way-to-refresh-just-the-javascript-include-while-doing-development			
+			function reload(file) {								
+				var scriptElement = document.createElement('script');
+				scriptElement.type = 'text/javascript';
+				scriptElement.src = file + '?' + (new Date).getTime();
+				document.getElementsByTagName('head')[0].appendChild(scriptElement);
+				console.debug("Reloaded " + file);
+			}			
+			
 			window.addEventListener('load', Game.start);
 			var debug = true;
 		</script>

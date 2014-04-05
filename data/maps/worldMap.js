@@ -54,8 +54,7 @@ function worldMap() {
 						times = { times: 0 };
 					}
 					times.times += 1;
-					
-					//Crafty('PointsManager').trigger('PointsEvent', { event: "Socialized", points: 1 });
+										
 					Crafty('PointsManager').event("Socialized", 1);
 					
 					store.set('times_talked', times);
