@@ -72,7 +72,16 @@
 			// private method
 			// MOAR debugz: reload scripts on-the-fly
 			// http://stackoverflow.com/questions/5285006/is-there-a-way-to-refresh-just-the-javascript-include-while-doing-development			
-			function reload(file) {								
+			function reload(file) {
+				// Delete old instances first
+				var scripts = document.getElementsByTagName('script');
+				for (var i = 0; i < scripts.length; i++) {
+					var s = scripts[i];
+					if (s.src.indexOf(file) !== -1) {
+						document.getElementsByTagName('head')[0].removeChild(s);
+					}
+				}
+										
 				var scriptElement = document.createElement('script');
 				scriptElement.type = 'text/javascript';
 				scriptElement.src = file + '?' + (new Date).getTime();
