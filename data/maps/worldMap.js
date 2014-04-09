@@ -35,7 +35,7 @@ function worldMap() {
 				x: 2, y: 1,				
 				messages: [
 					[{ text: '... A mushroom? Growing here, near the borders of the town? ... Hmm ...', character: 'hero' },
-					"Mushroom: BITE ME!",
+					"Mushroom:l BITE ME!",
 					{ text: '?!', character: 'hero' }]
 				],
 				initialize: function(me, player) {					
@@ -43,8 +43,18 @@ function worldMap() {
 				}
 			},
 			{
+				type: '2D',
+				components: 'Actor, Interactive, Solid, Collision, Interactive',
+				sprite: 'shield',
+				x: 10, y: 8,
+				onInteract: function() {
+					Game.removeFromMap(this);
+					Crafty('Player').inventory.add('Shield');
+				}
+			},
+			{
 				type: 'WalkingNpc',
-				sprite: 'sprite_npc1',				
+				sprite: 'sprite_npc1',
 				x: 18, y: 11,
 				velocity: { x: 90, y: 0 },
 				onTalk: function() {
@@ -69,6 +79,18 @@ function worldMap() {
 				initialize: function(me, player) {
 					me.audio('chicken', 5, player);
 					me.play();
+				}
+			},
+			{
+				type: 'Npc',
+				sprite: 'knight',
+				x: 20, y: 10,
+				onTalk: function() {
+					if (Crafty('Player').inventory.contains("Shield")) {
+						return "I LIKE SHIELDZ."
+					} else {
+						return 'I LIKE SWORDS.'
+					}
 				}
 			},
 			{

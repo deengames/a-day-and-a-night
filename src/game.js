@@ -204,6 +204,16 @@ Game = {
 		return minObject;
 	},
 	
+	removeFromMap: function(object) {
+		var index = this.gameObjects.indexOf(object);
+		if (index > -1) {
+			this.gameObjects[index].destroy();
+			this.gameObjects.slice(index, 1);
+		} else {
+			console.debug("Can't find object " + object + " to remove from game.");
+		}
+	},
+	
 	///// HELPER FUNCTIONZ /////
 	
 	createObjectFrom: function(def, player) {
@@ -232,6 +242,10 @@ Game = {
 			if (obj.velocity == null) {
 				throw new Error("Walking NPC defined without velocity. Use normal NPC instead.");
 			}
+		}
+		
+		if (typeof(def.onInteract) != 'undefined') {
+			obj.interact = def.onInteract;
 		}
 		
 		this.initializeAndAdd(def, obj, player);
