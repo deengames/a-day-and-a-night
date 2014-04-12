@@ -96,6 +96,9 @@ Game = {
 		if (this.currentMap.audio != null) {			
 			Crafty.audio.play(this.currentMap.audio, -1);
 		}
+        
+        // Make sure game-time tint is up to date
+        Crafty.trigger('GameTimeChanged');
 		
 		for (var y = 0; y < this.currentMap.height; y++) {
 			for (var x = 0; x < this.currentMap.width; x++) {

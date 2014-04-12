@@ -50,5 +50,9 @@ Crafty.c('GameTime', {
 		}, 1000, -1);
 		
 		return this;		
-	}
+	},
+    
+    toString: function() {
+        return this.hour + ":" + this.minute;
+    }
 });

@@ -189,9 +189,9 @@ Crafty.scene('Map', function() {
             this.text.y = -Crafty.viewport.y + 4;
 		})
 		
-		.bind("GameTimeChanged", function() {			
-			if (Game.currentMap.fileName == 'worldMap') {			
-				this.text(gameTime.hour + ":" + (gameTime.minute < 10 ? "0" + gameTime.minute : gameTime.minute));
+		.bind("GameTimeChanged", function() {	
+			this.text(gameTime.hour + ":" + (gameTime.minute < 10 ? "0" + gameTime.minute : gameTime.minute));
+            if (Game.currentMap.fileName == 'worldMap') {
 				// OVERALL TIME STRATEGY:
 				// 5am to 7am: morning (sky lightens)
 				// 7am to 6pm: nothing
