@@ -59,12 +59,17 @@ Game = {
             .attr({ z: this.blackout.z + 1 });
         this.inventoryIcon.x = -Crafty.viewport.x + 100;
         this.inventoryIcon.y = -Crafty.viewport.y + Game.view.height - this.inventoryIcon.h - 100;
+        this.inventoryIcon.bind('Click', function() {
+        });
         
         this.achievementsIcon = Crafty.e('2D, Canvas, Image, Mouse')
             .image(gameUrl + '/assets/images/achievements-icon.png')
             .attr({ z: this.blackout.z + 1 });
         this.achievementsIcon.x = -Crafty.viewport.x + Game.view.width - this.achievementsIcon.w - 100;
         this.achievementsIcon.y = -Crafty.viewport.y + Game.view.height - this.achievementsIcon.h - 100;
+        this.achievementsIcon.bind('Click', function() {
+            console.debug("Achievements coming soon.");
+        });
         
         this.blackout.alpha = 0.5;
         this.pauseText.text(Crafty('PointsManager').totalPoints() + " points");
@@ -272,6 +277,10 @@ Game = {
 		if (typeof(def.onInteract) != 'undefined') {
 			obj.interact = def.onInteract;
 		}
+        
+        if (typeof(def.name) != 'undefined') {
+            obj.name = def.name;
+        }
 		
 		this.initializeAndAdd(def, obj, player);
 	},

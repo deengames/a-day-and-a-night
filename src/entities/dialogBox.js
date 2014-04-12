@@ -4,7 +4,7 @@ Crafty.c('DialogBox', {
 		this.requires('2D, Canvas, Image, Text')			
 			.image(gameUrl + '/assets/images/message-window.png')
 			.attr({
-				z: 999,
+				z: 20000,
 				// Initialized here? w/h values are not set, sadly.
 				// Hence, hard-coding. Sorry, old bean.		
 				w: Game.view.width, h: Game.view.height / 4
@@ -13,7 +13,7 @@ Crafty.c('DialogBox', {
 		this.text = Crafty.e('2D, DOM, Text')			
 			.textFont({size: '24px'})
 			.textColor('FFFFFF')
-			.attr({ w: Game.view.width - 32, z: 999 });
+			.attr({ w: Game.view.width - 32, z: 20000 });
 		
 		this.avatar = Crafty.e('2D, Canvas, Image')
 			.attr({

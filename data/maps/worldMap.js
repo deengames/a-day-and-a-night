@@ -46,10 +46,11 @@ function worldMap() {
 				type: '2D',
 				components: 'Actor, Interactive, Solid, Collision, Interactive',
 				sprite: 'shield',
+                name: 'shield',
 				x: 10, y: 8,
 				onInteract: function() {
 					Game.removeFromMap(this);
-					Crafty('Player').inventory.add('Shield');
+					Crafty('Player').inventory.add(this);
 				}
 			},
 			{
