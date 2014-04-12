@@ -13,6 +13,9 @@ Crafty.c('Door', {
 				if (hit.has('Player') && Math.abs(overlap) >= 11) {
 					var self = this;
 					Game.player.freeze();
+					if (typeof(dialog) != 'undefined') {
+						dialog.close();
+					}					
 					this.transitioned = true; // Don't register more than once
 					Game.fadeOut();
 					window.setTimeout(function() {						

@@ -75,7 +75,7 @@ Game = {
 		}
 	},
 	
-	showMap: function(map) {
+	showMap: function(map) {		
 		// Destroy old stuff
 		if (this.gameObjects != null) {
 			for (var i = 0; i < this.gameObjects.length; i++) {

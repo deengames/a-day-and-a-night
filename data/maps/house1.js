@@ -26,7 +26,7 @@ function house1() {
 				type: 'Npc',
 				sprite: 'sprite_npc3',
 				messages: ["Isn't my house awesome?", "Do you like my house?"],
-				x: 6, y: 6
+				x: 2, y: 2
 			},
 		]
 	};
