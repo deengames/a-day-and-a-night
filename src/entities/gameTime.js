@@ -16,7 +16,7 @@ Crafty.c('GameTime', {
 	},
 	
 	begin: function(timeString) {
-		var timeRegex = /(\d):(\d\d)/;
+		var timeRegex = /(\d\d?):(\d\d)/;
 		if (!timeRegex.test(timeString)) {
 			throw new Error("Please enter a valid starting time in the format h:mm (not: " + timeString + ")");
 		}
