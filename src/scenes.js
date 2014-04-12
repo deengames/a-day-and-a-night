@@ -166,17 +166,12 @@ Crafty.scene('Map', function() {
     
     Crafty.e('Fps');
     Crafty.e("PointsManager");
-    
-    var blend = Crafty.e('2D, Color, Canvas, Blend') // Blend = tag		
-		.color("rgb(0, 0, 128)")
-		.attr({alpha: 0.5});
-	
     var startTime = "5:00";
     
     // 24s per second = 12h game time in 30m
     // 30s per second = 15h game time in 30m
     // 20s per second = 15h game time in 45m
-    var gameTime = Crafty.e('GameTime').timePerSecond(30).begin(startTime);
+    var gameTime = Crafty.e('GameTime').timePerSecond(30).begin(startTime).tintWithTime();
     
     var gameTimeDisplay = Crafty.e('2D, Canvas, Text')
 		.textFont({size: '18px'})
@@ -187,84 +182,15 @@ Crafty.scene('Map', function() {
 			this.x = Game.view.width - Crafty.viewport.x - 48;
 			this.y = -Crafty.viewport.y + 4;
             this.text.y = -Crafty.viewport.y + 4;
-		})
-		
-		.bind("GameTimeChanged", function() {	
+		}).bind("GameTimeChanged", function() {	
 			this.text(gameTime.hour + ":" + (gameTime.minute < 10 ? "0" + gameTime.minute : gameTime.minute));
-            if (Game.currentMap.fileName == 'worldMap') {
-				// OVERALL TIME STRATEGY:
-				// 5am to 7am: morning (sky lightens)
-				// 7am to 6pm: nothing
-				// 6pm to 8pm: sunset (orange)
-				// 8pm to 10pm: fade to night
-				// 10pm to 5am: night (dark blue)
-				// NOTE: consistent, 120m transitions
-				
-				if (gameTime.hour >= 5 && gameTime.hour < 7) {
-                    // Sky lightens to 7am		
-					var elapsedMins = ((gameTime.hour - 5) * 60) + gameTime.minute;
-					var blue = Math.round(128 - elapsedMins);
-					if (blue <= 0) {
-						blue = 0;
-					}
-					blend.attr({ alpha: blue / 255 });
-					blend.color("rgb(0, 0, " + blue + ")");
-					blend.attr({ alpha: blue / 255 });					
-				} else if (gameTime.hour >= 18 && gameTime.hour < 20) {					
-                    // Sunset from 6-8pm
-					var remainingMins = ((20 - gameTime.hour) * 60) - gameTime.minute;
-					var red = Math.round(128 - remainingMins);
-					var green = Math.round(red / 2);
-					
-					if (red > 128) {
-						red = 128;
-					}
-					blend.attr({ alpha: red / 255 });
-					blend.color("rgb(" + red + ", " + green + ", 0)");
-				} else if (gameTime.hour >= 20 && gameTime.hour < 22) {
-                    // Fade to night from 8pm to 10pm
-					var remainingMins = ((22 - gameTime.hour) * 60) - gameTime.minute;
-					var elapsedMins = ((gameTime.hour - 20) * 60) + gameTime.minute;
-					// Red from 128 to 0
-					red = 128 - Math.round((elapsedMins/120)*128);
-                    if (red < 0) {
-                        red = 0;
-                    }
-					// Blue from 0 to 64
-					blue = Math.round((elapsedMins / 120) * 64);
-					if (blue > 64) {
-                        blue = 64;
-                    }
-                    alpha = 0.5 + ((elapsedMins / 120) * 0.2);
-                    if (alpha > 0.7) {
-                        alpha = 0.7;
-                    }
-					blend.attr({ alpha: alpha });
-					blend.color("rgb(" + red + ", 0, " + blue + ")");
-				} else if (gameTime.hour >= 22 || gameTime.hour < 4) {
-                    // dead of night
-                    blend.color("rgb(0, 0, 64)");
-					blend.attr({alpha: 0.7});
-				} else if (gameTime.hour >= 4 && gameTime.hour <= 5) {
-                    // Smooth transition from night to day
-					// Blue: from 64 to 128
-					blue = 64 + Math.round((gameTime.minute / 60) * 64);
-					blend.color("rgb(0, 0, " + blue + ")");
-					blend.attr({alpha: 0.7 - (gameTime.minute / 60) * 0.2});
-				// Daylight hours
-				} else {				
-					blend.attr({ alpha: 0 });
-				}
-			} else {
-				blend.attr({ alpha: 0 });
-			}			
-	});    
+        });
     
 	var startingMap = "worldMap";	
 	Game.showMap(startingMap);
 	var map = Game.currentMap;
 	
-	blend.attr({w: Game.width(), h: Game.height(), z: 9999})
+	gameTime.setTintSize(Game.width(), Game.height());
 	player.size(map.tile.width, map.tile.height);
 	player.move(3, 3);	
 	
