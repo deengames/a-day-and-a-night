@@ -42,6 +42,7 @@ Crafty.c('DialogBox', {
 				var dSquared = Math.pow(this.source.x - player.x, 2) + Math.pow(this.source.y - player.y, 2);								
 				if (dSquared >= limit) {					
 					this.close();
+					this.destroyChoiceBox();
                     delete closeNextKeyPress;
 				}
 			}
@@ -97,7 +98,7 @@ Crafty.c('DialogBox', {
 					throw new Error("Choices and responses should be equal in number; got " + choices.length + " choices and " + responses.length + " responses.");
 				}
 				
-				var choiceBox = Crafty.e('2D, Canvas, Image')
+				this.choiceBox = Crafty.e('2D, Canvas, Image')
 					.image(gameUrl + '/assets/images/choice-box.png')
 					.attr({ x: (Game.view.width - 200) / 2, y: Game.view.height / 4, z: this.z + 1 });
 				
@@ -110,41 +111,34 @@ Crafty.c('DialogBox', {
 				// ...
 				// n) 21 + 28n
 				// Or we could, you know, create one text per item. :)
-				var choiceText = Crafty.e('2D, DOM, Text')
+				this.choiceText = Crafty.e('2D, DOM, Text')
 					.textFont({size: '24px'})
 					.textColor('FFFFFF')
 					.text(choices.join('<br />'))
-					.attr({x: choiceBox.x + 11, y: choiceBox.y + 11, z: choiceBox.z + 2})
-					.attr({w: choiceBox.w - 32, h: choiceBox.h - 32 });
+					.attr({x: this.choiceBox.x + 11, y: this.choiceBox.y + 11, z: this.choiceBox.z + 2})
+					.attr({w: this.choiceBox.w - 32, h: this.choiceBox.h - 32 });
 					
 				// Fix issue where you pressing space to show the choices, and
 				// the first choice is automatically picked.
-				var chose = false; 
+				var chose = false;				
 				
-				var selectionBox = Crafty.e('2D, Canvas, Color')
+				this.selectionBox = Crafty.e('2D, Canvas, Color')
 					.color('rgb(192, 225, 255)')
 					// 26, not 24, because we pad by 2px.
 					// Other places, 28, pad by 4 (2 + 2)
-					.attr({x: choiceText.x - 2, y: choiceText.y, z: choiceText.z - 1 })
-					.attr({w: choiceText.w + 4, h: 26 })
+					.attr({x: this.choiceText.x - 2, y: this.choiceText.y, z: this.choiceText.z - 1 })
+					.attr({w: this.choiceText.w + 4, h: 26 })
 					.bind('KeyUp', function(e) {												
-						if (e.key == Crafty.keys.UP_ARROW && selectionBox.y > choiceText.y) {
-							selectionBox.y -= 28;							
-						} else if (e.key == Crafty.keys.DOWN_ARROW && selectionBox.y + 26 <= choiceText.y + 21 + (28 * (choices.length - 1))) {
-							selectionBox.y += 28;							
+						if (e.key == Crafty.keys.UP_ARROW && self.selectionBox.y > self.choiceText.y) {
+							self.selectionBox.y -= 28;							
+						} else if (e.key == Crafty.keys.DOWN_ARROW && self.selectionBox.y + 26 <= self.choiceText.y + 21 + (28 * (choices.length - 1))) {
+							self.selectionBox.y += 28;							
 						} else if (e.key == Crafty.keys.SPACE) {					
 							if (chose) {								
-								var n = Math.floor((selectionBox.y - choiceBox.y) / 26);
-								var decided = choices[n];
-
-								player.unfreeze();
-								choiceBox.destroy();
-								choiceText.destroy();
-								selectionBox.destroy();
-								
-								self.message(responses[n]);
-								self.closeNextKeyPress = true;
-                                delete awaitingChoice;
+								var n = Math.floor((self.selectionBox.y - self.choiceBox.y) / 26);
+								var decided = choices[n];								
+								self.destroyChoiceBox();								
+								self.message(responses[n]);								
 							} else { 
 								chose = true;								
 							}
@@ -157,7 +151,7 @@ Crafty.c('DialogBox', {
 		}
 		this.alpha = 1;
 		this.reposition(this.x, this.y);
-	},
+	},	
 	
 	setSource: function(npc, x, y) {
 		// Changed conversations, maybe in the middle ...
@@ -204,5 +198,16 @@ Crafty.c('DialogBox', {
 		this.source = null;		
 		// If it was a conversation, forget the conversation
 		delete conversationIndex;        
+	},
+	
+	destroyChoiceBox: function() {
+		if (typeof(this.choiceBox) != 'undefined') {
+			this.choiceBox.destroy();		
+			this.choiceText.destroy();
+			this.selectionBox.destroy();
+			this.closeNextKeyPress = true;
+			delete awaitingChoice;
+			player.unfreeze();
+		}
 	}
 });
