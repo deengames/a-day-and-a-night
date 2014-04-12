@@ -167,6 +167,10 @@ Crafty.scene('Map', function() {
     Crafty.e('Fps');
     Crafty.e("PointsManager");
     
+    var blend = Crafty.e('2D, Color, Canvas, Blend') // Blend = tag		
+		.color("rgb(0, 0, 128)")
+		.attr({alpha: 0.5});	
+	
     var startTime = "6:00";
     var gameTime = Crafty.e('GameTime').timePerSecond(24).begin(startTime);
     
@@ -181,23 +185,53 @@ Crafty.scene('Map', function() {
 			this.y = -Crafty.viewport.y + 4;
             this.text.y = -Crafty.viewport.y + 4;
 		})
+		
 		.bind("GameTimeChanged", function() {
-			this.text(gameTime.hour + ":" + (gameTime.minute < 10 ? "0" + gameTime.minute : gameTime.minute));
+			
+			if (Game.currentMap.fileName == 'worldMap') {			
+				this.text(gameTime.hour + ":" + (gameTime.minute < 10 ? "0" + gameTime.minute : gameTime.minute));
+				// Blue night up to 8am
+				// 6-8am = 120m
+				if (gameTime.hour <= 8) {
+					var elapsedMins = ((gameTime.hour - 6) * 60) + gameTime.minute;
+					var blue = 128 - elapsedMins;
+					if (blue <= 0) {
+						blue = 0;
+					}
+					blend.attr({ alpha: blue / 255 });
+					blend.color("rgb(0, 0, " + blue + ")");
+					blend.attr({ alpha: blue / 255 });
+					console.log("e=" + elapsedMins + ", Blend.color=" + blue);
+				// Sunset at 6pm
+				} else if (gameTime.hour >= 16) {					
+					var remainingMins = ((18 - gameTime.hour) * 60) - gameTime.minute;
+					var red = 128 - remainingMins;
+					var green = red / 2;
+					
+					if (red > 128) {
+						red = 128;
+					}
+					
+					blend.attr({ alpha: red / 255 });
+					blend.color("rgb(" + red + ", " + green + ", 0)");
+					console.log("e=" + elapsedMins + ", Blend.color=" + red);					
+				} else {
+					blend.attr({ alpha: 0 });
+				}
+			} else {
+				blend.attr({ alpha: 0 });
+			}			
 	});    
     
 	var startingMap = "worldMap";	
 	Game.showMap(startingMap);
 	var map = Game.currentMap;
 	
+	blend.attr({w: Game.width(), h: Game.height(), z: 9999})
 	player.size(map.tile.width, map.tile.height);
 	player.move(3, 3);	
 	
 	Crafty.viewport.follow(player, 0, 0);
-	
-	/*var blend = Crafty.e('2D, Color, Canvas')
-		.attr({w: Game.width(), h: Game.height(), z: 9999})
-		.color("rgb(128, 64, 0)")
-		.attr({alpha: 0.5});*/
 	
 	// Did the player try to interact with something close by?	
 	// Space to interact with stuff
