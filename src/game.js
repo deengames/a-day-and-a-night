@@ -30,32 +30,54 @@ Game = {
 	
 	pause: function() {
 		if (!Crafty.isPaused()) {
-			if (typeof(this.blackout) == 'undefined') {
-				this.blackout = Crafty.e('2D, Canvas, Color')
-					.color("black")
-					.attr({w: Game.width(), h: Game.height(), z: 99999 });			
-				
-				this.pauseText = Crafty.e('2D, Canvas, Text')
-					.textFont({size: '24px'})
-					.textColor('FFFFFF')
-					.attr({ z: 100000 });
-			}
-						
-			this.pauseText.x = -Crafty.viewport.x + ((Game.view.width - 100) / 2);
-			this.pauseText.y = -Crafty.viewport.y + ((Game.view.height - 32) / 2);
-			
-			this.blackout.alpha = 0.5;
-			this.pauseText.text(Crafty('PointsManager').totalPoints() + " points");
-			
+			this.showPauseScreen();
 		} else {
-			this.blackout.alpha = 0;
-			this.pauseText.text("");
+			this.hidePauseScreen();
 		}
 				
 		// Crafty pauses too fast. Draw first.
-		Crafty.trigger("RenderScene");		
 		Crafty.pause();		
 	},
+    
+    showPauseScreen: function() {
+        if (typeof(this.blackout) == 'undefined') {
+            this.blackout = Crafty.e('2D, Canvas, Color')
+                .color("black")
+                .attr({w: Game.width(), h: Game.height(), z: 99999 });			
+            
+            this.pauseText = Crafty.e('2D, Canvas, Text')
+                .textFont({size: '24px'})
+                .textColor('FFFFFF')
+                .attr({ z: 100000 });
+        }
+        
+        this.pauseText.x = -Crafty.viewport.x + ((Game.view.width - 100) / 2);
+        this.pauseText.y = -Crafty.viewport.y + 150;
+        
+        this.inventoryIcon = Crafty.e('2D, Canvas, Image, Mouse')
+            .image(gameUrl + '/assets/images/inventory-icon.png')
+            .attr({ z: this.blackout.z + 1 });
+        this.inventoryIcon.x = -Crafty.viewport.x + 100;
+        this.inventoryIcon.y = -Crafty.viewport.y + Game.view.height - this.inventoryIcon.h - 100;
+        
+        this.achievementsIcon = Crafty.e('2D, Canvas, Image, Mouse')
+            .image(gameUrl + '/assets/images/achievements-icon.png')
+            .attr({ z: this.blackout.z + 1 });
+        this.achievementsIcon.x = -Crafty.viewport.x + Game.view.width - this.achievementsIcon.w - 100;
+        this.achievementsIcon.y = -Crafty.viewport.y + Game.view.height - this.achievementsIcon.h - 100;
+        
+        this.blackout.alpha = 0.5;
+        this.pauseText.text(Crafty('PointsManager').totalPoints() + " points");
+        Crafty.trigger("RenderScene")
+    },
+    
+    hidePauseScreen: function() {
+        this.blackout.alpha = 0;
+        this.pauseText.text("");
+        this.inventoryIcon.destroy();
+        this.achievementsIcon.destroy();
+   		Crafty.trigger("RenderScene");		
+    },
 	
 	width: function() {
 		// No map loaded? Okay. Lie.

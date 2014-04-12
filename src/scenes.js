@@ -20,6 +20,7 @@ Crafty.scene('Loading', function() {
 		gameUrl + '/assets/images/indoors.png', gameUrl + '/assets/images/objects-outdoors.png',
 		gameUrl + '/assets/images/main-character.png', gameUrl + '/assets/images/old-man-avatar.png', 
 		gameUrl + '/assets/images/knight.png', gameUrl + '/assets/images/shield.png',
+		gameUrl + '/assets/images/inventory-icon.png', gameUrl + '/assets/images/achievements-icon.png',
 		// UI
 		gameUrl + '/assets/images/message-window.png', gameUrl + '/assets/images/choice-box.png',
 		// Sounds
