@@ -174,7 +174,7 @@ Crafty.scene('Map', function() {
     var gameTimeDisplay = Crafty.e('2D, Canvas, Text')
 		.textFont({size: '18px'})
 		.textColor('FFFFFF')
-		.attr({ w: 64, z: 999 })
+		.attr({ w: 64, z: 99999 })
 		.text(startTime)
 		.bind("EnterFrame", function() {
 			this.x = Game.view.width - Crafty.viewport.x - 48;
@@ -193,7 +193,12 @@ Crafty.scene('Map', function() {
 	player.move(3, 3);	
 	
 	Crafty.viewport.follow(player, 0, 0);
-		
+	
+	/*var blend = Crafty.e('2D, Color, Canvas')
+		.attr({w: Game.width(), h: Game.height(), z: 9999})
+		.color("rgb(128, 64, 0)")
+		.attr({alpha: 0.5});*/
+	
 	// Did the player try to interact with something close by?	
 	// Space to interact with stuff
 	this.bind('KeyDown', function(data) {		

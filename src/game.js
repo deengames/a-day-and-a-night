@@ -38,11 +38,11 @@ Game = {
 				this.pauseText = Crafty.e('2D, Canvas, Text')
 					.textFont({size: '24px'})
 					.textColor('FFFFFF')
-					.attr({
-						x: -Crafty.viewport.x + (Game.view.width - 100) / 2,
-						y: -Crafty.viewport.y + (Game.view.height - 32) / 2,
-						z: 100000 });
+					.attr({ z: 100000 });
 			}
+						
+			this.pauseText.x = -Crafty.viewport.x + ((Game.view.width - 100) / 2);
+			this.pauseText.y = -Crafty.viewport.y + ((Game.view.height - 32) / 2);
 			
 			this.blackout.alpha = 0.5;
 			this.pauseText.text(Crafty('PointsManager').totalPoints() + " points");
