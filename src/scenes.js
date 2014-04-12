@@ -169,9 +169,9 @@ Crafty.scene('Map', function() {
     
     var blend = Crafty.e('2D, Color, Canvas, Blend') // Blend = tag		
 		.color("rgb(0, 0, 128)")
-		.attr({alpha: 0.5});	
+		.attr({alpha: 0.5});
 	
-    var startTime = "18:00";
+    var startTime = "5:00";
     
     // 24s per second = 12h game time in 30m
     // 30s per second = 15h game time in 30m
