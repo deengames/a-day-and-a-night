@@ -196,14 +196,20 @@ Crafty.scene('Map', function() {
 		
 	// Did the player try to interact with something close by?	
 	// Space to interact with stuff
-	this.bind('KeyDown', function(data) {
-		if (data.key == Crafty.keys['SPACE']) {			
-			var x = player.gridX();
-			var y = player.gridY();
-						
-			var obj = Game.findAdjacentInteractiveObject(x, y);
-			if (obj != null) {				
-				obj.interact();
+	this.bind('KeyDown', function(data) {		
+		if (data.key == Crafty.keys['SPACE']) {
+			
+			// If there's an open dialog with someone, do that first
+			if (typeof(dialog) != 'undefined' && dialog.source != null) {
+				dialog.source.npc.interact();
+			} else {
+				var x = player.gridX();
+				var y = player.gridY();
+							
+				var obj = Game.findAdjacentInteractiveObject(x, y);
+				if (obj != null) {				
+					obj.interact();
+				}
 			}
 		}
 	});

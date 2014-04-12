@@ -28,7 +28,7 @@ Crafty.c('DialogBox', {
 			this.reposition()
 		});
 		
-		this.bind('KeyDown', function(e) {
+		this.bind('KeyDown', function(e) {			
 			if (typeof(closeNextKeyPress) != 'undefined' && e.key == Crafty.keys.SPACE) {
 				this.close();
                 delete this;
@@ -36,8 +36,8 @@ Crafty.c('DialogBox', {
 		});
 		
 		this.bind('EnterFrame', function() {
-			// 6 tiles squared
-			var limit = 16 * 16 * Game.currentMap.tile.width * Game.currentMap.tile.height;
+			// 8 tiles squared
+			var limit = 8 * 8 * Game.currentMap.tile.width * Game.currentMap.tile.height;
 			if (this.source != null) {
 				var dSquared = Math.pow(this.source.x - player.x, 2) + Math.pow(this.source.y - player.y, 2);								
 				if (dSquared >= limit) {					
@@ -47,6 +47,7 @@ Crafty.c('DialogBox', {
 			}
 		});
 		
+		// Load "characters." These are a combination of name + avatar.
 		if (typeof(characters) != 'undefined') {
 			this.characters = characters();
 		}
@@ -101,11 +102,12 @@ Crafty.c('DialogBox', {
 					.attr({ x: (Game.view.width - 200) / 2, y: Game.view.height / 4, z: this.z + 1 });
 				
 				// TODO: less hacks, more codez.
-				// At 24px, each line is 17px high, plus 11px space
+				// At 24px text size, each line is 17px high, plus 11px space
 				// With Y offset of 11, there are 21px above the first line
 				// Assuming window is at X, the choices are from:
 				// 1) 22-37
 				// 2) 49-64
+				// ...
 				// n) 21 + 28n
 				// Or we could, you know, create one text per item. :)
 				var choiceText = Crafty.e('2D, DOM, Text')
