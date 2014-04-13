@@ -18,7 +18,7 @@ function worldMap() {
 				type: 'Npc',
 				sprite: 'sprite_npc2',
 				messages: [[ { text: 'Do you like apples?', character: 'old man' },  {
-					avatar: "assets/images/old-man-avatar.png",
+					character: 'old man',
 					text: "Well? Speak up!",
 					choices: ['Yes', 'No'],
 					responses: [
@@ -44,7 +44,7 @@ function worldMap() {
 			},
 			{
 				type: '2D',
-				components: 'Actor, Interactive, Solid, Collision, Interactive',
+				components: 'Actor, Interactive, Solid, Collision',
 				sprite: 'shield',
                 name: 'shield',
 				x: 10, y: 8,

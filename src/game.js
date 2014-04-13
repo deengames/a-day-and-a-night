@@ -53,13 +53,16 @@ Game = {
         
         this.pauseText.x = -Crafty.viewport.x + ((Game.view.width - 100) / 2);
         this.pauseText.y = -Crafty.viewport.y + 150;
+        var self = this;
         
         this.inventoryIcon = Crafty.e('2D, Canvas, Image, Mouse')
             .image(gameUrl + '/assets/images/inventory-icon.png')
             .attr({ z: this.blackout.z + 1 });
+            
         this.inventoryIcon.x = -Crafty.viewport.x + 100;
         this.inventoryIcon.y = -Crafty.viewport.y + Game.view.height - this.inventoryIcon.h - 100;
         this.inventoryIcon.bind('Click', function() {
+            self.showInventory();
         });
         
         this.achievementsIcon = Crafty.e('2D, Canvas, Image, Mouse')
@@ -81,7 +84,22 @@ Game = {
         this.pauseText.text("");
         this.inventoryIcon.destroy();
         this.achievementsIcon.destroy();
-   		Crafty.trigger("RenderScene");		
+        
+        this.hideInventory();
+   		Crafty.trigger("RenderScene");
+    },
+    
+    showInventory: function() {
+        this.pauseText.text("");
+        this.inventoryIcon.attr({ alpha: 0 });
+        this.achievementsIcon.attr({ alpha: 0 });
+        
+        Crafty('Player').inventory.show();
+        Crafty.trigger("RenderScene");
+    },
+    
+    hideInventory: function() {
+        Crafty('Player').inventory.hide();
     },
 	
 	width: function() {
@@ -249,12 +267,13 @@ Game = {
 	createObjectFrom: function(def, player) {
 		// Common properties
 		var name = def.type
-		if (def.components != null) {
+		if (typeof(def.components) != 'undefined') {
 			name = name + ', ' + def.components;
 		}
 		
-		var obj = Crafty.e(name + ', ' + def.sprite);
-		obj.size(this.currentMap.tile.width, this.currentMap.tile.height);			
+        var obj = Crafty.e(name + ', ' + def.sprite);
+        obj.spriteName = def.sprite;
+		obj.size(this.currentMap.tile.width, this.currentMap.tile.height);		
 		obj.move(def.x, def.y);
 		
 		// A myriad of objects can talk

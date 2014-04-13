@@ -77,10 +77,10 @@ Crafty.scene('Loading', function() {
 		Crafty.sprite(16, 16, gameUrl + '/assets/images/objects-outdoors.png', {
 			sprite_mushroom: [0, 0]
 		});
-		
-		Crafty.sprite(32, 32, gameUrl + '/assets/images/shield.png', {
-			shield: [0, 0]
-		});
+        
+        Crafty.sprite(32, gameUrl + '/assets/images/shield.png', {
+            shield: [0, 0]
+        });
 		
 		Crafty.audio.add({
 			outside: [gameUrl + '/assets/audio/birds.mp3'], 
@@ -177,7 +177,7 @@ Crafty.scene('Map', function() {
     var gameTimeDisplay = Crafty.e('2D, Canvas, Text')
 		.textFont({size: '18px'})
 		.textColor('FFFFFF')
-		.attr({ w: 64, z: 99999 })
+		.attr({ w: 64, z: 100000 })
 		.text(startTime)
 		.bind("EnterFrame", function() {
 			this.x = Game.view.width - Crafty.viewport.x - 48;
