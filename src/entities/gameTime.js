@@ -54,7 +54,7 @@ Crafty.c('GameTime', {
     
     // Tints the screen to give the appearance of time of day
     tintWithTime: function() {
-        this.blend = Crafty.e('2D, Color, Canvas, Blend') // Blend = tag		
+        this.blend = Crafty.e('Actor, Color') // Blend = tag		
             .color("rgb(0, 0, 128)")
             .attr({alpha: 0.5, z: 9999});
 

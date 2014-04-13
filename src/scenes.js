@@ -174,7 +174,7 @@ Crafty.scene('Map', function() {
     // 20s per second = 15h game time in 45m
     var gameTime = Crafty.e('GameTime').timePerSecond(30).begin(startTime).tintWithTime();
     
-    var gameTimeDisplay = Crafty.e('2D, Canvas, Text')
+    var gameTimeDisplay = Crafty.e('Actor, Text')
 		.textFont({size: '18px'})
 		.textColor('FFFFFF')
 		.attr({ w: 64, z: 100000 })

@@ -27,8 +27,9 @@ Crafty.c('Grid', {
 	}
 });
 
-// An "Actor" is an entity that is drawn in 2D on canvas
-//	via our logical coordinate grid
+// An "Actor" is an entity, and possibly one that is drawn in 2D on canvas
+// via our logical coordinate grid. (This lets us change rendering engines
+// globally, and quickly, too)
 Crafty.c('Actor', {
 	init: function() {
 		this.requires('2D, Canvas, Grid');

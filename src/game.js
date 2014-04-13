@@ -41,11 +41,11 @@ Game = {
     
     showPauseScreen: function() {
         if (typeof(this.blackout) == 'undefined') {
-            this.blackout = Crafty.e('2D, Canvas, Color')
+            this.blackout = Crafty.e('Actor, Color')
                 .color("black")
                 .attr({w: Game.width(), h: Game.height(), z: 99999 });			
             
-            this.pauseText = Crafty.e('2D, Canvas, Text')
+            this.pauseText = Crafty.e('Actor, Text')
                 .textFont({size: '24px'})
                 .textColor('FFFFFF')
                 .attr({ z: 100000 });
@@ -55,7 +55,7 @@ Game = {
         this.pauseText.y = -Crafty.viewport.y + 150;
         var self = this;
         
-        this.inventoryIcon = Crafty.e('2D, Canvas, Image, Mouse')
+        this.inventoryIcon = Crafty.e('Actor, Image, Mouse')
             .image(gameUrl + '/assets/images/inventory-icon.png')
             .attr({ z: this.blackout.z + 1 });
             
@@ -65,7 +65,7 @@ Game = {
             self.showInventory();
         });
         
-        this.achievementsIcon = Crafty.e('2D, Canvas, Image, Mouse')
+        this.achievementsIcon = Crafty.e('Actor, Image, Mouse')
             .image(gameUrl + '/assets/images/achievements-icon.png')
             .attr({ z: this.blackout.z + 1 });
         this.achievementsIcon.x = -Crafty.viewport.x + Game.view.width - this.achievementsIcon.w - 100;
@@ -147,7 +147,7 @@ Game = {
 		
 		for (var y = 0; y < this.currentMap.height; y++) {
 			for (var x = 0; x < this.currentMap.width; x++) {
-				var bg = Crafty.e('2D, Grid, Canvas, ' + this.currentMap.background);
+				var bg = Crafty.e('Actor, Canvas, ' + this.currentMap.background);
 				bg.size(this.currentMap.tile.width, this.currentMap.tile.height);			
 				bg.move(x, y);
 				bg.z = -1;
@@ -156,7 +156,7 @@ Game = {
 		}
 		
 		if (this.fade == null) {
-			this.fade = Crafty.e('2D, Canvas, Color, Tween')
+			this.fade = Crafty.e('Actor, Color, Tween')
 				.attr({w: Game.width(), h: Game.height(), z: 99999 })
 				.color('black');			
 		}

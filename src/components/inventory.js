@@ -50,12 +50,13 @@ Crafty.c('Inventory', {
         for (var i = 0; i < this.contents.length; i++) {
             var item = this.contents[i];
             var e = Crafty.e('Actor, ' + item.spriteName)
-                // Max: 5x5. Yes, really. Assume 100x100. Use spacing, and pad 10px;
-                // x total: 800, -500 item, -50 padding; 250 left (125/side)
-                .attr({ x: (i % 5 * 100) + (10 * (i % 5)) + 125,
-                        y: (i / 5 * 100) + (i/5 * 10) + 25,
-                        w: 100,
-                        h: 100 });
+                // Max: 5x5. Yes, really. Assume 64x64. Use spacing, and pad 10px;
+                // x total: 800. Each item is 64x64 with 32x32 padding.
+                // Leftovers goes into overall centering; hence +160, +60
+                .attr({ x: i % 5 * (64 + 32) + 160,
+                        y: i / 5 * (64 + 32) + 60,
+                        w: 64,
+                        h: 64 });
             e.z = 100000;
             this.ui.push(e);
         }

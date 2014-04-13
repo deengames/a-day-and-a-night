@@ -1,7 +1,7 @@
 Crafty.c('DialogBox', {	
 	
 	init: function() {		
-		this.requires('2D, Canvas, Image, Text')			
+		this.requires('Actor, Image, Text')			
 			.image(gameUrl + '/assets/images/message-window.png')
 			.attr({
 				z: 20000,
@@ -15,7 +15,7 @@ Crafty.c('DialogBox', {
 			.textColor('FFFFFF')
 			.attr({ w: Game.view.width - 32, z: 20000 });
 		
-		this.avatar = Crafty.e('2D, Canvas, Image')
+		this.avatar = Crafty.e('Actor, Image')
 			.attr({
 				x: 11, y: 11, alpha: 0, z: this.z + 1,
 				w: 128, h: 128 ////////// hard-coded
@@ -98,7 +98,7 @@ Crafty.c('DialogBox', {
 					throw new Error("Choices and responses should be equal in number; got " + choices.length + " choices and " + responses.length + " responses.");
 				}
 				
-				this.choiceBox = Crafty.e('2D, Canvas, Image')
+				this.choiceBox = Crafty.e('Actor, Image')
 					.image(gameUrl + '/assets/images/choice-box.png')
 					.attr({ x: (Game.view.width - 200) / 2, y: Game.view.height / 4, z: this.z + 1 });
 				
@@ -122,7 +122,7 @@ Crafty.c('DialogBox', {
 				// the first choice is automatically picked.
 				var chose = false;				
 				
-				this.selectionBox = Crafty.e('2D, Canvas, Color')
+				this.selectionBox = Crafty.e('Actor, Color')
 					.color('rgb(192, 225, 255)')
 					// 26, not 24, because we pad by 2px.
 					// Other places, 28, pad by 4 (2 + 2)
