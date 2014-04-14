@@ -17,9 +17,8 @@ Crafty.scene('Loading', function() {
 		gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png',
 		gameUrl + '/assets/images/npc-3.png', gameUrl + '/assets/images/default-sprite.png', 
 		gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/images/chicken-red.png', 
-		gameUrl + '/assets/images/indoors.png', gameUrl + '/assets/images/objects-outdoors.png',
-		gameUrl + '/assets/images/main-character.png', gameUrl + '/assets/images/old-man-avatar.png', 
-		gameUrl + '/assets/images/knight.png', gameUrl + '/assets/images/shield.png',
+		gameUrl + '/assets/images/indoors.png', 
+		gameUrl + '/assets/images/main-character.png', gameUrl + '/assets/images/old-man-avatar.png', 		
 		gameUrl + '/assets/images/inventory-icon.png', gameUrl + '/assets/images/achievements-icon.png',
 		// UI
 		gameUrl + '/assets/images/message-window.png', gameUrl + '/assets/images/choice-box.png',
@@ -50,10 +49,6 @@ Crafty.scene('Loading', function() {
 			sprite_npc3:	[2, 0]
 		});
 		
-		Crafty.sprite(32, gameUrl + '/assets/images/knight.png', {
-			knight:	[2, 0]
-		});
-		
 		Crafty.sprite(24, 21, gameUrl + '/assets/images/chicken-white.png', {
 			sprite_chicken_white:	[1, 0]
 		});
@@ -64,8 +59,7 @@ Crafty.scene('Loading', function() {
 		
 		Crafty.sprite(32, 32, gameUrl + '/assets/images/world.png', {
 			world_grass:	[0, 0],
-			world_wall: 	[1, 0],
-			world_tree:		[2, 0]
+			world_wall: 	[4, 0]			
 		});
 		
 		Crafty.sprite(32, 32, gameUrl + '/assets/images/indoors.png', {
@@ -73,14 +67,6 @@ Crafty.scene('Loading', function() {
 			indoor_wall: 	[1, 0],
 			indoor_door:	[2, 0]
 		});
-		
-		Crafty.sprite(16, 16, gameUrl + '/assets/images/objects-outdoors.png', {
-			sprite_mushroom: [0, 0]
-		});
-        
-        Crafty.sprite(32, gameUrl + '/assets/images/shield.png', {
-            shield: [0, 0]
-        });
 		
 		Crafty.audio.add({
 			outside: [gameUrl + '/assets/audio/birds.mp3'], 
