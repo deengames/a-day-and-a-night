@@ -1,4 +1,4 @@
-function house1() {
+function testHouse() {
 	var map = {		
 		width:  16,
 		height: 10,
@@ -19,7 +19,7 @@ function house1() {
 				x: 1,
 				y: 1,
 				initialize: function(me, player) {
-					me.transitionsTo('worldMap', 11, 16);					
+					me.transitionsTo('testWorld', 11, 16);					
 				}
 			},
 			{

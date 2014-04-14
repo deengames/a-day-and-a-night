@@ -191,7 +191,7 @@ Crafty.scene('Map', function() {
 	Game.showMap(startingMap);
 	var map = Game.currentMap;
 	
-	gameTime.setTintSize(Game.width(), Game.height());
+	gameTime.setTintSize(Game.width(), Game.height());	
 	player.size(map.tile.width, map.tile.height);
 	player.move(3, 3);	
 	
