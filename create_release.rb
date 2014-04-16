@@ -1,7 +1,7 @@
 require 'fileutils'
 releases_dir = 'releases'
 # Filenames, directory names, etc. Any string that matches entirely or starts with this is excluded
-exclusions = ['releases', 'tests', 'README.md', 'create_release.rb', 'screenshot.png']
+exclusions = ['releases', 'tests', 'README.md', 'create_release.rb', 'screenshot.png', 'tiled']
 
 if ARGV[0].nil?
 	puts "You must specify a release version, eg. '0.1' (it goes into the relevant directory)."

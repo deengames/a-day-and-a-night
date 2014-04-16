@@ -9,12 +9,15 @@ class Main
 			@json = JSON.parse(File.read("#{@base_name}.json")) # raw input
 			@map = {} # raw output
 			
+			puts "Creating files for #{@base_name} ..."
 			create_tiles_file
 			create_tileset_file
+			puts 'Done.'
 		end
 	end
 	
 	def create_tiles_file
+		puts "Creating tiles file from #{@base_name}.json ..."
 		# JSON parse the JSON file and write stuff in mapName.tiles		
 		width = @json['width']
 		height = @json['height']	
@@ -36,17 +39,25 @@ class Main
 		end
 			
 		@map[:tiles] = data
-		File.open("#{@base_name}.tiles", 'w') do |file|
+		File.open("#{@base_name}_tiles.js", 'w') do |file|
+			file.write("function #{@base_name}_tiles() {\n\tvar tiles = ")
 			file.write(@map.to_json)
-		end
+			file.write(";\n\n\treturn tiles;\n}")
+		end		
 	end
 	
 	def create_tileset_file
-		
-		tileset_filename = "#{@base_name}.tileset"
+		puts "Creating tileset file from #{@base_name}.json ..."
+		tileset_filename = "#{@base_name}_tileset.js"
 		if File.exist?(tileset_filename) then
-			tileset_json = JSON.parse(File.read(tileset_filename))
+			raw = File.read(tileset_filename)
+			start = raw.index('var tileset = {') + 14
+			stop = raw.index('}', start) + 1
+			tileset_json = JSON.parse(raw[start, stop - start])
+			puts "\tAppending to #{tileset_filename} ..."
+			
 		else
+			puts "\tCreating #{tileset_filename} ..."
 			tileset_json = { :solid_tiles => [] }			
 		end
 		
@@ -60,8 +71,10 @@ class Main
 		
 		tileset_json['tilesets'] = tilesets
 		
-		File.open("#{@base_name}.tileset", 'w') do |file|
+		File.open("#{@base_name}_tileset.js", 'w') do |file|
+			file.write("function #{@base_name}_tileset() {\n\tvar tileset = ")
 			file.write(tileset_json.to_json)
+			file.write(";\n\n\treturn tileset;\n}")
 		end		
 	end
 end
