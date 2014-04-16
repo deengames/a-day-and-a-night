@@ -171,7 +171,7 @@ Game = {
         ////////////////// Start processing the tiles file        
         for (var i = 0; i < tiles.length; i++) {
 			var tile = tiles[i];
-			var tileName = 'tile_' + tile['tile'];			
+			var tileName = 'tile_' + (tile['tile'] - 1);			
 			Crafty.e('Actor, Sprite, ' + tileName)
 				.attr({ x: tile['x'] * 32, y: tile['y'] * 32, z: 50});
 		}
