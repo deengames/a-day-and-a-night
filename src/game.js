@@ -134,6 +134,14 @@ Game = {
 		if (typeof(this.currentMap) != 'undefined') {
 			Crafty.audio.stop(this.currentMap.audio);			
 		}
+		
+		////////////// Maps are complicated. ////////////// 
+		// If the map name is "worldMap":
+		// worldMap.tiles:		base tiles are contained here.
+		// worldMap.tileset:	Tileset data (image file + which tiles
+		//							are solid)
+		// worldMap.js:			Any additional stuff we write in codez
+		//							eg. background, audio, perimeter, NPCs
 				
 		this.currentMap = eval(map + "()");		
 		this.currentMap.fileName = map;
