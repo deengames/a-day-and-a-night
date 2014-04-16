@@ -1,3 +1,4 @@
+################# TODO: don't ignore "Tile #1" always, but put that in tileset
 class Main
 	def main
 		if ARGV[0].nil?
@@ -6,12 +7,11 @@ class Main
 			require 'json'
 			
 			@base_name = ARGV[0] # prefix of map files
-			@json = JSON.parse(File.read("#{@base_name}.json")) # raw input
-			@map = {} # raw output
+			@json = JSON.parse(File.read("#{@base_name}.json")) # raw input			
 			
 			puts "Creating files for #{@base_name} ..."
-			create_tiles_file
 			create_tileset_file
+			create_tiles_file			
 			puts 'Done.'
 		end
 	end
@@ -24,26 +24,26 @@ class Main
 		
 		# For each layer (they go from lowest to highest)
 			# Go through each tile. Since you know map width/height, you can deduce X/Y.
-			# Ignore every 0 (no tile) and 1 (ground/background tile)
-		index = 0
+			# Ignore every 0 (no tile) and 1 (ground/background tile)		
 		data = []
-		# Layers are already sorted ascendingly, which is awesome	
+		# Layers are already sorted ascendingly, which is awesome
 		@json['layers'].each do |layer|
+			index = 0
 			layer['data'].each do |tile_index|
+				index += 1
 				next if tile_index == 0 || tile_index == 1
 				x = index % width
-				y = index / height
-				index += 1
-				data << { :x => x, :y => y, :tile => index }
+				y = index / width				
+				data << { :x => x, :y => y, :tile => tile_index }
 			end		
 		end
-			
-		@map[:tiles] = data
+		
+		map = data
 		File.open("#{@base_name}_tiles.js", 'w') do |file|
 			file.write("function #{@base_name}_tiles() {\n\tvar tiles = ")
-			file.write(@map.to_json)
+			file.write(map.to_json)
 			file.write(";\n\n\treturn tiles;\n}")
-		end		
+		end
 	end
 	
 	def create_tileset_file
@@ -67,9 +67,14 @@ class Main
 			image = t['image']
 			image = image[3, image.length] if image.start_with?('../')			
 			tilesets << image
+			tileset_json['width'] = t['imagewidth'] / t['tilewidth']
+			tileset_json['height'] = t['imageheight'] / t['tileheight']
+			@tiles_wide = tileset_json['width']
+			@tiles_high = tileset_json['height']
 		end
 		
 		tileset_json['tilesets'] = tilesets
+		
 		
 		File.open("#{@base_name}_tileset.js", 'w') do |file|
 			file.write("function #{@base_name}_tileset() {\n\tvar tileset = ")

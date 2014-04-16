@@ -13,7 +13,7 @@ Crafty.c('Grid', {
 		if (x === undefined && y === undefined) {
 			return { x: this.x / this.width, y: this.y / this.height }
 		} else {
-			this.attr({ x: x * this.width, y: y * this.height });
+			this.attr({ x: parseInt(x) * this.width, y: parseInt(y) * this.height });
 			return this;
 		}
 	},

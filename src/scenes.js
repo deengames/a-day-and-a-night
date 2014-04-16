@@ -10,6 +10,7 @@ Crafty.scene('Loading', function() {
 		.css({ 'color': 'white', 'text-align': 'center' });
 	
 	// Load EVERYTHING, and don't worry about what map uses what stuff.
+	///////////// TODO: move this list of assets into a data file
 	Crafty.load(
 		// Images
 		[gameUrl + '/assets/images/titlescreen.png', gameUrl + '/assets/images/deen-games.png',

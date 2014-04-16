@@ -96,7 +96,7 @@
 	</head>
 	<body>	
 		<div id='cr-stage'></div>
-		<input value="list maps" type="submit" onclick="console.debug('Maps:'); var maps = document.getElementsByTagName('script'); for (var i = 0; i < maps.length; i++) { var m = maps[i].src; if (m.indexOf('data/maps') !== -1) { console.debug(m.substring(m.lastIndexOf('/') + 1, m.lastIndexOf('.'))); } }" />
+		<input value="list maps" type="submit" onclick="console.debug('Maps:'); var maps = document.getElementsByTagName('script'); for (var i = 0; i < maps.length; i++) { var m = maps[i].src; if (m.indexOf('data/maps') !== -1 && m.indexOf('_tiles') === -1) { console.debug(m.substring(m.lastIndexOf('/') + 1, m.lastIndexOf('.'))); } }" />
 		<input type="text" id="mapName" />
 		<input value="change map" type="submit" onclick="loadMap(document.getElementById('mapName').value)" />
 		<input value="reload current map" type="submit" onclick="reloadMap()" />

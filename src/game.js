@@ -134,25 +134,50 @@ Game = {
 		if (typeof(this.currentMap) != 'undefined') {
 			Crafty.audio.stop(this.currentMap.audio);			
 		}
-		
+				
 		////////////// Maps are complicated. ////////////// 
 		// If the map name is "worldMap":
 		// worldMap.tiles:		base tiles are contained here.
 		// worldMap.tileset:	Tileset data (image file + which tiles
 		//							are solid)
 		// worldMap.js:			Any additional stuff we write in codez
-		//							eg. background, audio, perimeter, NPCs
-				
+		//							eg. background, audio, perimeter, NPCs				
 		this.currentMap = eval(map + "()");		
 		this.currentMap.fileName = map;
+		var tiles = eval(map + "_tiles()");
+		var tileset = eval(map + "_tileset()");
+        
+        ////////////////// Start processing the tileset file
+        
+        solidTiles = tileset.solidTiles;
+        // Create tileset dynamically. D'oh. With eval, because we need
+        // an object, not a hash, for CraftyJS.
+        tileset_map = "tileset_map = { "
+        var i = 0;
+        for (var y = 0; y < tileset.height; y++) {
+			for (var x = 0; x < tileset.width; x++) {
+				tileset_map += "tile_" + i + ": [" + x + ", " + y + "]";
+				if (x < tileset.width - 1 || y < tileset.height - 1) {
+					tileset_map += ", ";
+				}
+				i++;
+			}
+		}
+		tileset_map += "};"
+		tileset_map = eval(tileset_map);
 		
-		if (this.currentMap.audio != null) {			
-			Crafty.audio.play(this.currentMap.audio, -1);
+        Crafty.sprite(32, tileset.tilesets[0], tileset_map);
+				
+        ////////////////// Start processing the tiles file        
+        for (var i = 0; i < tiles.length; i++) {
+			var tile = tiles[i];
+			var tileName = 'tile_' + tile['tile'];			
+			Crafty.e('Actor, Sprite, ' + tileName)
+				.attr({ x: tile['x'] * 32, y: tile['y'] * 32, z: 50});
 		}
         
-        // Make sure game-time tint is up to date
-        Crafty.trigger('GameTimeChanged');
-		
+        ////////////////// Start processing the .js map
+        
 		for (var y = 0; y < this.currentMap.height; y++) {
 			for (var x = 0; x < this.currentMap.width; x++) {
 				var bg = Crafty.e('Actor, Canvas, ' + this.currentMap.background);
@@ -226,6 +251,13 @@ Game = {
 				}			
 			}
 		}
+		
+		if (this.currentMap.audio != null) {			
+			Crafty.audio.play(this.currentMap.audio, -1);
+		}
+		
+		// Make sure game-time tint is up to date
+        Crafty.trigger('GameTimeChanged');		
 	},
 	
 	fadeOut: function() {
