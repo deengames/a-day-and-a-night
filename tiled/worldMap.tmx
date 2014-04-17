@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="world" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="above" value="2-4,6-24,29-48"/>
+   <property name="ignore" value="1"/>
+  </properties>
   <image source="../assets/images/world.png" width="256" height="192"/>
  </tileset>
  <layer name="Tile Layer 1" width="100" height="100">

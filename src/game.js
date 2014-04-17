@@ -169,11 +169,13 @@ Game = {
         Crafty.sprite(32, tileset.tilesets[0], tileset_map);
 				
         ////////////////// Start processing the tiles file        
+        var playerZ = Crafty('Player').z;
+        
         for (var i = 0; i < tiles.length; i++) {
 			var tile = tiles[i];
 			var tileName = 'tile_' + (tile['tile'] - 1);			
 			Crafty.e('Actor, Sprite, ' + tileName)
-				.attr({ x: tile['x'] * 32, y: tile['y'] * 32, z: 50});
+				.attr({ x: tile['x'] * 32, y: tile['y'] * 32, z: tile['z']});
 		}
         
         ////////////////// Start processing the .js map

@@ -1,4 +1,3 @@
-################# TODO: don't ignore "Tile #1" always, but put that in tileset
 class Main
 	def main
 		if ARGV[0].nil?
@@ -11,7 +10,8 @@ class Main
 			
 			puts "Creating files for #{@base_name} ..."
 			create_tileset_file
-			create_tiles_file			
+			create_tiles_file
+			copy_files	
 			puts 'Done.'
 		end
 	end
@@ -30,11 +30,11 @@ class Main
 		@json['layers'].each do |layer|
 			index = 0
 			layer['data'].each do |tile_index|
-				index += 1
-				next if tile_index == 0 || tile_index == 1
+				index += 1				
+				next if tile_index == 0 || @ignore.include?(tile_index)
 				x = index % width
 				y = index / width				
-				data << { :x => x, :y => y, :tile => tile_index }
+				data << { :x => x, :y => y, :z => @above.include?(tile_index) ? 200 : 50, :tile => tile_index }
 			end		
 		end
 		
@@ -48,20 +48,11 @@ class Main
 	
 	def create_tileset_file
 		puts "Creating tileset file from #{@base_name}.json ..."
-		tileset_filename = "#{@base_name}_tileset.js"
-		if File.exist?(tileset_filename) then
-			raw = File.read(tileset_filename)
-			start = raw.index('var tileset = {') + 14
-			stop = raw.index('}', start) + 1
-			tileset_json = JSON.parse(raw[start, stop - start])
-			puts "\tAppending to #{tileset_filename} ..."
-			
-		else
-			puts "\tCreating #{tileset_filename} ..."
-			tileset_json = { :solid_tiles => [] }			
-		end
+		tileset_json = { }		
 		
 		tilesets = []
+		ignore = []
+		above = []
 		
 		@json['tilesets'].each do |t|
 			image = t['image']
@@ -69,12 +60,22 @@ class Main
 			tilesets << image
 			tileset_json['width'] = t['imagewidth'] / t['tilewidth']
 			tileset_json['height'] = t['imageheight'] / t['tileheight']
+
 			@tiles_wide = tileset_json['width']
 			@tiles_high = tileset_json['height']
+			
+			ignore = t['properties']['ignore'] unless t['properties'].nil? || t['properties']['ignore'].nil?
+			above = t['properties']['above'] unless t['properties'].nil? || t['properties']['above'].nil?
+			ignore ||= ""
+			above ||= ""
 		end
 		
+		@ignore = parse_range(ignore)
+		@above = parse_range(above)		
+				
 		tileset_json['tilesets'] = tilesets
-		
+		tileset_json['ignore'] = @ignore
+		tileset_json['above'] = @above		
 		
 		File.open("#{@base_name}_tileset.js", 'w') do |file|
 			file.write("function #{@base_name}_tileset() {\n\tvar tileset = ")
@@ -82,6 +83,36 @@ class Main
 			file.write(";\n\n\treturn tileset;\n}")
 		end		
 	end
+	
+	# Text is a combination of digits and ranges
+	# eg. 1, 3, 16-19
+	def parse_range(text)
+		to_return = []
+		text.scan(/(\d+-\d+)|(\d)/).to_a.each do |m|			
+			m.each do |value|
+				next if value.nil?					
+				if value.to_s.include?("-")					
+					start = /\d+/.match(value.to_s).to_s.to_i
+					# Experimentally derived. My eyes!!			
+					stop = /\d+/.match(value.to_s, value.index(start.to_s) + start.to_s.length).to_s.to_i				
+					(start..stop).each do |s|
+						to_return << s
+					end
+				else
+					to_return << value.to_i
+				end
+			end
+		end
+		
+		return to_return
+	end
+	
+	def copy_files
+		require 'fileutils'
+		FileUtils.mv("#{@base_name}_tiles.js", "../data/maps/#{@base_name}_tiles.js")
+		FileUtils.mv("#{@base_name}_tileset.js", "../data/maps/#{@base_name}_tileset.js")
+	end
+		
 end
 
 Main.new.main
