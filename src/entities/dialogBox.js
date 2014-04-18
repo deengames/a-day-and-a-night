@@ -166,14 +166,6 @@ Crafty.c('DialogBox', {
 			var x = -Crafty.viewport.x;
 			var y = -Crafty.viewport.y;
 			
-			// Don't go off the screen (bottom/right)			
-			x = Math.min(Game.width() - this.w, x);			
-			y = Math.min(Game.height() - this.h - (Game.view.height - this.h), y);
-			
-			// Don't go off the screen (top/left)
-			x = Math.max(0, x);
-			y = Math.max(0, y);
-			
 			this.x = x;
 			this.y = Game.view.height - this.h + y;
 			
