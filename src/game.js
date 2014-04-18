@@ -137,49 +137,68 @@ Game = {
 				
 		////////////// Maps are complicated. ////////////// 
 		// If the map name is "worldMap":
-		// worldMap.tiles:		base tiles are contained here.
-		// worldMap.tileset:	Tileset data (image file + which tiles
-		//							are solid)
+		// worldMap.tiles:		(optional) objp/object tiles are contained here.
+		// worldMap.tileset:	(optional) Tileset data (eg. which tiles are solid)
 		// worldMap.js:			Any additional stuff we write in codez
-		//							eg. background, audio, perimeter, NPCs				
+		//					    eg. background, audio, perimeter, NPCs				
 		this.currentMap = eval(map + "()");		
 		this.currentMap.fileName = map;
-		var tiles = eval(map + "_tiles()");
-		var tileset = eval(map + "_tileset()");
         
-        ////////////////// Start processing the tileset file
+        var isTilesFile = true;
         
-        // Create tileset dynamically. D'oh. With eval, because we need
-        // an object, not a hash, for CraftyJS.
-        tileset_map = "tileset_map = { "
-        var i = 0;
-        for (var y = 0; y < tileset.height; y++) {
-			for (var x = 0; x < tileset.width; x++) {
-				tileset_map += "tile_" + i + ": [" + x + ", " + y + "]";
-				if (x < tileset.width - 1 || y < tileset.height - 1) {
-					tileset_map += ", ";
-				}
-				i++;
-			}
-		}
-		tileset_map += "};"
-		tileset_map = eval(tileset_map);
+        try {
+            var tiles = eval(map + "_tiles()");
+        } catch (err) {
+            isTilesFile = false;
+            console.debug("Failed to load _tiles.js file (function call failed:" + err);
+        }
 		
-        Crafty.sprite(32, tileset.tilesets[0], tileset_map);
-				
-        ////////////////// Start processing the tiles file        
-        var playerZ = Crafty('Player').z;
+        var isTilesetFile = true;
         
-        for (var i = 0; i < tiles.length; i++) {
-			var tile = tiles[i];
-			var tileName = 'tile_' + (tile['tile'] - 1);
-            var def = 'Actor, Sprite, ' + tileName;
-            if (tileset.solid.indexOf(tile['tile']) !== -1) {
-                def += ", Solid";
+        try {
+            var tileset = eval(map + "_tileset()");
+        } catch (err) {
+            isTilesetFile = false;
+            console.debug("Failed to load _tileset.js file (function call failed:" + err);
+        }
+        
+        if (isTilesetFile == true) {
+            ////////////////// Start processing the tileset file
+            // Create tileset dynamically. D'oh. With eval, because we need
+            // an object, not a hash, for CraftyJS.
+            tileset_map = "tileset_map = { "
+            var i = 0;
+            for (var y = 0; y < tileset.height; y++) {
+                for (var x = 0; x < tileset.width; x++) {
+                    tileset_map += "tile_" + i + ": [" + x + ", " + y + "]";
+                    if (x < tileset.width - 1 || y < tileset.height - 1) {
+                        tileset_map += ", ";
+                    }
+                    i++;
+                }
             }
-			Crafty.e(def)
-				.attr({ x: tile['x'] * 32, y: tile['y'] * 32, z: tile['z']});
+            tileset_map += "};"
+            tileset_map = eval(tileset_map);
+            
+            Crafty.sprite(32, tileset.tilesets[0], tileset_map);
 		}
+        
+        if (isTilesFile == true) {
+            ////////////////// Start processing the tiles file        
+            var playerZ = Crafty('Player').z;
+            
+            for (var i = 0; i < tiles.length; i++) {
+                var tile = tiles[i];
+                var tileName = 'tile_' + (tile['tile'] - 1);
+                var def = 'Actor, Sprite, ' + tileName;
+                if (tileset.solid.indexOf(tile['tile']) !== -1) {
+                    def += ", Solid";
+                }
+                
+                var e = Crafty.e(def).attr({ x: tile['x'] * 32, y: tile['y'] * 32, z: tile['z']});
+                this.gameObjects.push(e);
+            }
+        }
         
         ////////////////// Start processing the .js map
         
