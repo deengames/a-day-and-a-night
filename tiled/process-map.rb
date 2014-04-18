@@ -53,7 +53,8 @@ class Main
 		tilesets = []
 		ignore = []
 		above = []
-		
+		solid = []
+        
 		@json['tilesets'].each do |t|
 			image = t['image']
 			image = image[3, image.length] if image.start_with?('../')			
@@ -66,16 +67,17 @@ class Main
 			
 			ignore = t['properties']['ignore'] unless t['properties'].nil? || t['properties']['ignore'].nil?
 			above = t['properties']['above'] unless t['properties'].nil? || t['properties']['above'].nil?
-			ignore ||= ""
-			above ||= ""
-		end
+			solid = t['properties']['solid'] unless t['properties'].nil? || t['properties']['solid'].nil?
+        end
 		
 		@ignore = parse_range(ignore)
-		@above = parse_range(above)		
-				
+		@above = parse_range(above)
+        solid = parse_range(solid)
+        
 		tileset_json['tilesets'] = tilesets
 		tileset_json['ignore'] = @ignore
-		tileset_json['above'] = @above		
+		tileset_json['above'] = @above
+        tileset_json['solid'] = solid
 		
 		File.open("#{@base_name}_tileset.js", 'w') do |file|
 			file.write("function #{@base_name}_tileset() {\n\tvar tileset = ")
@@ -88,7 +90,8 @@ class Main
 	# eg. 1, 3, 16-19
 	def parse_range(text)
 		to_return = []
-		text.scan(/(\d+-\d+)|(\d)/).to_a.each do |m|			
+        return to_return if text.nil? || text.length == 0
+		text.scan(/(\d+-\d+)|(\d+)/).to_a.each do |m|			
 			m.each do |value|
 				next if value.nil?					
 				if value.to_s.include?("-")					

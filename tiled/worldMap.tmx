@@ -4,6 +4,7 @@
   <properties>
    <property name="above" value="2-4,6-24,29-48"/>
    <property name="ignore" value="1"/>
+   <property name="solid" value="6-8,14,16,21,22,24,25,29"/>
   </properties>
   <image source="../assets/images/world.png" width="256" height="192"/>
  </tileset>

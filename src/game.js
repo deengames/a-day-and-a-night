@@ -149,7 +149,6 @@ Game = {
         
         ////////////////// Start processing the tileset file
         
-        solidTiles = tileset.solidTiles;
         // Create tileset dynamically. D'oh. With eval, because we need
         // an object, not a hash, for CraftyJS.
         tileset_map = "tileset_map = { "
@@ -173,8 +172,12 @@ Game = {
         
         for (var i = 0; i < tiles.length; i++) {
 			var tile = tiles[i];
-			var tileName = 'tile_' + (tile['tile'] - 1);			
-			Crafty.e('Actor, Sprite, ' + tileName)
+			var tileName = 'tile_' + (tile['tile'] - 1);
+            var def = 'Actor, Sprite, ' + tileName;
+            if (tileset.solid.indexOf(tile['tile']) !== -1) {
+                def += ", Solid";
+            }
+			Crafty.e(def)
 				.attr({ x: tile['x'] * 32, y: tile['y'] * 32, z: tile['z']});
 		}
         
