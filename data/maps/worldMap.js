@@ -14,8 +14,8 @@ function worldMap() {
 		perimeter: 'world_wall',
 		
 		objects: [
-		
 		]
+		
 	};
 	
 	return map;

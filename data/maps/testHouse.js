@@ -1,7 +1,7 @@
 function testHouse() {
 	var map = {		
-		width:  16,
-		height: 10,
+		width:  160,
+		height: 100,
 		
 		tile: {
 			width:  32,

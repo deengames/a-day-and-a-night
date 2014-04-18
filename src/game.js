@@ -23,9 +23,12 @@ Game = {
 			}
 		}, false);
 		
+		// Messes up Crafty.viewport.mouselook, but allows us to have
+		// large maps (eg. 160x100) with better than ~3 fps.
+		Crafty.viewport.clampToEntities = false;
 		// Start the game
 		Crafty.init(Game.view.width, Game.view.height);				
-		Crafty.scene('Loading');		
+		Crafty.scene('Loading');
 	},
 	
 	pause: function() {
