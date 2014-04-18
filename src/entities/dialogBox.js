@@ -100,7 +100,7 @@ Crafty.c('DialogBox', {
 				
 				this.choiceBox = Crafty.e('Actor, Image')
 					.image(gameUrl + '/assets/images/choice-box.png')
-					.attr({ x: (Game.view.width - 200) / 2, y: Game.view.height / 4, z: this.z + 1 });
+					.attr({ x: -Crafty.viewport.x + (Game.view.width - 200) / 2, y: -Crafty.viewport.y + Game.view.height / 4, z: this.z + 1 });
 				
 				// TODO: less hacks, more codez.
 				// At 24px text size, each line is 17px high, plus 11px space
