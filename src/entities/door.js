@@ -2,7 +2,7 @@
 Crafty.c('Door', {
 	init: function() {
 		this.transitioned = false;
-		this.requires('Actor, Collision, indoor_door');
+		this.requires('Actor, Collision');
 		this.onHit('Solid', function(data) {
 			if (!this.transitioned) {
 				var overlap = Math.abs(data[0].overlap);

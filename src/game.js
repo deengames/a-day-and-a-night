@@ -23,9 +23,28 @@ Game = {
 			}
 		}, false);
 		
-		// Messes up Crafty.viewport.mouselook, but allows us to have
-		// large maps (eg. 160x100) with better than ~3 fps.
-		Crafty.viewport.clampToEntities = false;
+		// Large maps (eg. 100x100 tiles) run at like 3 FPS. This is why: the
+        // Crafty boundary checking iterates over all entities (O(n)).
+        // We can turn off "clamp to entities" (which shows that black area
+        // outside of maps), or we can try to do better, given that we have
+        // a static map with entities inside only (not outside the map).
+		// Crafty.viewport.clampToEntities = false;
+        Crafty.map.boundaries = function() {
+        
+            // Clamp lower-end at (0, 0)
+            var startX = Math.max(-Crafty.viewport.x, 0);
+            var startY = Math.max(-Crafty.viewport.y, 0);
+            // Clamp upper-end at (map_width - screen_width, map_height - screen_height)
+            startX = Math.min(startX, Game.width() - Game.view.width);
+            startY = Math.min(startY, Game.height() - Game.view.height);
+            
+            var camera = { x: startX, y: startY };
+            
+            return {
+                min: { x: camera.x, y: camera.y },
+                max: { x: camera.x + Game.view.width, y: camera.y + Game.view.height }
+            };
+        };
 		// Start the game
 		Crafty.init(Game.view.width, Game.view.height);				
 		Crafty.scene('Loading');
