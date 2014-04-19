@@ -29,11 +29,11 @@ class Main
 		# Layers are already sorted ascendingly, which is awesome
 		@json['layers'].each do |layer|
 			index = 0
-			layer['data'].each do |tile_index|
-				index += 1				
-				next if tile_index == 0 || @ignore.include?(tile_index)
+			layer['data'].each do |tile_index|				
 				x = index % width
-				y = index / width				
+				y = index / width						
+				index += 1
+				next if tile_index == 0 || @ignore.include?(tile_index)
 				data << { :x => x, :y => y, :z => @above.include?(tile_index) ? 200 : 50, :tile => tile_index }
 			end		
 		end

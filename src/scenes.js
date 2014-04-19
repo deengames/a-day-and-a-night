@@ -154,7 +154,8 @@ Crafty.scene('Map', function() {
     
     Crafty.e('Fps');
     Crafty.e("PointsManager");
-    var startTime = "5:00";
+    // Revert to 5am for the real game
+    var startTime = "8:00";
     
     // 24s per second = 12h game time in 30m
     // 30s per second = 15h game time in 30m

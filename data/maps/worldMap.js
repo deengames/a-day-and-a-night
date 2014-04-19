@@ -13,7 +13,18 @@ function worldMap() {
 		audio: 'outside',		
 		perimeter: 'world_wall',
 		
-		objects: [			
+		objects: [
+			{
+				type: 'Door',
+                sprite: 'indoor_door',
+				initialize: function(me, player) {
+					me.transitionsTo('testHouse', 3, 3);					
+				},
+				range: {
+					start: { x: 13, y: 18 },
+					end: { x: 15, y: 18 }
+				}
+			}		
 		]
 		
 	};
