@@ -117,8 +117,7 @@ function testWorld() {
 				type: '2D, Actor, Solid, world_tree'
 			},
 			{
-				type: 'Door',
-                sprite: 'indoor_door',
+				type: 'Door',                
 				x: 11,
 				y: 15,
 				initialize: function(me, player) {
