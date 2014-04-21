@@ -35,8 +35,7 @@ Game = {
 			// Note: Game.currentMap is in tiles; Game.view is in pixels.
 			if (Game.currentMap.width * 32 < Game.view.width && Game.currentMap.height * 32 <= Game.view.height) {
 				var startX = ((Game.currentMap.width * 32) - Game.view.width) / 2;
-				var startY = ((Game.currentMap.height * 32) - Game.view.height) / 2;
-				console.log("Sq=(" + startX + ", " + startY + ")");
+				var startY = ((Game.currentMap.height * 32) - Game.view.height) / 2;				
 				return {
 					min: { x: startX, y: startY },
 					max: { x: startX + Game.view.width, y: startY + Game.view.height }
@@ -51,8 +50,7 @@ Game = {
 				startX = Math.min(startX, Game.width() - Game.view.width);
 				startY = Math.min(startY, Game.height() - Game.view.height);
 				
-				var camera = { x: startX, y: startY };
-				console.log("Sw=(" + startX + ", " + startY + ")");
+				var camera = { x: startX, y: startY };				
 				return {
 					min: { x: camera.x, y: camera.y },
 					max: { x: camera.x + Game.view.width, y: camera.y + Game.view.height }
