@@ -31,19 +31,33 @@ Game = {
 		// Crafty.viewport.clampToEntities = false;
         Crafty.map.boundaries = function() {
         
-            // Clamp lower-end at (0, 0)
-            var startX = Math.max(-Crafty.viewport.x, 0);
-            var startY = Math.max(-Crafty.viewport.y, 0);
-            // Clamp upper-end at (map_width - screen_width, map_height - screen_height)
-            startX = Math.min(startX, Game.width() - Game.view.width);
-            startY = Math.min(startY, Game.height() - Game.view.height);
-            
-            var camera = { x: startX, y: startY };
-            
-            return {
-                min: { x: camera.x, y: camera.y },
-                max: { x: camera.x + Game.view.width, y: camera.y + Game.view.height }
-            };
+			// Special case: map is smaller than the screen, center appropriately.
+			// Note: Game.currentMap is in tiles; Game.view is in pixels.
+			if (Game.currentMap.width * 32 < Game.view.width && Game.currentMap.height * 32 <= Game.view.height) {
+				var startX = ((Game.currentMap.width * 32) - Game.view.width) / 2;
+				var startY = ((Game.currentMap.height * 32) - Game.view.height) / 2;
+				console.log("Sq=(" + startX + ", " + startY + ")");
+				return {
+					min: { x: startX, y: startY },
+					max: { x: startX + Game.view.width, y: startY + Game.view.height }
+				};
+				
+			} else {
+				// Clamp lower-end at (0, 0)
+				var startX = Math.max(-Crafty.viewport.x, 0);
+				var startY = Math.max(-Crafty.viewport.y, 0);
+							
+				// Clamp upper-end at (map_width - screen_width, map_height - screen_height)
+				startX = Math.min(startX, Game.width() - Game.view.width);
+				startY = Math.min(startY, Game.height() - Game.view.height);
+				
+				var camera = { x: startX, y: startY };
+				console.log("Sw=(" + startX + ", " + startY + ")");
+				return {
+					min: { x: camera.x, y: camera.y },
+					max: { x: camera.x + Game.view.width, y: camera.y + Game.view.height }
+				};
+			}
         };
 		// Start the game
 		Crafty.init(Game.view.width, Game.view.height);				
@@ -303,7 +317,7 @@ Game = {
 		}
 		
 		// Make sure game-time tint is up to date
-        Crafty.trigger('GameTimeChanged');		
+        Crafty.trigger('GameTimeChanged');
 	},
 	
 	fadeOut: function() {
