@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="25" height="18" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="indoors" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="solid" value="1,2,5,7,8"/>
+  </properties>
+  <image source="../assets/images/indoors.png" width="256" height="224"/>
+ </tileset>
+ <layer name="Basic" width="25" height="18">
+  <data encoding="base64" compression="zlib">
+   eJxjZWBgYKUDZiEBk6OeFY1NyA2U2kGMuwe7HcSG/2h8jMbHYAur4RAfpJSZtPAHpZiedhCDmUlUj4wBzS4Hkw==
+  </data>
+ </layer>
+ <layer name="Carpets" width="25" height="18">
+  <data encoding="base64" compression="zlib">
+   eJxjYBicgAeIeYnAfBTYIQLEokRgMSx6sakbanbgUkdtfxALqBFWnEDMBcTcNLRDEIiFgFiYynYgy0kCsRQQS9PAH8SCwZx26WHHcMofg8kOGSCWJQLLUWAHqQAAC/oSRg==
+  </data>
+ </layer>
+ <layer name="MOAR Carpets" width="25" height="18">
+  <data encoding="base64" compression="zlib">
+   eJxjYBicgBOIuYjA3BTYIQnEUkRgaQrsGC5gsMcHOxBzUGA3qYCNjnZhA4M9PkYaGI2PoQ0Ad4EGRg==
+  </data>
+ </layer>
+</map>

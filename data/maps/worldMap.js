@@ -18,7 +18,7 @@ function worldMap() {
 				type: 'Door',
 				sprite: 'default_sprite',
 				initialize: function(me, player) {
-					me.transitionsTo('masjid', 3, 3);
+					me.transitionsTo('masjid', 10, 16);
 				},
 				range: {
 					start: { x: 13, y: 18 },
