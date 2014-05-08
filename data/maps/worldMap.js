@@ -24,7 +24,19 @@ function worldMap() {
 					start: { x: 13, y: 18 },
 					end: { x: 15, y: 18 }
 				}
-			}		
+			},
+			{
+				type: 'Npc',
+				sprite: 'hijabi_aunty',
+				x: 14, y: 22,
+				messages: [
+					[
+						{ character: "woman", text: "Young man ..." },
+						{ character: "woman", text: "Follow the footsteps of your forefather, Prophet Abraham." },
+						{ character: "woman", text: "He submitted to the creator of everything, alone, and did not worship anything beside Him." }
+					]
+				]
+			}	
 		]
 		
 	};

@@ -11,7 +11,7 @@ Crafty.c('Fps', {
             .textFont({size: '14px'})
 			.textColor('FFFFFF')
 			.text("checking fps ...")
-            .attr({w: 256, x: 4, y: 4 });
+            .attr({w: 256, x: 4, y: 4, z: 999999 });
         
         this.bind('EnterFrame', function() {
             var now = new Date().getTime();            

@@ -20,9 +20,10 @@ Crafty.scene('Loading', function() {
 		gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/images/chicken-red.png', 
 		gameUrl + '/assets/images/indoors.png', 
 		gameUrl + '/assets/images/main-character.png', gameUrl + '/assets/images/old-man-avatar.png', 		
-		gameUrl + '/assets/images/inventory-icon.png', gameUrl + '/assets/images/achievements-icon.png',
+		gameUrl + '/assets/images/hijabi-aunty.png',
 		// UI
 		gameUrl + '/assets/images/message-window.png', gameUrl + '/assets/images/choice-box.png',
+		gameUrl + '/assets/images/inventory-icon.png', gameUrl + '/assets/images/achievements-icon.png',
 		// Sounds
 		gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/audio/chicken.mp3', gameUrl + '/assets/audio/chicken2.mp3',
 		gameUrl + '/assets/audio/points-positive.mp3', gameUrl + '/assets/audio/points-negative.mp3'],
@@ -67,6 +68,10 @@ Crafty.scene('Loading', function() {
 			indoor_floor:	[0, 0],
 			indoor_wall: 	[1, 0],
 			indoor_door:	[2, 0]
+		});
+		
+		Crafty.sprite(32, gameUrl + '/assets/images/hijabi-aunty.png', {
+			hijabi_aunty: [0, 0]
 		});
 		
 		Crafty.audio.add({
