@@ -1,4 +1,7 @@
 class Main
+	ABOVE_Z = 200
+	BELOW_Z = 50
+	
 	def main
 		if ARGV[0].nil?
 			puts "Usage: ruby process-map.rb <map name> (without .json suffix)"
@@ -34,7 +37,7 @@ class Main
 				y = index / width						
 				index += 1
 				next if tile_index == 0 || @ignore.include?(tile_index)
-				data << { :x => x, :y => y, :z => @above.include?(tile_index) ? 200 : 50, :tile => tile_index }
+				data << { :x => x, :y => y, :z => @above.include?(tile_index) ? ABOVE_Z : BELOW_Z, :tile => tile_index }
 			end		
 		end
 		

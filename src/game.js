@@ -300,7 +300,7 @@ Game = {
 					for (var y = def.range.start.y; y <= def.range.end.y; y++) {
 						for (var x = def.range.start.x; x <= def.range.end.x; x++) {
 							def.x = x;
-							def.y = y;						
+							def.y = y;							
 							this.createObjectFrom(def, this.player);						
 						}
 					}
@@ -373,6 +373,11 @@ Game = {
         obj.spriteName = def.sprite;
 		obj.size(this.currentMap.tile.width, this.currentMap.tile.height);		
 		obj.move(def.x, def.y);
+		if (typeof(def.z) !== "undefined") {
+			obj.attr({ z: def.z });
+		} else {
+			obj.attr({ z: 100 }); // Above = 200, below = 50
+		}		
 		
 		// A myriad of objects can talk
 		// List of static messages

@@ -20,7 +20,7 @@ Crafty.scene('Loading', function() {
 		gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/images/chicken-red.png', 
 		gameUrl + '/assets/images/indoors.png', 
 		gameUrl + '/assets/images/main-character.png', gameUrl + '/assets/images/old-man-avatar.png', 		
-		gameUrl + '/assets/images/hijabi-aunty.png',
+		gameUrl + '/assets/images/hijabi-aunty.png', gameUrl + '/assets/images/npc-shaykh.png',
 		// UI
 		gameUrl + '/assets/images/message-window.png', gameUrl + '/assets/images/choice-box.png',
 		gameUrl + '/assets/images/inventory-icon.png', gameUrl + '/assets/images/achievements-icon.png',
@@ -72,6 +72,10 @@ Crafty.scene('Loading', function() {
 		
 		Crafty.sprite(32, gameUrl + '/assets/images/hijabi-aunty.png', {
 			hijabi_aunty: [0, 0]
+		});
+		
+		Crafty.sprite(32, gameUrl + '/assets/images/npc-shaykh.png', {
+			npc_shaykh: [0, 0]
 		});
 		
 		Crafty.audio.add({

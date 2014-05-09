@@ -16,6 +16,12 @@ function masjid() {
 					me.transitionsTo('worldMap', 14, 19);
 				},
 				x: 10, y: 17
+			},
+			{
+				type: 'StandingNpc',
+				sprite: 'npc_shaykh',
+				x: 7, y: 8,
+				messages: [ "Peace!" ]				
 			}
 		]
 		
