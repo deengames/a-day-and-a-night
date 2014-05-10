@@ -75,7 +75,7 @@ Crafty.scene('Loading', function() {
 		});
 		
 		Crafty.sprite(32, gameUrl + '/assets/images/npc-shaykh.png', {
-			npc_shaykh: [0, 0]
+			npc_shaykh: [1, 1]
 		});
 		
 		Crafty.audio.add({

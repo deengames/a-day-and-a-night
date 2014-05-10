@@ -376,7 +376,7 @@ Game = {
 		if (typeof(def.z) !== "undefined") {
 			obj.attr({ z: def.z });
 		} else {
-			obj.attr({ z: 100 }); // Above = 200, below = 50
+			obj.attr({ z: 99 }); // Above = 200, below = 50, player = 100
 		}		
 		
 		// A myriad of objects can talk

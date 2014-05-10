@@ -22,6 +22,15 @@ function masjid() {
 				sprite: 'npc_shaykh',
 				x: 7, y: 8,
 				messages: [ "Peace!" ]				
+			},
+			{
+				type: 'Npc',
+				x: 19, y: 2,
+				sprite: 'sprite_npc3',
+				messages: [
+					["That statue ...", "Can it help me?",
+					"Can it harm me?", "Can it even hear me?", "Hmm ..."]
+				]
 			}
 		]
 		

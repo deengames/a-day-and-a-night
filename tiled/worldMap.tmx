@@ -4,7 +4,7 @@
   <properties>
    <property name="above" value="2-4,6-24,29-48"/>
    <property name="ignore" value="1"/>
-   <property name="solid" value="6-8,14,16,21,22,24,25,29"/>
+   <property name="solid" value="6-8,14,16,21,22-24,25,29,41"/>
   </properties>
   <image source="../assets/images/world.png" width="256" height="192"/>
  </tileset>
@@ -20,7 +20,7 @@
  </layer>
  <layer name="Tile Layer 3" width="50" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0rENwCAMRFFPQlJBKsL+03EjGFHYiP+k319xZgCA7Ip61Bu8Y1dVTX3RQzZ19asRPWSB90PZv+b9UPaveT904tcAAAAA4GYTCSEEHg==
+   eJzt0rkNwDAMBEFV4ifxk0juvzpfB6LMgJSxA1zAjMGWAgDIbtFWbQv+w+vQTu2KfsSpak17oh8ZYG0oe2vWhrK3Zm1oxtYA/NveuWdxd24AAICvXhR8BLI=
   </data>
  </layer>
 </map>
