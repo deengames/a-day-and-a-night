@@ -31,7 +31,19 @@ function masjid() {
 					["That statue ...", "Can it help me?",
 					"Can it harm me?", "Can it even hear me?", "Hmm ..."]
 				]
-			}
+			},
+			{
+				type: 'StandingNpc',
+				x: 5, y: 7,
+				sprite: 'student_1',
+				messages: ["I've been studying with this shaykh for five years now."]
+			},
+			{
+				type: 'StandingNpc',
+				x: 5, y: 9,
+				sprite: 'student_2',
+				messages: ["I like what he's teaching."]
+			},
 		]
 		
 	};
