@@ -140,7 +140,7 @@ Game = {
 		// No map loaded? Okay. Lie.
 		// Makes it easier to initialize fades, etc.
 		if (this.currentMap != null) {
-			return this.currentMap.width * this.currentMap.tile.width;
+			return this.mapWidth * this.currentMap.tile.width;
 		} else {
 			return this.view.width;
 		}
@@ -148,7 +148,7 @@ Game = {
 	
 	height: function() {
 		if (this.currentMap != null) {
-			return this.currentMap.height * this.currentMap.tile.height;
+			return this.mapHeight * this.currentMap.tile.height;
 		} else {
 			return this.view.height;
 		}
@@ -176,15 +176,15 @@ Game = {
 		// worldMap.js:			Any additional stuff we write in codez
 		//					    eg. background, audio, perimeter, NPCs				
 		this.currentMap = eval(map + "()");		
-		this.currentMap.fileName = map;
+		this.currentMap.fileName = map;        
         
         var isTilesFile = true;
         
         try {
-            var tiles = eval(map + "_tiles()");
+            var tileData = eval(map + "_tiles()");
         } catch (err) {
             isTilesFile = false;
-            console.debug("Failed to load _tiles.js file (function call failed:" + err);
+            console.debug("Failed to load _tiles.js file (function call failed:" + err);            
         }
 		
         var isTilesetFile = true;
@@ -216,6 +216,13 @@ Game = {
             
             Crafty.sprite(32, tileset.tilesets[0], tileset_map);
 		}
+		
+		// Technically, neither is required. If the Tiled JSON map exists,
+		// it will be the correct one; the other one is for simple cases.		
+		this.mapWidth = tileData.width || this.currentMap.width;
+		this.mapHeight = tileData.height || this.currentMap.height;
+        console.log(this.mapWidth + "x" + this.mapHeight);
+        var tiles = tileData.tiles;
         
         if (isTilesFile == true) {
             ////////////////// Start processing the tiles file        
@@ -236,13 +243,13 @@ Game = {
         
         ////////////////// Start processing the .js map
         
-		for (var y = 0; y < this.currentMap.height; y++) {
-			for (var x = 0; x < this.currentMap.width; x++) {
+		for (var y = 0; y < this.mapHeight; y++) {
+			for (var x = 0; x < this.mapWidth; x++) {
 				var bg = Crafty.e('Actor, Canvas, ' + this.currentMap.background);
 				bg.size(this.currentMap.tile.width, this.currentMap.tile.height);			
 				bg.move(x, y);
 				bg.z = -1;
-				this.gameObjects.push(bg);
+				this.gameObjects.push(bg);				
 			}
 		}
 		
@@ -259,7 +266,7 @@ Game = {
 			var entityName = 'Actor, Solid, ' + this.currentMap.perimeter;
 			
 			// Top and bottom
-			for (var x = 0; x < this.currentMap.width; x++) {
+			for (var x = 0; x < this.mapWidth; x++) {
 				var e = Crafty.e(entityName);
 				// They're all the same, so check the first one only.
 				if (e.has('Grid') == false) {
@@ -271,12 +278,12 @@ Game = {
 				
 				e = Crafty.e(entityName);
 				e.size(this.currentMap.tile.width, this.currentMap.tile.height);
-				e.move(x, this.currentMap.height - 1);		
+				e.move(x, this.mapHeight - 1);		
 				this.gameObjects.push(e);
 			}
 			
 			// Left and right
-			for (var y = 0; y < this.currentMap.height; y++) {
+			for (var y = 0; y < this.mapHeight; y++) {
 				var e = Crafty.e(entityName);
 				e.size(this.currentMap.tile.width, this.currentMap.tile.height);
 				e.move(0, y);
@@ -284,7 +291,7 @@ Game = {
 				
 				e = Crafty.e(entityName);
 				e.size(this.currentMap.tile.width, this.currentMap.tile.height);
-				e.move(this.currentMap.width - 1, y);
+				e.move(this.mapWidth - 1, y);
 				this.gameObjects.push(e);
 			}
 		}

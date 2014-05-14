@@ -43,9 +43,9 @@ class Main
 		
 		map = data
 		File.open("#{@base_name}_tiles.js", 'w') do |file|
-			file.write("function #{@base_name}_tiles() {\n\tvar tiles = ")
+			file.write("function #{@base_name}_tiles() {\n\tvar map = {\n\t\twidth: #{width},\n\t\theight: #{height},\n\t\t tiles: ")
 			file.write(map.to_json)
-			file.write(";\n\n\treturn tiles;\n}")
+			file.write("};\n\n\treturn map;\n}")
 		end
 	end
 	

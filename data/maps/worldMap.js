@@ -1,8 +1,6 @@
 function worldMap() {
-	var map = {		
-		width:  50,
-		height: 30,
-		
+	var map = {
+			
 		tile: {
 			width:  32,
 			height: 32
@@ -21,14 +19,14 @@ function worldMap() {
 					me.transitionsTo('masjid', 10, 16);
 				},
 				range: {
-					start: { x: 13, y: 18 },
-					end: { x: 15, y: 18 }
+					start: { x: 18, y: 12 },
+					end: { x: 20, y: 12 }
 				}
 			},
 			{
 				type: 'Npc',
 				sprite: 'hijabi_aunty',
-				x: 14, y: 22,
+				x: 23, y: 15,
 				messages: [
 					[
 						{ character: "woman", text: "Young man ..." },

@@ -44,6 +44,22 @@ function masjid() {
 				sprite: 'student_2',
 				messages: ["I like what he's teaching."]
 			},
+			{
+				type: 'StandingNpc',
+				x: 18, y: 2,
+				messages: [
+					[
+						{ 
+							text: "Pray to the fake god?", 
+							choices: ["Yes", "No"], responses: [ "SHIRK AL-AKBAR!", "Phew, that was a close one!" ]
+						}
+					]
+				],
+				sprite: 'student_2',
+				initialize: function(me, player) {
+					console.log("Created at " + me.gridX() + ", " + me.gridY());
+				}
+			}
 		]
 		
 	};
