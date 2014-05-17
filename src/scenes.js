@@ -9,27 +9,32 @@ Crafty.scene('Loading', function() {
 		.textFont({ family: 'Georgia', size: '72px' })
 		.css({ 'color': 'white', 'text-align': 'center' });
 	
-	// Load EVERYTHING, and don't worry about what map uses what stuff.
 	///////////// TODO: move this list of assets into a data file
-	Crafty.load(
+	var assets = [
 		// Images
-		[gameUrl + '/assets/images/titlescreen.png', gameUrl + '/assets/images/deen-games.png',
-		gameUrl + '/assets/images/player.png', gameUrl + '/assets/images/world.png', 		
-		gameUrl + '/assets/images/npc-1.png', gameUrl + '/assets/images/npc-2.png',
-		gameUrl + '/assets/images/npc-3.png', gameUrl + '/assets/images/default-sprite.png', 
-		gameUrl + '/assets/images/chicken-white.png', gameUrl + '/assets/images/chicken-red.png', 
-		gameUrl + '/assets/images/indoors.png', 
-		gameUrl + '/assets/images/main-character.png', gameUrl + '/assets/images/old-man-avatar.png', 		
-		gameUrl + '/assets/images/hijabi-aunty.png', gameUrl + '/assets/images/npc-shaykh.png',
-		gameUrl + '/assets/images/student-1.png', gameUrl + '/assets/images/student-2.png',
+		'/assets/images/titlescreen.png', '/assets/images/deen-games.png',
+		'/assets/images/player.png', '/assets/images/world.png', 		
+		'/assets/images/npc-1.png', '/assets/images/npc-2.png',
+		'/assets/images/npc-3.png', '/assets/images/default-sprite.png', 
+		'/assets/images/chicken-white.png', '/assets/images/chicken-red.png', 
+		'/assets/images/indoors.png', 
+		'/assets/images/main-character.png', '/assets/images/old-man-avatar.png', 		
+		'/assets/images/hijabi-aunty.png', '/assets/images/npc-shaykh.png',
+		'/assets/images/student-1.png', '/assets/images/student-2.png',
 		// UI
-		gameUrl + '/assets/images/message-window.png', gameUrl + '/assets/images/choice-box.png',
-		gameUrl + '/assets/images/inventory-icon.png', gameUrl + '/assets/images/achievements-icon.png',
+		'/assets/images/message-window.png', '/assets/images/choice-box.png',
+		'/assets/images/inventory-icon.png', '/assets/images/achievements-icon.png',
 		// Sounds
-		gameUrl + '/assets/audio/birds.mp3', gameUrl + '/assets/audio/chicken.mp3', gameUrl + '/assets/audio/chicken2.mp3',
-		gameUrl + '/assets/audio/points-positive.mp3', gameUrl + '/assets/audio/points-negative.mp3'],
-		
-	function() {
+		'/assets/audio/birds.mp3', '/assets/audio/chicken.mp3', '/assets/audio/chicken2.mp3',
+		'/assets/audio/points-positive.mp3', '/assets/audio/points-negative.mp3'
+	];
+	
+	for (var i = 0; i < assets.length; i++) {
+		assets[i] = gameUrl + assets[i];		
+	}
+	
+	// Load EVERYTHING, and don't worry about what map uses what stuff.	
+	Crafty.load(assets, function() {
 		
 		Crafty.sprite(32, gameUrl + '/assets/images/player.png', {
 			sprite_player:	[1, 0]
