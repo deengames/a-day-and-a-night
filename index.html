@@ -59,12 +59,15 @@
 			// Reloads the curernt map
 			function reloadMap() {				
 				var mapName = Game.currentMap.fileName;
+				console.log("Reloading " + mapName);
 				loadMap(mapName);
 			}
 			
 			// Reloads a new map. eg. loadMap("house1")
 			function loadMap(mapName) {
-				reload("data/maps/" + mapName + ".js");				
+				reload("data/maps/" + mapName + ".js");
+				reload("data/maps/" + mapName + "_tiles.js");
+				reload("data/maps/" + mapName + "_tileset.js");
 				// Not sure why, but the function doesn't re-evaluate
 				// to the new value until this function call ends.
 				// (eg. worldMap()) -- changing maps works though.

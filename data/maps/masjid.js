@@ -20,7 +20,7 @@ function masjid() {
 			{
 				type: 'StandingNpc',
 				sprite: 'npc_shaykh',
-				x: 7, y: 8,
+				x: 6, y: 5,
 				messages: [ "Peace!" ]				
 			},
 			{
@@ -34,13 +34,13 @@ function masjid() {
 			},
 			{
 				type: 'StandingNpc',
-				x: 5, y: 7,
+				x: 4, y: 4,
 				sprite: 'student_1',
 				messages: ["I've been studying with this shaykh for five years now."]
 			},
 			{
 				type: 'StandingNpc',
-				x: 5, y: 9,
+				x: 4, y: 6,
 				sprite: 'student_2',
 				messages: ["I like what he's teaching."]
 			},

@@ -9,20 +9,20 @@
  </tileset>
  <layer name="Basic" width="25" height="18">
   <data encoding="base64" compression="zlib">
-   eJxjZWBgYKUDZiEBk6OeFY1NyA2U2kGMuwe7HcSG/2h8jMbHYAur0fig3B+UYnraQQxmJlE9MgYAy6IHkg==
+   eJxjZWBgYKUDZiEBk6OeFY1NyA2U2kGMuwe7HcSG/2D3B73sGE1Xo+lqKKYrWmF62kEMZiZRPTIGALsyB44=
   </data>
  </layer>
  <layer name="Carpets" width="25" height="18">
   <data encoding="base64" compression="zlib">
-   eJxjYBicgAeIeYnAfBTYIQLEokRgMSx6sakbanbgUkdtfxALqBFWnEDMBcTcNLRDEIiFgFiYynYgy0kCsRQQS9PAH8SCwZx26WHHcMofg8kOGSCWJQLLUWAHqQAAC/oSRg==
+   eJxjYBicgAeIeYnAfBTYIQLEokRgMSx6OYGYCwlz08AOQSAWQsLCVLZDhA520MMfICAJxFJIWJoGdhALKLEDm7qhZgcufUPNH/Syg1gwXOyQAWJZIrAcBXaQCgAhYhJo
   </data>
  </layer>
  <layer name="MOAR Carpets" width="25" height="18">
   <data encoding="base64" compression="zlib">
-   eJxjYBicgBOIuYjA3BTYIQnEUkRgaQrsGC5gsMcHOxBzUGA3qYCNjnZhA4M9PkYaGI2PoQ0Ad4EGRg==
+   eJxjYBicgBOIuYjA3BTYIQnEUkRgaQLmsAMxBwXuGAyAjYD8UIqPkQBG42NwgdH4GNoAAJVdBkY=
   </data>
  </layer>
- <layer name="Statue" width="25" height="18">
+ <layer name="Statue" width="25" height="18" visible="0">
   <data encoding="base64" compression="zlib">
    eJxjYBg6QJEOdmjSwY5RMApGwSgYBYMHAADNqwBL
   </data>
