@@ -19,7 +19,6 @@ Crafty.c('StandingNpc', {
 		
 		this.onHit('Solid', function(data) {
 			if (this.checkCollisions == true) {
-				console.log("HIT ME");
 				var target = data[0];
 				if (target != null) {
 					if (target.normal != null) {
