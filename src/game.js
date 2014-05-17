@@ -220,8 +220,7 @@ Game = {
 		// Technically, neither is required. If the Tiled JSON map exists,
 		// it will be the correct one; the other one is for simple cases.		
 		this.mapWidth = tileData.width || this.currentMap.width;
-		this.mapHeight = tileData.height || this.currentMap.height;
-        console.log(this.mapWidth + "x" + this.mapHeight);
+		this.mapHeight = tileData.height || this.currentMap.height;       
         var tiles = tileData.tiles;
         
         if (isTilesFile == true) {
@@ -242,7 +241,6 @@ Game = {
         }
         
         ////////////////// Start processing the .js map
-        
 		for (var y = 0; y < this.mapHeight; y++) {
 			for (var x = 0; x < this.mapWidth; x++) {
 				var bg = Crafty.e('Actor, Canvas, ' + this.currentMap.background);
@@ -345,8 +343,8 @@ Game = {
 			}			
 			
 			// d = sqrt[(x1-x2)^2 + (y1-y2)^2]
-			// or: d^2 = (x1-x2)^2 + (y1-y2)^2
-			// d^2 = 2 (1^2 + 1^2 for diagonals)			
+			// d^2 = (x1-x2)^2 + (y1-y2)^2
+			// Magic number "2": appx. d^2 for a 1x1 diagonal
 			var dSquared = Math.pow(obj.gridX() - x, 2) + Math.pow(obj.gridY() - y, 2);
 			if (dSquared <= 2 && dSquared <= minDistance) {
 				minDistance = dSquared;

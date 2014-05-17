@@ -54,10 +54,9 @@ function masjid() {
 							choices: ["Yes", "No"], responses: [ "SHIRK AL-AKBAR!", "Phew, that was a close one!" ]
 						}
 					]
-				],
-				sprite: 'student_2',
+				],				
 				initialize: function(me, player) {
-					console.log("Created at " + me.gridX() + ", " + me.gridY());
+					me.disableCollisionCheck();
 				}
 			}
 		]

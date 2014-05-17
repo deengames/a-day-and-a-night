@@ -9,13 +9,14 @@ Crafty.c('Grid', {
 	},
 	
 	// Locate this entity at the given position on the grid
-	move: function(x, y) {
+	move: function(x, y) {								
 		if (x === undefined && y === undefined) {
 			return { x: this.x / this.width, y: this.y / this.height }
-		} else {
+		} else {			
 			this.attr({ x: parseInt(x) * this.width, y: parseInt(y) * this.height });
+			this.lastPosition = { x: this.x, y: this.y };
 			return this;
-		}
+		}		
 	},
 	
 	gridX: function() {

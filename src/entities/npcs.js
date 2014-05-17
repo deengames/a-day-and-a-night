@@ -5,74 +5,76 @@ Crafty.c('StandingNpc', {
 		var animationDuration = 600; //ms
 		var npc = this;
 		
+		this.checkCollisions = true;
+		
 		this.requires('Actor, SpriteAnimation, Solid, Collision, Interactive, default_sprite')
 			.reel('MovingDown', animationDuration, getFramesForRow(0))
 			.reel('MovingLeft', animationDuration, getFramesForRow(1))
 			.reel('MovingRight', animationDuration, getFramesForRow(2))
 			.reel('MovingUp', animationDuration, getFramesForRow(3));
 				
-		this.velocity = { x: 0, y: 0 };
-		this.lastPosition = { x: this.x, y: this.y };
+		this.velocity = { x: 0, y: 0 };		
 		
 		this.onInteract(this.talk);
 		
 		this.onHit('Solid', function(data) {
-
-			var target = data[0];
-			if (target != null) {
-				if (target.normal != null) {
-					if (this.velocity.x != 0) {
-						this.x -= target.normal.x * target.overlap;
+			if (this.checkCollisions == true) {
+				console.log("HIT ME");
+				var target = data[0];
+				if (target != null) {
+					if (target.normal != null) {
+						if (this.velocity.x != 0) {
+							this.x -= target.normal.x * target.overlap;
+						}
+						
+						if (this.velocity.y != 0) {
+							this.y -= target.normal.y * target.overlap;
+						}
+					} else {
+						this.x = this.lastPosition.x;
+						this.y = this.lastPosition.y;
 					}
-					
-					if (this.velocity.y != 0) {
-						this.y -= target.normal.y * target.overlap;
+				}
+				
+				// Stop if we hit the player.
+				// Otherwise, just turn around.
+				var bumpedIntoWalker = null;
+				for (var i = 0; i < data.length; i++) {
+					var bumpedInto = data[i];
+					if (bumpedInto.obj.has('Player') || bumpedInto.obj.has('NpcBase')) {
+						bumpedIntoWalker = bumpedInto;
+						break;
+					}
+				}
+				
+				if (bumpedIntoWalker != null) {
+					this.pauseAnimation();
+					// Stop, don't keep colliding.
+					// But, noHit will trigger rapidly; wait.
+					if (this.velocity.x != 0 || this.velocity.y != 0) {
+						this.oldVelocity = this.velocity;
+						this.velocity = { x: 0, y: 0 };
+						var timer = Crafty.e('Timer')
+							.interval(1000)
+							.callback(function() {
+								var target = bumpedIntoWalker.obj;
+								var d = Math.pow(npc.x - target.x, 2) + Math.pow(npc.y - target.y, 2);
+								// 9 = 3^2 (three tiles away)
+								if (typeof(npc.oldVelocity) != 'undefined' && d >= 3 * 3 * Game.currentMap.tile.width * Game.currentMap.tile.height) {
+									npc.velocity = npc.oldVelocity;
+									if (npc.state == 'moving') {
+										npc.resumeAnimation();								
+									}
+									timer.stop();
+									delete timer;
+								}
+							}).start();
 					}
 				} else {
-					this.x = this.lastPosition.x;
-					this.y = this.lastPosition.y;
+					this.velocity.x *= -1;
+					this.velocity.y *= -1;
 				}
 			}
-			
-			// Stop if we hit the player.
-			// Otherwise, just turn around.
-			var bumpedIntoWalker = null;
-			for (var i = 0; i < data.length; i++) {
-				var bumpedInto = data[i];
-				if (bumpedInto.obj.has('Player') || bumpedInto.obj.has('NpcBase')) {
-					bumpedIntoWalker = bumpedInto;
-					break;
-				}
-			}
-			
-			if (bumpedIntoWalker != null) {
-				this.pauseAnimation();
-				// Stop, don't keep colliding.
-				// But, noHit will trigger rapidly; wait.
-				if (this.velocity.x != 0 || this.velocity.y != 0) {
-					this.oldVelocity = this.velocity;
-					this.velocity = { x: 0, y: 0 };
-					var timer = Crafty.e('Timer')
-						.interval(1000)
-						.callback(function() {
-							var target = bumpedIntoWalker.obj;
-							var d = Math.pow(npc.x - target.x, 2) + Math.pow(npc.y - target.y, 2);
-							// 9 = 3^2 (three tiles away)
-							if (typeof(npc.oldVelocity) != 'undefined' && d >= 3 * 3 * Game.currentMap.tile.width * Game.currentMap.tile.height) {
-								npc.velocity = npc.oldVelocity;
-								if (npc.state == 'moving') {
-									npc.resumeAnimation();								
-								}
-								timer.stop();
-								delete timer;
-							}
-						}).start();
-				}
-			} else {
-				this.velocity.x *= -1;
-				this.velocity.y *= -1;
-			}
-			
 		});
 	},
 	
@@ -110,6 +112,10 @@ Crafty.c('StandingNpc', {
 			this.lastVelocity.x = this.velocity.x;
 			this.lastVelocity.y = this.velocity.y;
 		}
+	},
+	
+	disableCollisionCheck: function() {
+		this.checkCollisions = false;
 	}
 });
 
