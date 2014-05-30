@@ -173,7 +173,11 @@ Crafty.c('DialogBox', {
 								var response = responses[n];
 								// Always wrap into an array
 								response = [response];								
-								self.message(response);								
+								self.message(response);
+								// Callback if it exists
+								if (!(self.source.npc.onChoice == null)) {
+									self.source.npc.onChoice(decided);
+								}
 							} else { 
 								chose = true;								
 							}
@@ -192,6 +196,7 @@ Crafty.c('DialogBox', {
 		// Changed conversations, maybe in the middle ...
 		if (this.source != null && this.source.npc != npc) {
 			delete conversationIndex;
+			delete conversation;
 		}
 		this.source = { npc: npc, x: x, y: y };
 	},

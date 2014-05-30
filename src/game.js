@@ -393,6 +393,10 @@ Game = {
 			obj.onTalk = def.onTalk;
 		}
 		
+		if (typeof(def.onChoice) != "undefined") {
+			obj.onChoice = def.onChoice;
+		}
+		
 		if (def.type.toUpperCase() == 'WALKINGNPC') {			
 			// Walking NPCs have velocity, too.		
 			obj.velocity = def.velocity;

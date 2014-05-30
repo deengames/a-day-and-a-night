@@ -58,8 +58,17 @@ function masjid() {
 				],				
 				initialize: function(me, player) {
 					me.disableCollisionCheck();
+				},				
+				onChoice: function(choice) {
+					console.log(choice);
 				}
-			}
+			},
+			{
+				type: 'Npc',
+				x: 5, y: 11,
+				sprite: 'statue_worshipper',
+				messages: ["We must follow the way of our ancestors, and pray to the king to help us!"]
+			},
 		]
 		
 	};

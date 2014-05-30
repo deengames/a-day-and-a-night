@@ -21,6 +21,7 @@ Crafty.scene('Loading', function() {
 		'/assets/images/main-character.png', '/assets/images/old-man-avatar.png', 		
 		'/assets/images/hijabi-aunty.png', '/assets/images/npc-shaykh.png',
 		'/assets/images/student-1.png', '/assets/images/student-2.png',
+		'/assets/images/statue-worshipper.png',
 		// UI
 		'/assets/images/message-window.png', '/assets/images/choice-box.png',
 		'/assets/images/inventory-icon.png', '/assets/images/achievements-icon.png',
@@ -90,6 +91,10 @@ Crafty.scene('Loading', function() {
 		
 		Crafty.sprite(32, gameUrl + '/assets/images/npc-shaykh.png', {
 			npc_shaykh: [1, 1]
+		});
+		
+		Crafty.sprite(32, gameUrl + '/assets/images/statue-worshipper.png', {
+			statue_worshipper: [1, 1]
 		});
 		
 		Crafty.audio.add({
