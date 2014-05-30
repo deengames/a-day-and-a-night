@@ -27,31 +27,11 @@ Crafty.c('Interactive', {
 				if (this.onTalk != null) {
 					obj = this.onTalk();
 				} else {
-					obj = this.messages[Math.floor(Math.random() * this.messages.length)];
+					obj = this.messages;
 				}
 				
 				dialog.setSource(this, this.x, this.y);
-				
-				if (obj instanceof Array) {
-					if (typeof(conversationIndex) == 'undefined') {
-						conversationIndex = 0;
-					} else {
-						conversationIndex += 1;                        
-						if (conversationIndex >= obj.length) {
-                            // This is for conversations (without choices)
-                            if (typeof(awaitingChoice) == 'undefined') {
-                                dialog.close();
-                            }
-							return;
-						}
-					}
-					
-					message = obj[conversationIndex];
-				} else {
-					message = obj;
-				}
-				
-				dialog.message(message);				
+				dialog.message(obj);				
 			} else {
 				dialog.close();
                 delete dialog;

@@ -28,8 +28,8 @@ function masjid() {
 				x: 19, y: 2,
 				sprite: 'sprite_npc3',
 				messages: [
-					["That statue ...", "Can it help me?",
-					"Can it harm me?", "Can it even hear me?", "Hmm ..."]
+					["That statue ... can it see me?", "Can it hear me?", "Hmm ..."],
+					"That old man put the statue in the masjid a few days ago. It caused quite a ruckus."
 				]
 			},
 			{
@@ -48,12 +48,13 @@ function masjid() {
 				type: 'StandingNpc',
 				x: 18, y: 2,
 				messages: [
-					[
-						{ 
-							text: "Pray to the fake god?", 
-							choices: ["Yes", "No"], responses: [ "SHIRK AL-AKBAR!", "Phew, that was a close one!" ]
-						}
-					]
+					{ 
+						text: "Pray to the king?", 
+						choices: ["Yes", "No"], responses: [
+							["You bow your head to the statue and ask the king for help.", "Nothing happens."],
+							"You glance at the vacant eyes and decide you should be doing something else right now."
+						]
+					}					
 				],				
 				initialize: function(me, player) {
 					me.disableCollisionCheck();

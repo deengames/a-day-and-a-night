@@ -54,18 +54,50 @@ Crafty.c('DialogBox', {
 		}
 	},
 	
-	message: function(obj) {
+	message: function(messages) {		
 		var self = this;
 		delete closeNextKeyPress;
+		// Given an array of messages, pick one randomly
+		var obj = messages[Math.floor(Math.random() * messages.length)];
+		
+		if (typeof(conversationIndex) != 'undefined') {
+			obj = conversation;
+		}
+		
+		// Because we can only easily close-on-next-message with conversations, convert everything into conversations.
+		if (!(obj instanceof Array)) {
+			obj = [obj];
+		}
+		
 		// Only these types of messages are acceptable here:
 		// 1) 	String (eg. "Hi mom!")
 		// 2) 	Object. It can have an avatar (eg. { avatar: '/images/player.png', message: 'Lick my face?!' },
 		// 			and a choice object (eg. { choices: ['Yes', 'No'], responses: ['Me too!', 'Oh, really? I disagree.'] }
-		// 3) 	Array of any combination and number of the above
+		// 3) 	Array of any combination and number of the above (a conversation)
+		if (obj instanceof Array) {
+			if (typeof(conversationIndex) == 'undefined') {
+				conversationIndex = 0;
+				conversation = obj;
+			} else {
+				conversationIndex += 1;                        
+				if (conversationIndex >= obj.length) {
+					// This is for conversations (without choices)
+					if (typeof(awaitingChoice) == 'undefined') {
+						dialog.close();
+					}
+					delete conversationIndex;
+					delete conversation;
+					return;
+				}
+			}
+			
+			obj = obj[conversationIndex];
+		}
+		
 		if (typeof(obj) == 'string') {
 			this.text.text(obj);
-			this.avatar.attr({ alpha: 0 });
-		} else { // object			
+			this.avatar.attr({ alpha: 0 });	
+		} else { // object						
 			var text = "";
 			// Is it a character? A valid one? With an avatar?
 			if (typeof(obj.character) != 'undefined') {
@@ -86,7 +118,7 @@ Crafty.c('DialogBox', {
 				} else {
 					throw new Error("Dialog specifices a character, but /data/character.js doesn't exist or isn't loaded.");
 				}
-			}
+			}			
 			
 			if (typeof(obj.choices) != 'undefined') {
                 awaitingChoice = true;
@@ -138,7 +170,10 @@ Crafty.c('DialogBox', {
 								var n = Math.floor((self.selectionBox.y - self.choiceBox.y) / 26);
 								var decided = choices[n];								
 								self.destroyChoiceBox();								
-								self.message(responses[n]);								
+								var response = responses[n];
+								// Always wrap into an array
+								response = [response];								
+								self.message(response);								
 							} else { 
 								chose = true;								
 							}
@@ -190,6 +225,7 @@ Crafty.c('DialogBox', {
 		this.source = null;		
 		// If it was a conversation, forget the conversation
 		delete conversationIndex;
+		delete conversation;
 		this.destroyChoiceBox();
 	},
 	
