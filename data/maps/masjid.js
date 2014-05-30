@@ -60,7 +60,9 @@ function masjid() {
 					me.disableCollisionCheck();
 				},				
 				onChoice: function(choice) {
-					console.log(choice);
+					if (choice == 'Yes') {
+						Crafty('PointsManager').event("Worship a statue", -100);
+					}
 				}
 			},
 			{
