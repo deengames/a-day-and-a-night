@@ -22,7 +22,7 @@
    eJxjYBicgBOIuYjA3BTYIQnEUkRgaQLmsAMxBwXuGAyAjYD8UIqPkQBG42NwgdH4GNoAAJVdBkY=
   </data>
  </layer>
- <layer name="Statue" width="25" height="18" visible="0">
+ <layer name="Statue" width="25" height="18">
   <data encoding="base64" compression="zlib">
    eJxjYBg6QJEOdmjSwY5RMApGwSgYBYMHAADNqwBL
   </data>
