@@ -21,7 +21,10 @@ function masjid() {
 				type: 'StandingNpc',
 				sprite: 'npc_shaykh',
 				x: 6, y: 5,
-				messages: [ "Peace!" ]				
+				messages: [ 
+					["A stranger? Welcome! You are free to sit with us and listen, if you wish." ,
+					"We are studying Kitab At-Tawheed, a famous book of theology. Today, we start Chapter 14: 'To seek help in other than Allah is an act of shirk.'"]
+				]
 			},
 			{
 				type: 'Npc',
@@ -29,20 +32,21 @@ function masjid() {
 				sprite: 'sprite_npc3',
 				messages: [
 					["That statue ... can it see me?", "Can it hear me?", "Hmm ..."],
-					"That old man put the statue in the masjid a few days ago. It caused quite a ruckus."
+					"That old man put the statue in the masjid a few days ago."
 				]
 			},
 			{
 				type: 'StandingNpc',
 				x: 4, y: 4,
 				sprite: 'student_1',
-				messages: ["I've been studying with this shaykh for five years now."]
+				messages: ["Hey, you're interrupting our lesson!"]
 			},
 			{
 				type: 'StandingNpc',
 				x: 4, y: 6,
 				sprite: 'student_2',
-				messages: ["I like what he's teaching."]
+				messages:
+					["Hey, are you a student too? No? Oh.", "That's our teacher over there."]
 			},
 			{
 				type: 'StandingNpc',
@@ -73,7 +77,7 @@ function masjid() {
 				type: 'Npc',
 				x: 5, y: 11,
 				sprite: 'statue_worshipper',
-				messages: ["We must follow the way of our ancestors, and pray to the king to help us!"]
+				messages: ["We must follow the way of our ancestors, and pray to the king to help!"]
 			},
 		]
 		
