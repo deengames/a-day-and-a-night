@@ -51,8 +51,8 @@ function masjid() {
 					{ 
 						text: "Pray to the king?", 
 						choices: ["Yes", "No"], responses: [
-							["You bow your head to the statue and ask the king for help.", "Nothing happens."],
-							"You glance at the vacant eyes and decide you should be doing something else right now."
+							["You bow your head to the statue and silently pray to the king to protect you from his soldiers.", "Nothing happens."],
+							"You glance at status of the vile king and wonder how his presence (and worship) reached even this remote village."
 						]
 					}					
 				],				
@@ -61,7 +61,9 @@ function masjid() {
 				},				
 				onChoice: function(choice) {
 					if (choice == 'Yes') {
-						Crafty('PointsManager').event("Worship a statue", -100);
+						Crafty('PointsManager').event("Worship a piece of gold", -100);
+					} else if (choice == 'No') {
+						Crafty('PointsManager').event("Decide not to worship the statue", 100);
 					}
 				}
 			},
