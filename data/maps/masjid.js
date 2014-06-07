@@ -48,13 +48,15 @@ function masjid() {
 				type: 'StandingNpc',
 				x: 18, y: 2,
 				messages: [
-					{ 
-						text: "Pray to the king?", 
-						choices: ["Yes", "No"], responses: [
-							["You bow your head to the statue and silently pray to the king to protect you from his soldiers.", "Nothing happens."],
-							"You glance at status of the vile king and wonder how his presence (and worship) reached even this remote village."
-						]
-					}					
+					["A beautiful, glittering gold statue of the king stands in front of you -- regal, proud, strong.", 
+						{ 
+							text: "Offer a quick prayer to the king?", 
+							choices: ["Yes", "No"], responses: [
+								["You bow your head to the statue and silently pray to the king to protect you from his soldiers.", "Nothing happens."],
+								"You glance at status of the vile king and wonder how his presence (and worship) reached even this remote village."
+							]
+						}
+					]
 				],				
 				initialize: function(me, player) {
 					me.disableCollisionCheck();
