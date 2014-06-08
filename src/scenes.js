@@ -23,7 +23,7 @@ Crafty.scene('Loading', function() {
 		'/assets/images/student-1.png', '/assets/images/student-2.png',
 		'/assets/images/statue-worshipper.png',
 		// UI
-		'/assets/images/ui/titlescreen-blank-button.png',
+		'/assets/images/ui/titlescreen-blank-button.png', '/assets/images/ui/titlescreen-title.png',
 		'/assets/images/message-window.png', '/assets/images/choice-box.png',
 		'/assets/images/inventory-icon.png', '/assets/images/achievements-icon.png',
 		// Sounds
@@ -149,7 +149,7 @@ Crafty.scene('TitleScreen', function() {
 	Crafty.background('black');
 	// Canvas is necessary for smooth tweens.
 	var bg = Crafty.e('2D, Canvas, Image')
-		.image(gameUrl + '/assets/images/titlescreen-background.png')		
+		.image(gameUrl + '/assets/images/titlescreen-background.png')
 		.attr({ x: 0, y: 0 });
 		
 	var blackout = Crafty.e('2D, Canvas, Color, Tween, Mouse')
@@ -168,6 +168,26 @@ Crafty.scene('TitleScreen', function() {
 	blackout.bind('Click', function() {		
 		blackout.tween({ alpha: 1.0 }, 1000);
 	});
+	
+	var title = Crafty.e('2D, Canvas, Image')
+		.image(gameUrl + '/assets/images/ui/titlescreen-title.png')
+		.attr({ x: 110, y: 30 });
+		
+	var b1bg = Crafty.e('2D, Canvas, Image')
+		.image(gameUrl + '/assets/images/ui/titlescreen-blank-button.png')
+		.attr({ x: 280, y: 180 });	
+		
+	var b2bg = Crafty.e('2D, Canvas, Image')
+		.image(gameUrl + '/assets/images/ui/titlescreen-blank-button.png')
+		.attr({ x: b1bg.x, y: b1bg.y + 70 });	
+		
+	var b3bg = Crafty.e('2D, Canvas, Image')
+		.image(gameUrl + '/assets/images/ui/titlescreen-blank-button.png')
+		.attr({ x: b2bg.x, y: b2bg.y + 70 });
+		
+	var b4bg = Crafty.e('2D, Canvas, Image')
+		.image(gameUrl + '/assets/images/ui/titlescreen-blank-button.png')
+		.attr({ x: b3bg.x, y: b3bg.y + 70 });	
 });
 
 Crafty.scene('Map', function() {
