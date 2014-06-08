@@ -12,7 +12,7 @@ Crafty.scene('Loading', function() {
 	///////////// TODO: move this list of assets into a data file
 	var assets = [
 		// Images
-		'/assets/images/titlescreen.png', '/assets/images/deen-games.png',
+		'/assets/images/titlescreen-background.png', '/assets/images/deen-games.png',
 		'/assets/images/player.png', '/assets/images/world.png', 		
 		'/assets/images/npc-1.png', '/assets/images/npc-2.png',
 		'/assets/images/npc-3.png', '/assets/images/default-sprite.png', 
@@ -23,6 +23,7 @@ Crafty.scene('Loading', function() {
 		'/assets/images/student-1.png', '/assets/images/student-2.png',
 		'/assets/images/statue-worshipper.png',
 		// UI
+		'/assets/images/ui/titlescreen-blank-button.png',
 		'/assets/images/message-window.png', '/assets/images/choice-box.png',
 		'/assets/images/inventory-icon.png', '/assets/images/achievements-icon.png',
 		// Sounds
@@ -147,29 +148,25 @@ Crafty.scene('SplashScreen', function() {
 Crafty.scene('TitleScreen', function() {
 	Crafty.background('black');
 	// Canvas is necessary for smooth tweens.
-	var logo = Crafty.e('2D, Canvas, Image, Tween, Mouse')
-		.image(gameUrl + '/assets/images/titlescreen.png')		
-		.attr({ x: 0, y: 0, alpha: 0.0 })
+	var bg = Crafty.e('2D, Canvas, Image')
+		.image(gameUrl + '/assets/images/titlescreen-background.png')		
+		.attr({ x: 0, y: 0 });
 		
-		// Fade in for 2s
-		.tween({ alpha: 1.0 }, 1000)		
-		.bind('TweenEnd', function() {
-			// Then, maintain for 1s
-			logo.unbind('TweenEnd')
-			.tween(null, 1000)
+	var blackout = Crafty.e('2D, Canvas, Color, Tween, Mouse')
+		.attr({ w: Game.view.width, h: Game.view.height, z: 1000, alpha: 1.0 })
+		.color("#000000")		
+		// Fade in		
+		.tween({ alpha: 0.0 }, 1000)		
+		.bind('TweenEnd', function() {			
+			blackout.unbind('TweenEnd')			
 			.bind('TweenEnd', function() {
-				// Then, fade out for 1s    
-				logo.unbind('TweenEnd')
-				.tween({ alpha: 0.0 }, 1000)			
-				.bind('TweenEnd', function() {
-					// Then, change scenes						
-					Crafty.scene('Map');
-				});
+				// Then, change scenes						
+				Crafty.scene('Map');				
 			});
 		});
 	
-	logo.bind('Click', function() {		
-		logo.tween({ alpha: 0.0 }, 500);
+	blackout.bind('Click', function() {		
+		blackout.tween({ alpha: 1.0 }, 1000);
 	});
 });
 
