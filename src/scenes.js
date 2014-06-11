@@ -26,6 +26,8 @@ Crafty.scene('Loading', function() {
 		'/assets/images/ui/titlescreen-blank-button.png', '/assets/images/ui/titlescreen-title.png',
 		'/assets/images/message-window.png', '/assets/images/choice-box.png',
 		'/assets/images/inventory-icon.png', '/assets/images/achievements-icon.png',
+		'/assets/images/ui/titlescreen-achievements-text.png', '/assets/images/ui/titlescreen-credits-text.png',
+		'/assets/images/ui/titlescreen-newgame-text.png', '/assets/images/ui/titlescreen-options-text.png',
 		// Sounds
 		'/assets/audio/birds.mp3', '/assets/audio/chicken.mp3', '/assets/audio/chicken2.mp3',
 		'/assets/audio/points-positive.mp3', '/assets/audio/points-negative.mp3'
@@ -156,7 +158,7 @@ Crafty.scene('TitleScreen', function() {
 		.image(gameUrl + '/assets/images/titlescreen-background.png')
 		.attr({ x: 0, y: 0 });
 		
-	var blackout = Crafty.e('2D, Canvas, Color, Tween, Mouse')
+	var blackout = Crafty.e('2D, Canvas, Color, Tween')
 		.attr({ w: Game.view.width, h: Game.view.height, z: 1000, alpha: 1.0 })
 		.color("#000000")		
 		// Fade in		
@@ -169,29 +171,37 @@ Crafty.scene('TitleScreen', function() {
 			});
 		});
 	
-	blackout.bind('Click', function() {		
-		blackout.tween({ alpha: 1.0 }, 1000);
-	});
-	
 	var title = Crafty.e('2D, Canvas, Image')
 		.image(gameUrl + '/assets/images/ui/titlescreen-title.png')
-		.attr({ x: 110, y: 30 });
+		.attr({ x: 110, y: 30 });	
 		
-	var b1bg = Crafty.e('2D, Canvas, Image')
+	var newGameButton = Crafty.e('2D, Canvas, Image, Mouse')
 		.image(gameUrl + '/assets/images/ui/titlescreen-blank-button.png')
 		.attr({ x: 280, y: 180 });	
+	Crafty.e('2D, Canvas, Image').image(gameUrl + '/assets/images/ui/titlescreen-newgame-text.png')
+		.attr({ x: newGameButton.x, y: newGameButton.y, z: newGameButton.z + 1 });
 		
-	var b2bg = Crafty.e('2D, Canvas, Image')
+	var optionsButton = Crafty.e('2D, Canvas, Image, Mouse')
 		.image(gameUrl + '/assets/images/ui/titlescreen-blank-button.png')
-		.attr({ x: b1bg.x, y: b1bg.y + 70 });	
+		.attr({ x: newGameButton.x, y: newGameButton.y + 70 });	
+	Crafty.e('2D, Canvas, Image').image(gameUrl + '/assets/images/ui/titlescreen-options-text.png')
+		.attr({ x: optionsButton.x, y: optionsButton.y, z: optionsButton.z + 1 });
 		
-	var b3bg = Crafty.e('2D, Canvas, Image')
+	var achievementsButton = Crafty.e('2D, Canvas, Image, Mouse')
 		.image(gameUrl + '/assets/images/ui/titlescreen-blank-button.png')
-		.attr({ x: b2bg.x, y: b2bg.y + 70 });
+		.attr({ x: optionsButton.x, y: optionsButton.y + 70 });
+	Crafty.e('2D, Canvas, Image').image(gameUrl + '/assets/images/ui/titlescreen-achievements-text.png')
+		.attr({ x: achievementsButton.x, y: achievementsButton.y, z: achievementsButton.z + 1 });
 		
-	var b4bg = Crafty.e('2D, Canvas, Image')
+	var creditsButton = Crafty.e('2D, Canvas, Image, Mouse')
 		.image(gameUrl + '/assets/images/ui/titlescreen-blank-button.png')
-		.attr({ x: b3bg.x, y: b3bg.y + 70 });	
+		.attr({ x: achievementsButton.x, y: achievementsButton.y + 70 });
+	Crafty.e('2D, Canvas, Image').image(gameUrl + '/assets/images/ui/titlescreen-credits-text.png')
+		.attr({ x: creditsButton.x, y: creditsButton.y, z: creditsButton.z + 1 });
+		
+	newGameButton.bind('Click', function() {		
+		blackout.tween({ alpha: 1.0 }, 1000);
+	});
 });
 
 Crafty.scene('Map', function() {
