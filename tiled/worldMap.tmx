@@ -8,19 +8,19 @@
   </properties>
   <image source="../assets/images/world.png" width="256" height="192"/>
  </tileset>
- <layer name="Tile Layer 1" width="50" height="50">
+ <layer name="Grass/Walls" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJztwzENAAAMA6DWv+mJ6LEHEpqkqqqqqqrqFAAAAPh3c8gF3Q==
+   eJzt0bEJwDAMAEG5yP4rZ4UEDDmcL64TQo/WzKyHrhezsjosdVjqsNRhqcNSh6UOSx2WOix1WOqw1GGpw1KHpQ5LHZY6LHVY6rDUYanDUoflpI7ddu3/6z++vuH0jhvkGQsZ
   </data>
  </layer>
- <layer name="Tile Layer 2" width="50" height="50">
+ <layer name="Buildings" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt09EKgkAQRuGhojIrLUsr7f1fs19Q8GLZCwnckfPBAUEvdtjRDGuyV4dAxyUPNcNVFYHKJQ81g+c5xl3qdyc2R+o7Np69P2vs/0j9bqZzxO4j9TnWuFee7yM0x0Zt1c78zpGpk8rVWV3M5xw3dVeVeqin+ZijVo16Dc9v9VGt6tR3eNdMvgMAAAAAAAAAAACAf/kB5tAHqA==
+   eJzt2csKwjAQRuGgolatt1rr9f1f0z/QQhYhi4AkU84HBwRdZEhcjXOYk7XaRNqWPFSGozpFOpc8VAbLc0xvyb+d1By1v7Hp7P6sqf9H7XcTzpG6j9rnmOO7snwfsTkWaqlWzu4cjdqpvTqo1tmc46KuqlM31Tsbc9zVoB7j56d6qbf6qO/43RD8DgAAAAAAAAAA/Iffm4T7n7bscbL5vUm4/+nLHidbbP9jUWz/A9TkB0qbCPQ=
   </data>
  </layer>
- <layer name="Tile Layer 3" width="50" height="50">
+ <layer name="Above Buildings" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt0rkNgDAQRUEq4Ug4EqD/6tgObOTAh2akH2y2wZsmRjTHltha+Y9Se+yInbUfKXTHnthb+5EfchtqvbXchlpvLbehHlsDxrYl7l5ciRsAAAAAAABowwdspQSy
+   eJzt2bkRgDAMBEAq4Ul4EqD/6lAHNuPANuzOXKDsgss0DHzRGJkic+UepdbIFtlrFyl0Rq7IXbvIC7kban1ruRtqfWu5G+pxa8C3LYm7F0fiBgAAAAAA+Av/H1r3AK7UBUY=
   </data>
  </layer>
 </map>

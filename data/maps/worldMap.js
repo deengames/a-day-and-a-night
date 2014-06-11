@@ -34,7 +34,22 @@ function worldMap() {
 						{ character: "woman", text: "He submitted to the creator of everything, alone, and did not worship anything beside Him." }
 					]
 				]
-			}	
+			},
+			{
+				type: 'StandingNpc',
+				sprite: 'kings_guard',
+				range: {
+					start: { x: 32, y: 47 },
+					end: { x: 34, y: 47 }
+				},				
+				onTalk: function() {
+					// Uber hack: back up instantly!
+					var p = Crafty('Player');
+					p.y -= 16;	
+					p.animate("MovingUp");
+					return ["The guards will recognize me. I must keep out of sight."];
+				}
+			}
 		]
 		
 	};
