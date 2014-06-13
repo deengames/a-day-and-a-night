@@ -2,11 +2,11 @@
 <map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="world" tilewidth="32" tileheight="32">
   <properties>
-   <property name="above" value="2-4,6-24,29-48"/>
+   <property name="above" value="2-4,6-24,29-104"/>
    <property name="ignore" value="1"/>
-   <property name="solid" value="6-8,14,16,21,22-24,25,29,41"/>
+   <property name="solid" value="6-8,14,16,21,22-24,25,29,41,105-107,113-115,121-123,129-131,137-139"/>
   </properties>
-  <image source="../assets/images/world.png" width="256" height="192"/>
+  <image source="../assets/images/world.png" width="256" height="576"/>
  </tileset>
  <layer name="Grass/Walls" width="50" height="50">
   <data encoding="base64" compression="zlib">
@@ -15,12 +15,17 @@
  </layer>
  <layer name="Buildings" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt2csKwjAQRuGgolatt1rr9f1f0z/QQhYhi4AkU84HBwRdZEhcjXOYk7XaRNqWPFSGozpFOpc8VAbLc0xvyb+d1By1v7Hp7P6sqf9H7XcTzpG6j9rnmOO7snwfsTkWaqlWzu4cjdqpvTqo1tmc46KuqlM31Tsbc9zVoB7j56d6qbf6qO/43RD8DgAAAAAAAAAA/Iffm4T7n7bscbL5vUm4/+nLHidbbP9jUWz/A9TkB0qbCPQ=
+   eJztmcsKwjAQRYOK7/qu9fmR6kpdqSv1p72BFmYRisxmknIPHCiki3vJZDXOkSbRhb2AfctQCiZwGnBmGUpByj2qWfKzU9cj9hmrsvusde8j9ruRPeruI/YeTZyrlO8j1KMF27Dj0u0xgEM4gmOYuTR7zOECLuEK5i6NHmtYwE35vYU7uIcHeCzPCvEfIYQQQgghhBCi4QpvwrttHDUP+BS+bOOoecOP8Gsb5y9O8Cy82MZRw7cQFym+BUJIs/F7E7n/yWzjqPF7E7n/yW3jqAntf1IktP8hJCZ+3/0aag==
   </data>
  </layer>
  <layer name="Above Buildings" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt2bkRgDAMBEAq4Ul4EqD/6lAHNuPANuzOXKDsgss0DHzRGJkic+UepdbIFtlrFyl0Rq7IXbvIC7kban1ruRtqfWu5G+pxa8C3LYm7F0fiBgAAAAAA+Av/H1r3AK7UBUY=
+   eJzt2btOAlEUheHzJIqJUUiM4AWJIhgUISAUCBYKFHIpFHz/1t/eyRwGyD4zWX/yFdOtE3aHcyqLHeAQOeMd23aCU+Sth2zZOYooWQ/ZIN8bCv3WfG8o9FvzvaE03ppSKtsdxXynpULMt1JKKaWUsusGF7jEFa5RjlAx2uhTHbe4QxX3qEV4MNro0987GnjEE5p4jhD6Ozro4gU99F36fo8WBnjFECO8uf/f0Tba6Ns7PjDGBFPbOYn7xAxzLLC0nZO4L3xjhTV+bOeojHVsPWBHnVkPUEoppfaY/v9RofcLHlkaVA==
+  </data>
+ </layer>
+ <layer name="Even Higher" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztxqERADAIBDDGQiK7/0Sd4D3cJSpVAAAAAABs1OHXTPg1LxwAAADY4wPSeAGB
   </data>
  </layer>
 </map>
