@@ -49,6 +49,14 @@ function worldMap() {
 					p.animate("MovingUp");
 					return ["The guards will recognize me. I must keep out of sight."];
 				}
+			},
+			{
+				type: 'Door',
+				sprite: 'door_lhs',
+				x: 39, y: 36,
+				initialize: function(me, player) {
+					me.transitionsTo('testHouse', 3, 3);					
+				}
 			}
 		]
 		

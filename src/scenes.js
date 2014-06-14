@@ -17,7 +17,7 @@ Crafty.scene('Loading', function() {
 		'/assets/images/npc-1.png', '/assets/images/npc-2.png',
 		'/assets/images/npc-3.png', '/assets/images/default-sprite.png', 
 		'/assets/images/chicken-white.png', '/assets/images/chicken-red.png', 
-		'/assets/images/indoors.png', 
+		'/assets/images/indoors.png', '/assets/images/doors.png',
 		'/assets/images/main-character.png', '/assets/images/old-man-avatar.png', 		
 		'/assets/images/hijabi-aunty.png', '/assets/images/npc-shaykh.png',
 		'/assets/images/student-1.png', '/assets/images/student-2.png',
@@ -30,7 +30,7 @@ Crafty.scene('Loading', function() {
 		'/assets/images/ui/titlescreen-newgame-text.png', '/assets/images/ui/titlescreen-options-text.png',
 		// Sounds
 		'/assets/audio/birds.mp3', '/assets/audio/chicken.mp3', '/assets/audio/chicken2.mp3',
-		'/assets/audio/points-positive.mp3', '/assets/audio/points-negative.mp3'
+		'/assets/audio/points-positive.mp3', '/assets/audio/points-negative.mp3', '/assets/audio/open-door.mp3'
 	];
 	
 	for (var i = 0; i < assets.length; i++) {
@@ -79,7 +79,7 @@ Crafty.scene('Loading', function() {
 		
 		Crafty.sprite(32, 32, gameUrl + '/assets/images/world.png', {
 			world_grass:	[0, 0],
-			world_wall: 	[4, 0]			
+			world_wall: 	[4, 0],
 		});
 		
 		Crafty.sprite(32, 32, gameUrl + '/assets/images/indoors.png', {
@@ -104,12 +104,17 @@ Crafty.scene('Loading', function() {
 			kings_guard: [1, 0]
 		});
 		
+		Crafty.sprite(32, 64, gameUrl + '/assets/images/doors.png', {
+			door_lhs: [0, 0]
+		});
+		
 		Crafty.audio.add({
 			outside: [gameUrl + '/assets/audio/birds.mp3'], 
 			chicken: [gameUrl + '/assets/audio/chicken.mp3'],
 			chicken2: [gameUrl + '/assets/audio/chicken2.mp3'],
 			pointsPos: [gameUrl + '/assets/audio/points-positive.mp3'],
 			pointsNeg: [gameUrl + '/assets/audio/points-negative.mp3'],
+			openDoor: [gameUrl + '/assets/audio/open-door.mp3']
 			// tone: [gameUrl + '/assets/audio/tone.mp3']
 		});
 		

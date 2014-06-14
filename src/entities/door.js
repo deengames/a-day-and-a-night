@@ -1,15 +1,23 @@
-// A door between two maps.
+// A door between two maps. When something touches it, it opens.
 Crafty.c('Door', {
 	init: function() {
 		this.transitioned = false;
-		this.requires('Actor, Collision');
+		this.isClosed = true;
+		
+		this.requires('Actor, Collision, Interactive');
+		this.onInteract(function() { console.log('!'); this.open(); });
+		
 		this.onHit('Solid', function(data) {
+			if (this.isClosed) {
+				this.open();
+			}
+						
+			this.attr({ alpha: 0 });
+			
 			if (!this.transitioned) {
 				var overlap = Math.abs(data[0].overlap);
 				var hit = data[0].obj;
 				// Magic number 11: sufficiently overlap the door.
-				// TODO: remove this when the player collision rect
-				// is only the bottom half of him.
 				if (hit.has('Player') && Math.abs(overlap) >= 11) {
 					var self = this;
 					Game.player.freeze();
@@ -41,5 +49,10 @@ Crafty.c('Door', {
 		this.destination = destination;
 		this.destinationX = x;
 		this.destinationY = y;
+	},
+	
+	open: function() {
+		this.isClosed = false;
+		Crafty.audio.play('openDoor');		
 	}
 });

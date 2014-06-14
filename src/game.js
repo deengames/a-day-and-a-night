@@ -370,6 +370,7 @@ Game = {
 	createObjectFrom: function(def, player) {
 		// Common properties
 		var name = def.type
+		
 		if (typeof(def.components) != 'undefined') {
 			name = name + ', ' + def.components;
 		}
@@ -418,7 +419,7 @@ Game = {
 	
 	initializeAndAdd: function(def, obj, player) {
 		// Did we define custom intialization? Call it. (eg. positional audio NPCs)
-		// First argument is the object itthis; second is the player.
+		// First argument is the object initializing; second is the player.
 		if (def.initialize != null) {
 			def.initialize(obj, player);
 		}
