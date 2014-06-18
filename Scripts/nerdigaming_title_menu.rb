@@ -119,36 +119,36 @@ class Scene_Title < Scene_Base
   # * Check User Input
   #--------------------------------------------------------------------------
   def check_input
+	hidden_z = -2
+	normal_z = 10
+	
+	hide_menu_items(hidden_z, normal_z)
+	
     case @command_window.index
-    when 0  # New Game Is Selected
-	  @spriteNewGameSelected.z = 15
-	  @spriteNewGame.z = -2
-	  
-	  @spriteContinueGameSelected.z = -2
-	  @spriteContinueGame.z = 10
-	     
-	  @spriteExitGameSelected.z = -2
-	  @spriteExitGame.z = 10
-    when 1  # Continue Game Is Selected
-	  @spriteNewGameSelected.z = -2
-	  @spriteNewGame.z = 10
-	     
-	  @spriteContinueGameSelected.z = 15
-	  @spriteContinueGame.z = -2
-	     
-	  @spriteExitGameSelected.z = -2
-	  @spriteExitGame.z = 10
-    when 2  # Exit Game Is Selected
-	  @spriteNewGameSelected.z = -2
-	  @spriteNewGame.z = 10
-	     
-	  @spriteContinueGameSelected.z = -2
-	  @spriteContinueGame.z = 10
-	     
-	  @spriteExitGameSelected.z = 15
-	  @spriteExitGame.z = -2
-    end
+		when 0  # New Game Is Selected
+		  @spriteNewGameSelected.z = normal_z
+		  @spriteNewGame.z = hidden_z
+		when 1  # Continue Game Is Selected
+		  @spriteContinueGameSelected.z = normal_z
+		  @spriteContinueGame.z = hidden_z
+		when 2  # Exit Game Is Selected
+		  @spriteExitGameSelected.z = normal_z
+		  @spriteExitGame.z = hidden_z
+		end
   end
+  
+  # private
+  def hide_menu_items(hidden_z, normal_z)
+	@spriteNewGameSelected.z = hidden_z
+	@spriteNewGame.z = normal_z
+
+	@spriteContinueGameSelected.z = hidden_z
+	@spriteContinueGame.z = normal_z
+	 
+	@spriteExitGameSelected.z = hidden_z
+	@spriteExitGame.z = normal_z
+  end
+  
   #--------------------------------------------------------------------------
   # * Frame Update
   #--------------------------------------------------------------------------
