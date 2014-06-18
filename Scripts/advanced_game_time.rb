@@ -1,7 +1,7 @@
 # Source: http://www.rpgmakervxace.net/topic/6145-advanced-game-time/
 # Note: the tints are heavily modified to meet my needs!
 
-#Advanced Game Time + Night/Day v1.5.1a
+#Advanced Game Time + Night/Day v1.5.1b
 #----------#
 #Features: Provides a series of functions to set and recall current game time
 #          as well customizable tints based on current game time to give the
@@ -70,7 +70,7 @@
 # - - Though a donation's always a nice way to say thank you~ (I also accept actual thank you's)
  
 #_# BEGIN_CUSTOMIZATION #_#
-  
+ 
 #What time a new game starts at: [sec, min, hour, day, month, year]
 START_TIME = [0,0,5,0,0,0]
 #Wether or not to set time to PC (Real) Time
@@ -144,7 +144,7 @@ BATTLE_TINT = false
 #(Frame rate is 60 frames per second)
 DEFAULT_TIMELAPSE = 120
 #Variable ID containing the current speed of time!
-TIMELAPSE_VARIABLE = 60
+TIMELAPSE_VARIABLE = 80
 #Whether to use seconds or not
 NOSECONDS = true
 #Number of seconds in a minute
@@ -166,7 +166,7 @@ MONTHNAMES = ["January","February","March","April","May","June",
 MONTHNAMESABBR = ["Jan","Feb","Mar","Apr","May","Jun",
                   "Jul","Aug","Sep","Oct","Nov","Dec"]
 #The default letters to be posted before the year in dates
-DEFAULT_YEAR_POST = "AH"
+DEFAULT_YEAR_POST = "AD"
 #NOT YET IMPLEMENTED *IGNORE*
 USE_PERIODS = true
                  
@@ -214,7 +214,7 @@ $gametimeclockvisible = true
 module GameTime
   def self.run
     $game_time = Current_Time.new
-    $game_time_tint = Sprite_TimeTint.new    
+    $game_time_tint = Sprite_TimeTint.new
   end
   def self.update
     return if $game_message.busy? and NOTIMEMESSAGE
@@ -290,6 +290,7 @@ module GameTime
   end
   def self.pause_tint(set)
     @pause_tint = set
+    $game_time_tint.force_update if !@pause_tint
   end
   def self.change(s = nil,m = nil,h = nil,d = nil,dw = nil, mn = nil,y = nil)
     $game_time.manual(s,m,h,d,dw,mn,y)
@@ -468,11 +469,15 @@ module GameTime
       create_contents
       update
       @old_tint = [0,0,0,0]
-      @old_time = 0
+      @old_time = -1
     end
     def create_contents
       self.bitmap = Bitmap.new(Graphics.width,Graphics.height)
       self.visible = false
+    end
+    def force_update
+      @old_time = -1
+      update
     end
     def update
       return use_default if SceneManager.scene.is_a?(Scene_Battle) and BATTLE_TINT
