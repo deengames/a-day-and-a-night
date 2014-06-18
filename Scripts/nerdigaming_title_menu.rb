@@ -80,8 +80,13 @@ module TitleMenu
     NEW_SELECTED_IMAGE	  	= "#{NEW_IMAGE}-selected"
     CONTINUE_IMAGE		  	= 'continue-game'
     CONTINUE_SELECTED_IMAGE	= "#{CONTINUE_IMAGE}-selected"
+    ACHIEVEMENTS_IMAGE		= 'achievements'
+    ACHIEVEMENTS_SELECTED_IMAGE = "#{ACHIEVEMENTS_IMAGE}-selected"
+    CREDITS_IMAGE			= 'credits'
+    CREDITS_SELECTED_IMAGE	= "#{CREDITS_IMAGE}-selected"
     EXIT_IMAGE				= 'exit'
     EXIT_SELECTED_IMAGE		= "#{EXIT_IMAGE}-selected"
+    
 
     #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     # - Continue Opacity -
@@ -131,7 +136,13 @@ class Scene_Title < Scene_Base
 		when 1  # Continue Game Is Selected
 		  @spriteContinueGameSelected.z = VISIBLE_Z
 		  @spriteContinueGame.z = HIDDEN_Z
-		when 2  # Exit Game Is Selected
+		when 2 # Achievements
+		  @spriteAchievementsSelected.z = VISIBLE_Z
+		  @spriteAchievements.z = HIDDEN_Z
+		when 3 # Credits
+		  @spriteCreditsSelected.z = VISIBLE_Z
+		  @spriteCredits.z = HIDDEN_Z
+		when 4  # Exit Game Is Selected
 		  @spriteExitGameSelected.z = VISIBLE_Z
 		  @spriteExitGame.z = HIDDEN_Z
 		end
@@ -145,6 +156,12 @@ class Scene_Title < Scene_Base
 	@spriteContinueGameSelected.z = HIDDEN_Z
 	@spriteContinueGame.z = VISIBLE_Z
 	 
+	@spriteAchievementsSelected.z = HIDDEN_Z
+	@spriteAchievements.z = VISIBLE_Z
+	 
+	@spriteCreditsSelected.z = HIDDEN_Z
+	@spriteCredits.z = VISIBLE_Z
+		  
 	@spriteExitGameSelected.z = HIDDEN_Z
 	@spriteExitGame.z = VISIBLE_Z
   end
@@ -220,18 +237,46 @@ class Scene_Title < Scene_Base
     @spriteNewGameSelected.y = ( ( Graphics.height / 2 ) - ( @spriteNewGameSelected.bitmap.height / 2 ) )  - ( @spriteContinueGame.bitmap.height + TitleMenu::PADDING )
     @spriteNewGameSelected.z = HIDDEN_Z
     
+    # Creates The Achievements Image
+    @spriteAchievements = Sprite.new
+    @spriteAchievements.bitmap = Cache.system( TitleMenu::ACHIEVEMENTS_IMAGE )
+    @spriteAchievements.x = ( ( Graphics.width / 2 ) - ( @spriteAchievements.bitmap.width / 2 ) )
+    @spriteAchievements.y = @spriteContinueGame.bitmap.y + @spriteContinueGame.bitmap.height + TitleMenu::PADDING 
+    @spriteAchievements.z = HIDDEN_Z
+    
+    # Creates The Achievements Selected Image
+    @spriteAchievementsSelected = Sprite.new
+    @spriteAchievementsSelected.bitmap = Cache.system( TitleMenu::ACHIEVEMENTS_IMAGE_SELECTED )
+    @spriteAchievementsSelected.x = @spriteAchievements.x
+    @spriteAchievementsSelected.y = @spriteAchievements.y
+    @spriteNewGameSelected.z = HIDDEN_Z
+    
+	# Creates The Credits Image
+    @spriteCredits = Sprite.new
+    @spriteCredits.bitmap = Cache.system( TitleMenu::CREDITS_IMAGE )
+    @spriteCredits.x = ( ( Graphics.width / 2 ) - ( @spriteAchievements.bitmap.width / 2 ) )
+    @spriteCredits.y = @spriteAchievements.bitmap.y + @spriteAchievements.bitmap.height + TitleMenu::PADDING 
+    @spriteCredits.z = HIDDEN_Z
+    
+    # Creates The Achievements Selected Image
+    @spriteCreditsSelected = Sprite.new
+    @spriteCreditsSelected.bitmap = Cache.system( TitleMenu::CREDITS_IMAGE_SELECTED )
+    @spriteCreditsSelected.x = @spriteCredits.x
+    @spriteCreditsSelected.y = @spriteCredits.y
+    @spriteCreditsSelected.z = HIDDEN_Z
+    
     # Creates The Exit Game Image
     @spriteExitGame = Sprite.new
     @spriteExitGame.bitmap = Cache.system( TitleMenu::EXIT_IMAGE )
-    @spriteExitGame.x = ( ( Graphics.width / 2 ) - ( @spriteExitGame.bitmap.width / 2 ) )
-    @spriteExitGame.y = ( ( Graphics.height / 2 ) - ( @spriteExitGame.bitmap.height / 2 ) ) + ( @spriteContinueGame.bitmap.height + TitleMenu::PADDING )
+    @spriteExitGame.x = @spriteCredits.x
+    @spriteExitGame.y = spriteCredits.bitmap.y + @spriteCredits.bitmap.height + TitleMenu::PADDING 
     @spriteExitGame.z = VISIBLE_Z
     
     # Creates The Exit Game Selected Image
     @spriteExitGameSelected = Sprite.new
     @spriteExitGameSelected.bitmap = Cache.system( TitleMenu::EXIT_SELECTED_IMAGE )
-    @spriteExitGameSelected.x = ( ( Graphics.width / 2 ) - ( @spriteExitGameSelected.bitmap.width / 2 ) )
-    @spriteExitGameSelected.y = ( ( Graphics.height / 2 ) - ( @spriteExitGameSelected.bitmap.height / 2 ) ) + ( @spriteContinueGame.bitmap.height + TitleMenu::PADDING )
+    @spriteExitGameSelected.x = @spriteExitGame.x
+    @spriteExitGameSelected.y = @spriteExitGame.y
     @spriteExitGameSelected.z = HIDDEN_Z
     
     # Applies The Offset To The Continue Game Images
@@ -245,6 +290,16 @@ class Scene_Title < Scene_Base
     @spriteNewGame.y -= TitleMenu::Y_OFFSET
     @spriteNewGameSelected.x -= TitleMenu::X_OFFSET
     @spriteNewGameSelected.y -= TitleMenu::Y_OFFSET
+    
+    # Applies The Offset to credits/achievements
+    @spriteCredits.x -= TITLEMENU::X_OFFSET
+    @spriteCredits.y -= TITLEMENU::Y_OFFSET
+    @spriteCreditsSelected.x -= TitleMenu::X_OFFSET
+    @spriteCreditsSelected.y -= TitleMenu::Y_OFFSET
+    @spriteAchievements.x -= TITLEMENU::X_OFFSET
+    @spriteAchievements.y -= TITLEMENU::Y_OFFSET
+    @spriteAchievementsSelected.x -= TitleMenu::X_OFFSET
+    @spriteAchievementsSelected.y -= TitleMenu::Y_OFFSET
     
     # Applies The Offset To The Exit Game Images
     @spriteExitGame.x -= TitleMenu::X_OFFSET
@@ -271,6 +326,16 @@ class Scene_Title < Scene_Base
     @spriteContinueGameSelected.bitmap.dispose
     @spriteContinueGameSelected.dispose
     
+    @spriteAchievements.bitmap.dispose
+    @spriteAchievements.dispose
+    @spriteAchievementsSelected.bitmap.dispose
+    @spriteAchievementsSelected.dispose
+    
+    @spriteCredits.bitmap.dispose
+    @spriteCredits.dispose
+    @spriteCreditsSelected.bitmap.dispose
+    @spriteCreditsSelected.dispose
+    
     @spriteExitGame.bitmap.dispose
     @spriteExitGame.dispose
     @spriteExitGameSelected.bitmap.dispose
@@ -283,7 +348,9 @@ class Scene_Title < Scene_Base
     @command_window = Window_TitleCommand.new
     @command_window.set_handler(:new_game, method(:command_new_game))
     @command_window.set_handler(:continue, method(:command_continue))
-    @command_window.set_handler(:shutdown, method(:command_shutdown))
+    @command_window.set_handler(:achievements, method(:command_achievements))
+    @command_window.set_handler(:credits, method(:command_credits))
+    @command_window.set_handler(:shutdown, method(:command_shutdown))    
     @command_window.z = HIDDEN_Z
     @spriteNewGame.z = VISIBLE_Z
   end
@@ -295,5 +362,11 @@ class Scene_Title < Scene_Base
 	  close_command_window
 	  SceneManager.call(Scene_Load)
     end
+  end
+  
+  def command_achievements
+  end
+  
+  def command_credits
   end
 end # Scene_Title
