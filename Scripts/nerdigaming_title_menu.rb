@@ -95,6 +95,9 @@ module TitleMenu
 end # TitleMenu
 
 class Scene_Title < Scene_Base
+  HIDDEN_Z = -2
+  VISIBLE_Z = 10
+  
   #--------------------------------------------------------------------------
   # * Start processing
   #--------------------------------------------------------------------------
@@ -119,34 +122,31 @@ class Scene_Title < Scene_Base
   # * Check User Input
   #--------------------------------------------------------------------------
   def check_input
-	hidden_z = -2
-	normal_z = 10
-	
-	hide_menu_items(hidden_z, normal_z)
+	hide_menu_items
 	
     case @command_window.index
 		when 0  # New Game Is Selected
-		  @spriteNewGameSelected.z = normal_z
-		  @spriteNewGame.z = hidden_z
+		  @spriteNewGameSelected.z = VISIBLE_Z
+		  @spriteNewGame.z = HIDDEN_Z
 		when 1  # Continue Game Is Selected
-		  @spriteContinueGameSelected.z = normal_z
-		  @spriteContinueGame.z = hidden_z
+		  @spriteContinueGameSelected.z = VISIBLE_Z
+		  @spriteContinueGame.z = HIDDEN_Z
 		when 2  # Exit Game Is Selected
-		  @spriteExitGameSelected.z = normal_z
-		  @spriteExitGame.z = hidden_z
+		  @spriteExitGameSelected.z = VISIBLE_Z
+		  @spriteExitGame.z = HIDDEN_Z
 		end
   end
   
   # private
-  def hide_menu_items(hidden_z, normal_z)
-	@spriteNewGameSelected.z = hidden_z
-	@spriteNewGame.z = normal_z
+  def hide_menu_items
+	@spriteNewGameSelected.z = HIDDEN_Z
+	@spriteNewGame.z = VISIBLE_Z
 
-	@spriteContinueGameSelected.z = hidden_z
-	@spriteContinueGame.z = normal_z
+	@spriteContinueGameSelected.z = HIDDEN_Z
+	@spriteContinueGame.z = VISIBLE_Z
 	 
-	@spriteExitGameSelected.z = hidden_z
-	@spriteExitGame.z = normal_z
+	@spriteExitGameSelected.z = HIDDEN_Z
+	@spriteExitGame.z = VISIBLE_Z
   end
   
   #--------------------------------------------------------------------------
