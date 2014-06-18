@@ -1,7 +1,9 @@
 #==============================================================================
 #
-# -- NerdiGaming - Title Menu
-# -- Last Updated: November 9, 2012
+# -- Custom Title Menu
+# -- Author: ashes999 (current), NerdiGaming (original)
+# -- Last Updated: June 17, 2014
+# -- Version 1.3
 #
 #==============================================================================
 # - Introduction
@@ -18,7 +20,7 @@
 #==============================================================================
 # - Terms of Use
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# - You MUST credit me: NerdiGaming
+# - You MUST credit the original author: NerdiGaming
 # - You MAY NOT re-distribute this script or any attached material to any
 #	 location without my permission.
 # - You MAY use this script or any attached material for non-commercial
@@ -29,24 +31,22 @@
 #==============================================================================
 # - Updates
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# Version 1.2 - Fixed a Bug: If players held down an input button the menu
-#			   would not update.
-#			 - Removed unecessary overwrites; improving compatability
-#			   slightly.
-#			 - Removed some unecessary code.
-# Version 1.1 - Fixed a Bug: If a save file was present, New Game would be
-#			   selected instead of Continue.
-# Version 1   - Script Completed.
+# Version 1.3 		- Added two new buttons (achievements and credits).
+# Version 1.2.1		- Made some refactoring (internal changes). Hopefully, 1.3 will
+#					include the ability to easily add more menu items.
+# Version 1.2		- Fixed a Bug: If players held down an input button the menu
+#			   		would not update.
+#			 		- Removed unecessary overwrites; improving compatability slightly.
+#			 		- Removed some unecessary code.
+# Version 1.1 		- Fixed a Bug: If a save file was present, New Game would be
+#			   		selected instead of Continue.
+# Version 1   		- Script Completed.
 #==============================================================================
 
 module TitleMenu
  
-    #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    # - Padding -
-    #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     # Padding increases the distance between the New Game and Exit Game images
     # from the Continue Game image.
-    #
     #	 New  Game
     #    ->	  <-  This Space
     #  Continue  Game
@@ -55,26 +55,13 @@ module TitleMenu
     #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     PADDING = 5  # Default: 5
 
-    #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    # - Offset -
-    #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    # Offset moves the menu images in different directions.
-    #
-    # Positive Y = Moves the Menu Up    Example: 50
-    # Negative Y = Moves the Menu Down  Example: -50
-    #
-    # Positive X = Moves the Menu Left  Example: 50
-    # Negative X = Moves the Menu Right Example: -50
-    #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    # Offset moves the menu images in different directions (inverted cartesian plane).
     Y_OFFSET = 0  # Default: 0
     X_OFFSET = 0  # Default: 0
     
-    #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    # - Image Names -
-    #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     # This is where you specify what you want your images to be called.
-    #
-    # The images need to be placed in your Project\Graphics\System\ Folder.
+    # The images need to be placed in your Project\Graphics\System folder,
+    # eg. Project\Graphics\System\new-game.png, new-game-selected.png
     #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     NEW_IMAGE			   	= 'new-game'
     NEW_SELECTED_IMAGE	  	= "#{NEW_IMAGE}-selected"
@@ -88,12 +75,8 @@ module TitleMenu
     EXIT_SELECTED_IMAGE		= "#{EXIT_IMAGE}-selected"
     
 
-    #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    # - Continue Opacity -
-    #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     # Continue Opacity is how transparent the continue image will be when there
-    # are no save files present or if the continue option is disabled for some
-    # reason.
+    # are no save files present or if the continue option is disabled for some reason.
     #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     CONTINUE_DISABLED_OPACITY = 100  # Default: 100
     
@@ -340,8 +323,8 @@ class Scene_Title < Scene_Base
   #--------------------------------------------------------------------------
   def create_command_window    
     @command_window = Window_TitleCommand.new
-    # Need to extend for our new menu items. Reset to control order.
     
+    # Need to extend for our new menu items. Reset to control order.
     @command_window.clear_command_list
     @command_window.add_command(Vocab::new_game, :new_game)
     @command_window.add_command(Vocab::continue, :continue, @continue_enabled)    
