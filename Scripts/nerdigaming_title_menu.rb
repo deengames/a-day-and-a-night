@@ -191,14 +191,14 @@ class Scene_Title < Scene_Base
     @spriteContinueGame.bitmap = Cache.system( TitleMenu::CONTINUE_IMAGE )
     @spriteContinueGame.x = ( ( Graphics.width / 2 ) - (@spriteContinueGame.bitmap.width / 2 ) )
     @spriteContinueGame.y = ( ( Graphics.height / 2 ) - (@spriteContinueGame.bitmap.height / 2 ) )
-    @spriteContinueGame.z = 10
+    @spriteContinueGame.z = VISIBLE_Z
     
     # Creates The Continue Game Selected Image
     @spriteContinueGameSelected = Sprite.new
     @spriteContinueGameSelected.bitmap = Cache.system( TitleMenu::CONTINUE_SELECTED_IMAGE )
     @spriteContinueGameSelected.x = ( ( Graphics.width / 2 ) - ( @spriteContinueGameSelected.bitmap.width / 2 ) )
     @spriteContinueGameSelected.y = ( ( Graphics.height / 2 ) - ( @spriteContinueGameSelected.bitmap.height / 2 ) )
-    @spriteContinueGameSelected.z = -2
+    @spriteContinueGameSelected.z = HIDDEN_Z
     
     # Applies The Opacity If Continue Is Disabled
     if !@continue_enabled
@@ -211,28 +211,28 @@ class Scene_Title < Scene_Base
     @spriteNewGame.bitmap = Cache.system( TitleMenu::NEW_IMAGE )
     @spriteNewGame.x = ( ( Graphics.width / 2 ) - ( @spriteNewGame.bitmap.width / 2 ) )
     @spriteNewGame.y = ( ( Graphics.height / 2 ) - ( @spriteNewGame.bitmap.height / 2 ) ) - ( @spriteContinueGame.bitmap.height + TitleMenu::PADDING )
-    @spriteNewGame.z = -2
+    @spriteNewGame.z = HIDDEN_Z
     
     # Creates The New Game Selected Image
     @spriteNewGameSelected = Sprite.new
     @spriteNewGameSelected.bitmap = Cache.system( TitleMenu::NEW_SELECTED_IMAGE )
     @spriteNewGameSelected.x = ( ( Graphics.width / 2 ) - ( @spriteNewGameSelected.bitmap.width / 2 ) )
     @spriteNewGameSelected.y = ( ( Graphics.height / 2 ) - ( @spriteNewGameSelected.bitmap.height / 2 ) )  - ( @spriteContinueGame.bitmap.height + TitleMenu::PADDING )
-    @spriteNewGameSelected.z = -2
+    @spriteNewGameSelected.z = HIDDEN_Z
     
     # Creates The Exit Game Image
     @spriteExitGame = Sprite.new
     @spriteExitGame.bitmap = Cache.system( TitleMenu::EXIT_IMAGE )
     @spriteExitGame.x = ( ( Graphics.width / 2 ) - ( @spriteExitGame.bitmap.width / 2 ) )
     @spriteExitGame.y = ( ( Graphics.height / 2 ) - ( @spriteExitGame.bitmap.height / 2 ) ) + ( @spriteContinueGame.bitmap.height + TitleMenu::PADDING )
-    @spriteExitGame.z = 10
+    @spriteExitGame.z = VISIBLE_Z
     
     # Creates The Exit Game Selected Image
     @spriteExitGameSelected = Sprite.new
     @spriteExitGameSelected.bitmap = Cache.system( TitleMenu::EXIT_SELECTED_IMAGE )
     @spriteExitGameSelected.x = ( ( Graphics.width / 2 ) - ( @spriteExitGameSelected.bitmap.width / 2 ) )
     @spriteExitGameSelected.y = ( ( Graphics.height / 2 ) - ( @spriteExitGameSelected.bitmap.height / 2 ) ) + ( @spriteContinueGame.bitmap.height + TitleMenu::PADDING )
-    @spriteExitGameSelected.z = -2
+    @spriteExitGameSelected.z = HIDDEN_Z
     
     # Applies The Offset To The Continue Game Images
     @spriteContinueGame.x -= TitleMenu::X_OFFSET
@@ -284,37 +284,8 @@ class Scene_Title < Scene_Base
     @command_window.set_handler(:new_game, method(:command_new_game))
     @command_window.set_handler(:continue, method(:command_continue))
     @command_window.set_handler(:shutdown, method(:command_shutdown))
-    @command_window.z = -2
-    
-    case @command_window.index
-	  when 0  # New Game Is Selected
-	    @spriteNewGameSelected.z = 15
-	    @spriteNewGame.z = -2
-	     
-	    @spriteContinueGameSelected.z = -2
-	    @spriteContinueGame.z = 10
-	     
-	    @spriteExitGameSelected.z = -2
-	    @spriteExitGame.z = 10
-	  when 1  # Continue Game Is Selected
-	    @spriteNewGameSelected.z = -2
-	    @spriteNewGame.z = 10
-	     
-	    @spriteContinueGameSelected.z = 15
-	    @spriteContinueGame.z = -2
-	     
-	    @spriteExitGameSelected.z = -2
-	    @spriteExitGame.z = 10
-	  when 2  # Exit Game Is Selected
-	    @spriteNewGameSelected.z = -2
-	    @spriteNewGame.z = 10
-	     
-	    @spriteContinueGameSelected.z = -2
-	    @spriteContinueGame.z = 10
-	     
-	    @spriteExitGameSelected.z = 15
-	    @spriteExitGame.z = -2
-	  end
+    @command_window.z = HIDDEN_Z
+    @spriteNewGame.z = VISIBLE_Z
   end
   #--------------------------------------------------------------------------
   # * [Continue] Command
