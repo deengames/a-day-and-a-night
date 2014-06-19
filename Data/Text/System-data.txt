@@ -1,29 +1,29 @@
 {
 	@elements => ["", "Physical", "Absorb", "Fire", "Ice", "Thunder", "Water", "Earth", "Wind", "Holy", "Dark"]
 	@start_y => 31
-	@airship => #<RPG::System::Vehicle:0x88ab65c @start_y=0, @bgm=#<RPG::BGM:0x88ab760 @name="", @volume=100, @pitch=100>, @start_x=0, @character_index=3, @character_name="Vehicle", @start_map_id=0>
-	@test_battlers => [#<RPG::System::TestBattler:0x88ac2a0 @actor_id=1, @level=1, @equips=[1, 46, 0, 1, 0]>]
+	@airship => #<RPG::System::Vehicle:0x79a548c @start_y=0, @bgm=#<RPG::BGM:0x79a598c @name="", @volume=100, @pitch=100>, @start_x=0, @character_index=3, @character_name="Vehicle", @start_map_id=0>
+	@test_battlers => [#<RPG::System::TestBattler:0x79a6f44 @actor_id=1, @level=1, @equips=[1, 46, 0, 1, 0]>]
 	@_ => 7829367
 	@edit_map_id => 1
-	@battle_end_me => #<RPG::ME:0x88acc64 @name="", @pitch=100, @volume=100>
+	@battle_end_me => #<RPG::ME:0x79a74e4 @name="", @pitch=100, @volume=100>
 	@party_members => [1]
 	@start_x => 22
-	@ship => #<RPG::System::Vehicle:0x88ace80 @start_y=0, @bgm=#<RPG::BGM:0x88acebc @name="", @volume=100, @pitch=100>, @start_x=0, @character_index=1, @character_name="Vehicle", @start_map_id=0>
+	@ship => #<RPG::System::Vehicle:0x79a7660 @start_y=0, @bgm=#<RPG::BGM:0x79a7688 @name="", @volume=100, @pitch=100>, @start_x=0, @character_index=1, @character_name="Vehicle", @start_map_id=0>
 	@battler_hue => 0
-	@sounds => [#<RPG::SE:0x88ad0ec @name="Cursor2", @pitch=100, @volume=80>, #<RPG::SE:0x88ad178 @name="Decision3", @pitch=100, @volume=80>, #<RPG::SE:0x88ad1f0 @name="Cancel2", @pitch=100, @volume=80>, #<RPG::SE:0x88ad27c @name="Buzzer1", @pitch=100, @volume=80>, #<RPG::SE:0x88ad2f4 @name="Equip1", @pitch=100, @volume=80>, #<RPG::SE:0x88ad3d0 @name="Save", @pitch=100, @volume=80>, #<RPG::SE:0x88ad574 @name="Load", @pitch=100, @volume=80>, #<RPG::SE:0x88ad6b4 @name="Battle1", @pitch=100, @volume=80>, #<RPG::SE:0x88adb28 @name="Run", @pitch=100, @volume=80>, #<RPG::SE:0x88adf38 @name="Attack3", @pitch=100, @volume=80>, #<RPG::SE:0x88ae294 @name="Damage4", @pitch=100, @volume=80>, #<RPG::SE:0x88ae780 @name="Collapse1", @pitch=100, @volume=80>, #<RPG::SE:0x88aeeec @name="Collapse3", @pitch=100, @volume=80>, #<RPG::SE:0x88af310 @name="Collapse4", @pitch=100, @volume=80>, #<RPG::SE:0x88af7e8 @name="Damage5", @pitch=100, @volume=80>, #<RPG::SE:0x88b04b8 @name="Collapse2", @pitch=100, @volume=80>, #<RPG::SE:0x88b13e0 @name="Recovery", @pitch=100, @volume=80>, #<RPG::SE:0x88b1994 @name="Miss", @pitch=100, @volume=80>, #<RPG::SE:0x88b1cdc @name="Evasion1", @pitch=100, @volume=80>, #<RPG::SE:0x88b1ffc @name="Evasion2", @pitch=100, @volume=80>, #<RPG::SE:0x88b2254 @name="Reflection", @pitch=100, @volume=80>, #<RPG::SE:0x88b2600 @name="Shop", @pitch=100, @volume=80>, #<RPG::SE:0x88b2c40 @name="Item3", @pitch=100, @volume=80>, #<RPG::SE:0x88b3744 @name="Item3", @pitch=100, @volume=80>]
+	@sounds => [#<RPG::SE:0x79b93d8 @name="Cursor2", @pitch=100, @volume=80>, #<RPG::SE:0x79b952c @name="Decision3", @pitch=100, @volume=80>, #<RPG::SE:0x79b96f8 @name="Cancel2", @pitch=100, @volume=80>, #<RPG::SE:0x79b9860 @name="Buzzer1", @pitch=100, @volume=80>, #<RPG::SE:0x79b9978 @name="Equip1", @pitch=100, @volume=80>, #<RPG::SE:0x79b9a40 @name="Save", @pitch=100, @volume=80>, #<RPG::SE:0x79b9acc @name="Load", @pitch=100, @volume=80>, #<RPG::SE:0x79b9b44 @name="Battle1", @pitch=100, @volume=80>, #<RPG::SE:0x79b9bd0 @name="Run", @pitch=100, @volume=80>, #<RPG::SE:0x79b9c48 @name="Attack3", @pitch=100, @volume=80>, #<RPG::SE:0x79b9cac @name="Damage4", @pitch=100, @volume=80>, #<RPG::SE:0x79b9d4c @name="Collapse1", @pitch=100, @volume=80>, #<RPG::SE:0x79b9dc4 @name="Collapse3", @pitch=100, @volume=80>, #<RPG::SE:0x79b9e50 @name="Collapse4", @pitch=100, @volume=80>, #<RPG::SE:0x79b9ec8 @name="Damage5", @pitch=100, @volume=80>, #<RPG::SE:0x79b9f68 @name="Collapse2", @pitch=100, @volume=80>, #<RPG::SE:0x79b9fe0 @name="Recovery", @pitch=100, @volume=80>, #<RPG::SE:0x79ba058 @name="Miss", @pitch=100, @volume=80>, #<RPG::SE:0x79ba0d0 @name="Evasion1", @pitch=100, @volume=80>, #<RPG::SE:0x79ba120 @name="Evasion2", @pitch=100, @volume=80>, #<RPG::SE:0x79ba1c0 @name="Reflection", @pitch=100, @volume=80>, #<RPG::SE:0x79ba274 @name="Shop", @pitch=100, @volume=80>, #<RPG::SE:0x79ba2c4 @name="Item3", @pitch=100, @volume=80>, #<RPG::SE:0x79ba364 @name="Item3", @pitch=100, @volume=80>]
 	@variables => [nil, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
-	@battle_bgm => #<RPG::BGM:0x88b619c @name="", @volume=100, @pitch=100>
+	@battle_bgm => #<RPG::BGM:0x79bc600 @name="", @volume=100, @pitch=100>
 	@version_id => 94587281
 	@start_map_id => 1
 	@battler_name => "Assassin"
 	@magic_number => 77696160
 	@switches => [nil, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
-	@gameover_me => #<RPG::ME:0x88b85b4 @name="", @pitch=100, @volume=100>
+	@gameover_me => #<RPG::ME:0x79dfda8 @name="", @pitch=100, @volume=100>
 	@game_title => "A Day and a Night"
-	@title_bgm => #<RPG::BGM:0x88b87a8 @name="", @volume=100, @pitch=100>
-	@terms => #<RPG::System::Terms:0x88b8988 @params=["MaxHP", "MaxMP", "ATK", "DEF", "MAT", "MDF", "AGI", "LUK"], @etypes=["Weapon", "Shield", "Headgear", "Bodygear", "Accessory"], @commands=["Fight", "Escape", "Attack", "Guard", "Items", "Skills", "Equipment", "Status", "Formation", "Save", "Game End", "", "Weapons", "Armours", "Key Items", "Change", "Optimize", "Clear", "New Game", "Continue", "Shutdown", "To Title", "Cancel", ""], @basic=["Level", "LV", "HP", "HP", "MP", "MP", "TP", "TP"]>
+	@title_bgm => #<RPG::BGM:0x79dfec0 @name="", @volume=100, @pitch=100>
+	@terms => #<RPG::System::Terms:0x79dffd8 @params=["MaxHP", "MaxMP", "ATK", "DEF", "MAT", "MDF", "AGI", "LUK"], @etypes=["Weapon", "Shield", "Headgear", "Bodygear", "Accessory"], @commands=["Fight", "Escape", "Attack", "Guard", "Items", "Skills", "Equipment", "Status", "Formation", "Save", "Game End", "", "Weapons", "Armours", "Key Items", "Change", "Optimize", "Clear", "New Game", "Continue", "Shutdown", "To Title", "Cancel", ""], @basic=["Level", "LV", "HP", "HP", "MP", "MP", "TP", "TP"]>
 	@test_troop_id => 1
-	@boat => #<RPG::System::Vehicle:0x88ba030 @start_y=0, @bgm=#<RPG::BGM:0x88ba06c @name="", @volume=100, @pitch=100>, @start_x=0, @character_index=0, @character_name="Vehicle", @start_map_id=0>
+	@boat => #<RPG::System::Vehicle:0x79e1554 @start_y=0, @bgm=#<RPG::BGM:0x79e15a4 @name="", @volume=100, @pitch=100>, @start_x=0, @character_index=0, @character_name="Vehicle", @start_map_id=0>
 	@skill_types => ["", "Special", "Magic"]
 	@weapon_types => ["", "Axe", "Claw", "Spear", "Sword", "Katana", "Bow", "Dagger", "Hammer", "Staff", "Gun"]
 	@armor_types => ["", "General Armour", "Magic Armour", "Light Armour", "Heavy Armour", "Small Shield", "Large Shield"]
