@@ -6,6 +6,7 @@
 # * Description:
 # Automatically converts .rvdata2 files into plain text, so you can view
 # them and diff them and manage changes to your game more easily.
+# Files go in Data/Text.
 #========================================================================
 def simple_print(obj)
 	if obj.is_a?(Hash)
@@ -29,6 +30,7 @@ def simple_print(obj)
 end
 
 files = Dir.glob('Data/*.rvdata2')
+Dir.mkdir('Data/Text') if !File.directory?('Data/Text')
 files.each do |f|
     binary = File.binread(f)
     object = Marshal.load(binary)
@@ -36,6 +38,6 @@ files.each do |f|
 	# Classes without to_s: object.inspect	
 	#output = object.inspect
 	output = simple_print(object)
-	File.open(f.sub('.rvdata2', '-data.txt'), 'w') { |out| out.write(output) }
+	File.open(f.sub('Data/', 'Data/Text/').sub('.rvdata2', '-data.txt'), 'w') { |out| out.write(output) }
 end
 
