@@ -1,1 +1,4 @@
-{1=>#<RPG::MapInfo:0x90f0920 @scroll_x=832, @name="WorldMap", @expanded=true, @order=1, @scroll_y=1166, @parent_id=0>, 2=>#<RPG::MapInfo:0x90f086c @scroll_x=400, @name="Masjid", @expanded=false, @order=2, @scroll_y=320, @parent_id=1>}
+{
+	1 => #<RPG::MapInfo:0x9121534 @scroll_x=832, @name="WorldMap", @expanded=true, @order=1, @scroll_y=1166, @parent_id=0>
+	2 => #<RPG::MapInfo:0x9121480 @scroll_x=400, @name="Masjid", @expanded=false, @order=2, @scroll_y=320, @parent_id=1>
+}
