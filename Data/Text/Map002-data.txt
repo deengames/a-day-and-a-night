@@ -1,14 +1,14 @@
 {
 	@parallax_name => "nil"
 	@height => 20
-	@events => {1=>#<RPG::Event:0x910f2e4 @id=1, @name="EV001", @x=11, @y=19, @pages=[#<RPG::Event::Page:0x910f230 @condition=#<RPG::Event::Page::Condition:0x910f1f4 @switch1_valid=false, @switch2_valid=false, @variable_valid=false, @self_switch_valid=false, @item_valid=false, @actor_valid=false, @switch1_id=1, @switch2_id=1, @variable_id=1, @variable_value=0, @self_switch_ch="A", @item_id=1, @actor_id=1>, @graphic=#<RPG::Event::Page::Graphic:0x910f0a0 @tile_id=0, @character_name="", @character_index=0, @direction=2, @pattern=0>, @move_type=0, @move_speed=3, @move_frequency=3, @move_route=#<RPG::MoveRoute:0x910efb0 @repeat=true, @skippable=false, @wait=false, @list=[#<RPG::MoveCommand:0x910ef24 @code=0, @parameters=[]>]>, @walk_anime=true, @step_anime=false, @direction_fix=false, @through=false, @priority_type=0, @trigger=1, @list=[#<RPG::EventCommand:0x910ee34 @indent=0, @code=201, @parameters=[0, 1, 22, 28, 2, 0]>, #<RPG::EventCommand:0x910edf8 @indent=0, @code=0, @parameters=[]>]>]>}
+	@events => {1=>#<RPG::Event:0x91089d0 @id=1, @name="EV001", @x=11, @y=19, @pages=[#<RPG::Event::Page:0x910891c @condition=#<RPG::Event::Page::Condition:0x91088e0 @switch1_valid=false, @switch2_valid=false, @variable_valid=false, @self_switch_valid=false, @item_valid=false, @actor_valid=false, @switch1_id=1, @switch2_id=1, @variable_id=1, @variable_value=0, @self_switch_ch="A", @item_id=1, @actor_id=1>, @graphic=#<RPG::Event::Page::Graphic:0x910878c @tile_id=0, @character_name="", @character_index=0, @direction=2, @pattern=0>, @move_type=0, @move_speed=3, @move_frequency=3, @move_route=#<RPG::MoveRoute:0x910869c @repeat=true, @skippable=false, @wait=false, @list=[#<RPG::MoveCommand:0x9108610 @code=0, @parameters=[]>]>, @walk_anime=true, @step_anime=false, @direction_fix=false, @through=false, @priority_type=0, @trigger=1, @list=[#<RPG::EventCommand:0x9108520 @indent=0, @code=201, @parameters=[0, 1, 22, 28, 2, 0]>, #<RPG::EventCommand:0x91084e4 @indent=0, @code=0, @parameters=[]>]>]>}
 	@parallax_sx => 0
-	@bgm => #<RPG::BGM:0x910ed94 @name="", @volume=100, @pitch=100>
+	@bgm => #<RPG::BGM:0x9108480 @name="", @volume=100, @pitch=100>
 	@tileset_id => 3
 	@encounter_step => 30
 	@width => 25
 	@data => "{\n}"
-	@bgs => #<RPG::BGS:0x910ec90 @name="", @volume=80, @pitch=100>
+	@bgs => #<RPG::BGS:0x910837c @name="", @volume=80, @pitch=100>
 	@parallax_loop_y => false
 	@autoplay_bgm => false
 	@encounter_list => []

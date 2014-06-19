@@ -31,7 +31,8 @@
 #==============================================================================
 # - Updates
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# Version 1.3 		- Added two new buttons (achievements and credits).
+# Version 1.3 		- Added two new dummy buttons (achievements and credits).
+#					You can update what they do at the end of the script.
 # Version 1.2.1		- Made some refactoring (internal changes). Hopefully, 1.3 will
 #					include the ability to easily add more menu items.
 # Version 1.2		- Fixed a Bug: If players held down an input button the menu
@@ -356,10 +357,12 @@ class Scene_Title < Scene_Base
   end
   
   def command_achievements
-	
+	fadeout_all
+	Graphics.fadein(3000 / Graphics.frame_rate)
   end
   
   def command_credits
-	
+	fadeout_all
+	Graphics.fadein(3000 / Graphics.frame_rate)
   end
 end # Scene_Title
