@@ -29,6 +29,7 @@ def simple_print(obj)
 	end
 end
 
+# Remove memory addresses so we don't get unnecessary "noise" in diffs
 def clean(string)
 	return string.gsub(/0x[0-9a-f]{7}/, '0xXXXXXXX')
 end
