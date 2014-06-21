@@ -5,6 +5,8 @@
 # -- "break the statue" => 100 points
 # -- Author: ashes999 (ashes999@yahoo.com)
 # -- Version 1.0
+
+# TODO: add persistence for save/load
 module PointsSystem
 
 	# Start: variables you can customize
@@ -43,4 +45,29 @@ module PointsSystem
 		Sound.play_system_sound(NEGATIVE_SOUND) if key == :negative
 	end
 	
+	class Window_Points < Window_Base
+		def initialize
+			super(0, 0, 150, 50)
+			update
+			self.visible = SceneManager.scene.is_a?(Scene_Menu)
+		end
+		def update
+			contents.draw_text(0, 0, contents.width, 24, "#{PointsSystem.total_points} points", 1)
+		end
+	end
+end
+
+class Scene_Menu
+	alias points_start start
+	
+	def start
+		points_start
+		@ui = PointsSystem::Window_Points.new
+		return if @ui.nil?
+		@ui.x = 0
+		# If using advanced_game_time, above the clock
+		above = @clock || @gold_window		
+		@ui.y = above.y - @ui.height
+		@ui.width = above.width		
+	end
 end
