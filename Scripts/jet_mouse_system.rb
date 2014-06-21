@@ -113,7 +113,7 @@ module Jet
     CHECK_FOR_MOVES = true
     
     # Would you like a black box to outline the exact tile the mouse is over?
-    DEV_OUTLINE = true
+    DEV_OUTLINE = false
     
   end
   
@@ -332,7 +332,7 @@ module Mouse
       self.visible = !$game_switches[Jet::MouseSystem::TURN_MOUSE_OFF_SWITCH]
       if !@outline.nil?
         @outline.visible = SceneManager.scene_is?(Scene_Map)
-        @outline.x = (Mouse.grid[0] * 32) - 16
+        @outline.x = Mouse.grid[0] * 32
         @outline.y = [Mouse.grid[1] * 32, 0].max
       end
     end
