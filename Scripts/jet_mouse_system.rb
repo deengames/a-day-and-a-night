@@ -92,10 +92,10 @@ module Jet
   module MouseSystem
     
     # This is the image used to display the cursor in-game.
-    CURSOR_IMAGE = "cursor-picture"
+    CURSOR_IMAGE = "doesnt-exist"
     
     # If the above image does not exist, the icon at this index will be used.
-    CURSOR_ICON = 147
+    CURSOR_ICON = 99999
     
     # turning ths switch on will completely disable the mouse.
     TURN_MOUSE_OFF_SWITCH = 99
@@ -158,7 +158,7 @@ module Mouse
   a.call("Game", "Title", "", title = "\0" * 256, 256, ".//Game.ini")
   @handle = b.call("RGSS Player", title.unpack("C*").collect {|a| a.chr }.join.delete!("\0"))
   
-  Win32API.new('user32', 'ShowCursor', 'i', 'i').call(0)
+  #Win32API.new('user32', 'ShowCursor', 'i', 'i').call(0)
   
   module_function
   
