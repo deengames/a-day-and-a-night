@@ -1,9 +1,9 @@
 #==============================================================================
 #
 # -- Custom Title Menu
-# -- Author: ashes999 (current), NerdiGaming (original)
-# -- Last Updated: June 17, 2014
-# -- Version 1.3
+# -- Author: Haris1112, ashes999 (current), NerdiGaming (original)
+# -- Last Updated: June 22, 2014
+# -- Version 1.4
 #
 #==============================================================================
 # - Introduction
@@ -31,6 +31,9 @@
 #==============================================================================
 # - Updates
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Version 1.4		- Refactoring complete (see version 1.2.1 notes)
+#					- Adding buttons requires:	» Button Image Name
+#												» Button Command/Action
 # Version 1.3 		- Added two new dummy buttons (achievements and credits).
 #					You can update what they do at the end of the script.
 # Version 1.2.1		- Made some refactoring (internal changes). Hopefully, 1.3 will
@@ -45,29 +48,21 @@
 #==============================================================================
 
 module TitleMenu
- 
-  # Padding increases the distance between the New Game and Exit Game images
-  # from the Continue Game image.
-  #	 New  Game
-  #    ->	  <-  This Space
-  #  Continue  Game
-  #    ->	  <-  This Space
-  #	 Exit Game
-  #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  PADDING = 5  # Default: 5
-
+  PADDING 				= 5  	# Default: 5		(Amount of pixels between buttons.)
+  HORIZONTAL_BUTTONS 	= false # Default: false 	(vertical button layout). If true, buttons are placed horizontally.
+  
   # Offset moves the menu images in different directions (inverted cartesian plane).
-  Y_OFFSET = 0  # Default: 0
-  X_OFFSET = 0  # Default: 0
+  Y_OFFSET = 0  # Default: 0 px
+  X_OFFSET = 0  # Default: 0 px
   
   # This is where you specify what you want your images to be called.
   # The images need to be placed in your Project\Graphics\System folder,
   # eg. Project\Graphics\System\new-game.png, new-game-selected.png
   #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-	
-  BUTTON_NAMES				= [ 'new-game', 'continue-game', 'achievements', 'credits', 'exit' ]
-  SELECTED_BUTTON_SUFFIX	= '-selected'
+  
+  BUTTON_IMAGE_NAMES		= [ 'new-game', 'continue-game', 'achievements', 'credits', 'exit' ]
   BUTTON_COMMANDS			= [ :command_new_game, :command_continue, :command_achievements, :command_credits, :command_shutdown ]
+  SELECTED_BUTTON_SUFFIX	= '-selected'
   CONTINUE_BUTTON_INDEX		= 1
   
   # Continue Opacity is how transparent the continue image will be when there
@@ -156,15 +151,15 @@ class Scene_Title < Scene_Base
     center_sprite( @sprite2 )
     
     i = 0
-    while i < TitleMenu::BUTTON_NAMES.size
+    while i < TitleMenu::BUTTON_IMAGE_NAMES.size
 	  @sprites[i] = Sprite.new
-      @sprites[i].bitmap = Cache.system(TitleMenu::BUTTON_NAMES[i])
+      @sprites[i].bitmap = Cache.system(TitleMenu::BUTTON_IMAGE_NAMES[i])
       @sprites[i].x = ( ( Graphics.width / 2 ) - ( @sprites[i].bitmap.width / 2 ) )
       @sprites[i].y = ( ( Graphics.height / 2 ) - ( @sprites[i].bitmap.height / 2 ) + i*(@sprites[i].bitmap.height + TitleMenu::PADDING) )
       @sprites[i].z = VISIBLE_Z
       
       @sprites_selected[i] = Sprite.new
-      @sprites_selected[i].bitmap = Cache.system( TitleMenu::BUTTON_NAMES[i] << TitleMenu::SELECTED_BUTTON_SUFFIX )
+      @sprites_selected[i].bitmap = Cache.system( TitleMenu::BUTTON_IMAGE_NAMES[i] + TitleMenu::SELECTED_BUTTON_SUFFIX )
       @sprites_selected[i].x = @sprites[i].x
       @sprites_selected[i].y = @sprites[i].y
       @sprites_selected[i].z = HIDDEN_Z
@@ -182,6 +177,7 @@ class Scene_Title < Scene_Base
       @sprites_selected[TitleMenu::CONTINUE_BUTTON_INDEX].opacity = TitleMenu::CONTINUE_DISABLED_OPACITY
     end
 	
+	# Selected first button by default
 	@sprites_selected[0].z = VISIBLE_Z
   end
     
@@ -210,15 +206,15 @@ class Scene_Title < Scene_Base
     # Need to extend for our new menu items. Reset to control order.
     @command_window.clear_command_list
     i = 0
-    while i < TitleMenu::BUTTON_NAMES.size do
+    while i < TitleMenu::BUTTON_IMAGE_NAMES.size do
 		if i == TitleMenu::CONTINUE_BUTTON_INDEX
-			@command_window.add_command(TitleMenu::BUTTON_NAMES[i], TitleMenu::BUTTON_NAMES[i].to_sym, @continue_enabled)
-			@command_window.set_handler(TitleMenu::BUTTON_NAMES[i].to_sym, method(TitleMenu::BUTTON_COMMANDS[i]))
+			@command_window.add_command(TitleMenu::BUTTON_IMAGE_NAMES[i], TitleMenu::BUTTON_IMAGE_NAMES[i].to_sym, @continue_enabled)
+			@command_window.set_handler(TitleMenu::BUTTON_IMAGE_NAMES[i].to_sym, method(TitleMenu::BUTTON_COMMANDS[i]))
 			i += 1
 			next
 		end
-		@command_window.add_command(TitleMenu::BUTTON_NAMES[i], TitleMenu::BUTTON_NAMES[i].to_sym)
-		@command_window.set_handler(TitleMenu::BUTTON_NAMES[i].to_sym, method(TitleMenu::BUTTON_COMMANDS[i]))
+		@command_window.add_command(TitleMenu::BUTTON_IMAGE_NAMES[i], TitleMenu::BUTTON_IMAGE_NAMES[i].to_sym)
+		@command_window.set_handler(TitleMenu::BUTTON_IMAGE_NAMES[i].to_sym, method(TitleMenu::BUTTON_COMMANDS[i]))
 		i += 1
     end
 	
@@ -231,7 +227,7 @@ class Scene_Title < Scene_Base
     @command_window.z = HIDDEN_Z
   end
   #--------------------------------------------------------------------------
-  # * [Continue] Command
+  # * Button Commands - Define methods for custom buttons below
   #--------------------------------------------------------------------------
   def command_continue
     if @continue_enabled
