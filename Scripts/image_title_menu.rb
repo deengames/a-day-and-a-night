@@ -2,8 +2,8 @@
 #
 # -- Custom Title Menu
 # -- Author: Haris1112, ashes999 (current), NerdiGaming (original)
-# -- Last Updated: June 23, 2014
-# -- Version 1.4.1
+# -- Last Updated: June 24, 2014
+# -- Version 1.5
 #
 #==============================================================================
 # - Introduction
@@ -31,6 +31,8 @@
 #==============================================================================
 # - Updates
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Version 1.5		- Now buttons can be layed out horizontally!
+# Version 1.4.2		- Fixed mouse support (reliant on external Mouse module)
 # Version 1.4.1		- More documentation, minor internal fixes.
 #					- Centered buttons vertically however, now all the buttons
 #					should have the same height.
@@ -53,9 +55,7 @@
 
 module TitleMenu
   PADDING 				= 5  	# Default: 5		(Amount of pixels between buttons.)
-  
-  # Not yet implemented
-  HORIZONTAL_BUTTONS 	= false # Default: false 	(buttons are placed vertically).
+  HORIZONTAL_BUTTONS 	= false	# Default: false 	(buttons are placed vertically).
 
   # Offset moves the menu images in different directions (normal cartesian plane).
   Y_OFFSET = 80  # Default: 0 px
@@ -168,13 +168,35 @@ class Scene_Title < Scene_Base
 	  sprite_selected.z = HIDDEN_Z
 	end  
   end
-  
+  #--------------------------------------------------------------------------
+  # * Tests if Point(x, y) is within Rectangle(rect)
+  #--------------------------------------------------------------------------
+  def within?(x, y, rect)
+    return false if x < rect.x or y < rect.y
+    bound_x = rect.x + rect.width; bound_y = rect.y + rect.height
+    return true if x < bound_x and y < bound_y
+    return false
+  end
   #--------------------------------------------------------------------------
   # * Frame Update
   #--------------------------------------------------------------------------
   def update
     super
-    
+
+	# The checks below use Jet's mouse system.
+	
+	# Check if Mouse is over a Button Image
+	x = Mouse.pos[0]	
+	y = Mouse.pos[1]
+	
+	@bounds.each_with_index do |rect, i|
+	  if within?(x, y, rect)
+		@command_window.select(i)
+		check_input
+	  end
+	end
+	
+	# Check if Mouse is Clicked/Released
     if Input.trigger?(:DOWN)
       check_input
     end
@@ -212,13 +234,27 @@ class Scene_Title < Scene_Base
     # Drawing New-style Menu (i.e. with images)
 	@sprites = []
 	@sprites_selected = []
+	@bounds = []
 	
+    # Calculate Space adjustments for Horizontal/Vertical buttons
+	x_multiplier = 0
+	x_offset = 0
+	y_multiplier = 0
+	sample_sprite = Cache.system(TitleMenu::BUTTON_IMAGE_NAMES[0])
+	if(!TitleMenu::HORIZONTAL_BUTTONS)
+	  y_multiplier = (sample_sprite.height + TitleMenu::PADDING)
+    else
+	  x_multiplier = (sample_sprite.width + TitleMenu::PADDING)
+	  x_offset = x_multiplier.to_f*TitleMenu::BUTTON_IMAGE_NAMES.size / 2
+	end
+    # End calculations
+		
     i = 0
     while i < TitleMenu::BUTTON_IMAGE_NAMES.size
 	  @sprites[i] = Sprite.new
       @sprites[i].bitmap = Cache.system(TitleMenu::BUTTON_IMAGE_NAMES[i])
-      @sprites[i].x = ( ( Graphics.width / 2 ) - ( @sprites[i].bitmap.width / 2 ) ) - TitleMenu::X_OFFSET
-      @sprites[i].y = ( ( Graphics.height / 2 ) - ( @sprites[i].bitmap.height / 2 ) + i*(@sprites[i].bitmap.height + TitleMenu::PADDING) ) - TitleMenu::Y_OFFSET
+      @sprites[i].x = ( ( Graphics.width / 2 ) - ( @sprites[i].bitmap.width / 2 ) + i*x_multiplier - x_offset) - TitleMenu::X_OFFSET
+      @sprites[i].y = ( ( Graphics.height / 2 ) - ( @sprites[i].bitmap.height / 2 ) + i*y_multiplier ) - TitleMenu::Y_OFFSET
       @sprites[i].z = VISIBLE_Z
       
       @sprites_selected[i] = Sprite.new
@@ -226,7 +262,8 @@ class Scene_Title < Scene_Base
       @sprites_selected[i].x = @sprites[i].x
       @sprites_selected[i].y = @sprites[i].y
       @sprites_selected[i].z = HIDDEN_Z
-      
+	  
+	  @bounds[i] = Rect.new(@sprites[i].x, @sprites[i].y, @sprites[i].bitmap.width, @sprites[i].bitmap.height)
 	  i += 1
     end
 	
