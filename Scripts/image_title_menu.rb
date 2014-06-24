@@ -31,6 +31,10 @@
 #==============================================================================
 # - Updates
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Version 1.5.1		- Buttons now centered vertically as well
+#					- Rearranged BUTTON_IMAGE_NAMES and BUTTON_COMMANDS
+#					into a 2-D BUTTONS array. Association between image name
+#					and command is now clearer.
 # Version 1.5		- Now buttons can be layed out horizontally!
 # Version 1.4.2		- Fixed mouse support (reliant on external Mouse module)
 # Version 1.4.1		- More documentation, minor internal fixes.
@@ -58,29 +62,39 @@ module TitleMenu
   HORIZONTAL_BUTTONS 	= false	# Default: false 	(buttons are placed vertically).
 
   # Offset moves the menu images in different directions (normal cartesian plane).
-  Y_OFFSET = 80  # Default: 0 px
+  Y_OFFSET = -40  # Default: 0 px
   X_OFFSET = 0  # Default: 0 px
   
-  # This is where you specify what you want your images to be called.
-  # The images need to be placed in your Project\Graphics\System folder,
-  # eg. Project\Graphics\System\new-game.png, new-game-selected.png
   #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  
-  #	To add a buton, specify the image name in the BUTTON_IMAGE_NAMES array.
-  #	Futhermore, you must specify a command that the button engages.
+  # BUTTON CONFIG
+  #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+  #	To add a buton, add an element to the BUTTONS array which contains
+  # [ IMAGE_NAME, :COMMAND ]
+  #
+  # IMAGE_NAME
+  # ==========
+  # The images need to be placed in your Project\Graphics\System folder,
+  # eg. Project\Graphics\System\new-game.png, IMAGE_NAME = 'new-game'
+  #
+  # :COMMAND
+  # ========
+  #	To specify a command that the button engages, see below.
   # Default commands include:	» :command_new_game		Starts a new game session
   #								» :command_continue		Displays load game screen
   #								» :command_shutdown		Synonymous to 'exit game'
-  #	Custom commands can be declared in the Scene_Base class below under
+  #	Custom commands can be declared in the Scene_Base class under
   # the 'Button Commands' header.
   #
-  # A final note: The _first_ image identified in BUTTON_IMAGE_NAMES correspondes
-  # To the _first_ command in BUTTON_COMMANDS. With respect to this, each button
-  # should have a command associated with it, and the number of images should be
-  # equivalent to the number of commands.
+  # Just follow the syntax of that is shown, and everything should be fine.
   #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  BUTTON_IMAGE_NAMES		= [ 'new-game', 'continue-game', 'achievements', 'credits', 'exit' ]
-  BUTTON_COMMANDS			= [ :command_new_game, :command_continue, :command_achievements, :command_credits, :command_shutdown ]
+  BUTTONS					= [ ['new-game', :command_new_game],
+								['continue-game', :command_continue],
+								['achievements', :command_achievements],
+								['credits', :command_credits],
+								['exit', :command_shutdown]					]
+  
+  # Suffix at the end of file which denotes the "selected" state of hte button
+  # eg. Project\Graphics\System\new-game.png --> new-game-selected.png
   SELECTED_BUTTON_SUFFIX	= '-selected'
  
   # If you use :command_continue as the command for your continue button, you can ignore this
@@ -115,6 +129,7 @@ class Scene_Title < Scene_Base
   def command_credits
     fadeout_all
     Graphics.fadein(3000 / Graphics.frame_rate)
+	SceneManager.call(Scene_Credits)
   end
 
   #--------------------------------------------------------------------------
@@ -127,14 +142,6 @@ class Scene_Title < Scene_Base
   # * Start processing
   #--------------------------------------------------------------------------
   def start
-    # Check configuration
-	if TitleMenu::BUTTON_IMAGE_NAMES.size == TitleMenu::BUTTON_COMMANDS.size ? false : true
-	  msgbox_p('Error@image_title_menu.rb. Number of buttons doesn\'t equal number of commands!')
-	  exit
-	  return
-	end
-	
-	# Begin
 	super
 	SceneManager.clear
 	Graphics.freeze
@@ -212,8 +219,8 @@ class Scene_Title < Scene_Base
 	@continue_enabled = (Dir.glob('Save*.rvdata2').size > 0)
 	
 	if TitleMenu::CUSTOM_CONTINUE_BUTTON_INDEX < 0
-	  TitleMenu::BUTTON_COMMANDS.each_with_index do |command_symbol, index|
-	    if command_symbol.to_sym == :command_continue
+	  TitleMenu::BUTTONS.each_with_index do |button, index|
+	    if button[1].to_sym == :command_continue
 	      @continue_button_index = index
 	    end
 	  end
@@ -237,28 +244,29 @@ class Scene_Title < Scene_Base
 	@bounds = []
 	
     # Calculate Space adjustments for Horizontal/Vertical buttons
-	x_multiplier = 0
-	x_offset = 0
-	y_multiplier = 0
-	sample_sprite = Cache.system(TitleMenu::BUTTON_IMAGE_NAMES[0])
-	if(!TitleMenu::HORIZONTAL_BUTTONS)
-	  y_multiplier = (sample_sprite.height + TitleMenu::PADDING)
+	x_multiplier = 0; y_multiplier = 0
+	x_center_offset = 0; y_center_offset = 0
+	sample_sprite = Cache.system(TitleMenu::BUTTONS[0][0])
+	width = sample_sprite.width
+	height = sample_sprite.height
+	if !TitleMenu::HORIZONTAL_BUTTONS
+	  y_multiplier = ( height + TitleMenu::PADDING )
+	  y_center_offset = ( (y_multiplier.to_f * TitleMenu::BUTTONS.size.to_f) / 2 )
     else
-	  x_multiplier = (sample_sprite.width + TitleMenu::PADDING)
-	  x_offset = x_multiplier.to_f*TitleMenu::BUTTON_IMAGE_NAMES.size / 2
+	  x_multiplier = ( width + TitleMenu::PADDING )
+	  x_center_offset = ( (x_multiplier.to_f * TitleMenu::BUTTONS.size.to_f) / 2 )
 	end
-    # End calculations
 		
     i = 0
-    while i < TitleMenu::BUTTON_IMAGE_NAMES.size
+    while i < TitleMenu::BUTTONS.size
 	  @sprites[i] = Sprite.new
-      @sprites[i].bitmap = Cache.system(TitleMenu::BUTTON_IMAGE_NAMES[i])
-      @sprites[i].x = ( ( Graphics.width / 2 ) - ( @sprites[i].bitmap.width / 2 ) + i*x_multiplier - x_offset) - TitleMenu::X_OFFSET
-      @sprites[i].y = ( ( Graphics.height / 2 ) - ( @sprites[i].bitmap.height / 2 ) + i*y_multiplier ) - TitleMenu::Y_OFFSET
+      @sprites[i].bitmap = Cache.system(TitleMenu::BUTTONS[i][0])
+      @sprites[i].x = ( ( Graphics.width / 2 ) - ( @sprites[i].bitmap.width / 2 ) + i * x_multiplier - x_center_offset) - TitleMenu::X_OFFSET
+      @sprites[i].y = ( ( Graphics.height / 2 ) - ( @sprites[i].bitmap.height / 2 ) + i * y_multiplier - y_center_offset) - TitleMenu::Y_OFFSET
       @sprites[i].z = VISIBLE_Z
       
       @sprites_selected[i] = Sprite.new
-      @sprites_selected[i].bitmap = Cache.system( TitleMenu::BUTTON_IMAGE_NAMES[i] + TitleMenu::SELECTED_BUTTON_SUFFIX )
+      @sprites_selected[i].bitmap = Cache.system( TitleMenu::BUTTONS[i][0] + TitleMenu::SELECTED_BUTTON_SUFFIX )
       @sprites_selected[i].x = @sprites[i].x
       @sprites_selected[i].y = @sprites[i].y
       @sprites_selected[i].z = HIDDEN_Z
@@ -302,13 +310,13 @@ class Scene_Title < Scene_Base
     # Need to extend for our new menu items. Reset to control order.
     @command_window.clear_command_list
     i = 0
-    while i < TitleMenu::BUTTON_IMAGE_NAMES.size do
+    while i < TitleMenu::BUTTONS.size do
 	  if i == @continue_button_index
-		@command_window.add_command(TitleMenu::BUTTON_IMAGE_NAMES[i], TitleMenu::BUTTON_IMAGE_NAMES[i].to_sym, @continue_enabled)
+		@command_window.add_command(TitleMenu::BUTTONS[i][0], TitleMenu::BUTTONS[i][0].to_sym, @continue_enabled)
 	  else
-		@command_window.add_command(TitleMenu::BUTTON_IMAGE_NAMES[i], TitleMenu::BUTTON_IMAGE_NAMES[i].to_sym)
+		@command_window.add_command(TitleMenu::BUTTONS[i][0], TitleMenu::BUTTONS[i][0].to_sym)
 	  end
-	  @command_window.set_handler(TitleMenu::BUTTON_IMAGE_NAMES[i].to_sym, method(TitleMenu::BUTTON_COMMANDS[i]))
+	  @command_window.set_handler(TitleMenu::BUTTONS[i][0].to_sym, method(TitleMenu::BUTTONS[i][1]))
 	  i += 1
     end
 	
