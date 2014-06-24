@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="world" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="above" value="2-4,6-24,29-104"/>
+   <property name="ignore" value="1"/>
+   <property name="solid" value="6-8,14,16,21,22-24,25,29,41,89-93,97-101,105-107,113-115,121-123,129-131,137-139"/>
+  </properties>
+  <image source="../assets/images/world.png" width="256" height="576"/>
+ </tileset>
+ <layer name="Grass/Walls" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt0bEJwDAMAEG5yP4rZ4UEDDmcL64TQo/WzKyHrhezsjosdVjqsNRhqcNSh6UOSx2WOix1WOqw1GGpw1KHpQ5LHZY6LHVY6rDUYanDUoflpI7ddu3/6z++vuH0jhvkGQsZ
+  </data>
+ </layer>
+ <layer name="Buildings" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztmckKwkAQRBsV97jHuH6kelJP6kn9aWsggT4MQebSmaEePBDioYrpPrUISYku7HnsW4YKYAKnHmeWoQKIuUc1S2526no0fcaq7C5r3X40/W10j7r3aHqPFOcq5vfw9WjBNuxIvD0GcAhHcAwzibPHHC7gEq5gLnH0WMMCbsrfW7iDe3iAx/Jbof5HCCGEEEIIIYSEcIU35d02TjAP+FS+bOME84Yf5dc2zl+c4Fl5sY0TTGq7IJLGLojEswuEkLRxdxN9/8ls4wTj7ib6/pPbxgnGd/+JEd/9h5Am8QN7Rxle
+  </data>
+ </layer>
+ <layer name="Above Buildings" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt2TtzAWEYhuH9JQ6NQxOHBJNEGCFMkCJCQSjiUCD+f+vW2/GxM97dneeeuYrtnm+8Hc9TcSyBJFLGO4KWQRY56yEBe0ABReshV+R6Q2G/NdcbCvutud5QFG9NKRXv0he+o1L+wrdSSimllLKrihLKeMQTKj5qRhtdauAZL3hFHW8+mkYbXTq9o4V3tNHBh4+wv+MTfQwwxJcXvd+ji2+M8IMxJt75d/SMNro2xQy/mGNhO+fm/rDECmtsbOfc3BY77PGPg+0cpZRSSil15/T/jwp7RwZMGgQ=
+  </data>
+ </layer>
+ <layer name="Even Higher" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztxqERADAIBDDGQiK7/0Sd4D3cJSpVAAAAAABs1OHXTPg1LxwAAADY4wPSeAGB
+  </data>
+ </layer>
+</map>
