@@ -62,7 +62,7 @@ module TitleMenu
   HORIZONTAL_BUTTONS 	= false	# Default: false 	(buttons are placed vertically).
 
   # Offset moves the menu images in different directions (normal cartesian plane).
-  Y_OFFSET = -40  # Default: 0 px
+  Y_OFFSET = -75  # Default: 0 px
   X_OFFSET = 0  # Default: 0 px
   
   #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -128,8 +128,7 @@ class Scene_Title < Scene_Base
   
   def command_credits
     fadeout_all
-    Graphics.fadein(3000 / Graphics.frame_rate)
-	SceneManager.call(Scene_Credits)
+    Graphics.fadein(3000 / Graphics.frame_rate)	
   end
 
   #--------------------------------------------------------------------------
