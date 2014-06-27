@@ -50,21 +50,21 @@ module XAIL
     MUSIC_FADE = 1000
     
     # Setup the credit text/background here.
-	CREDIT = {										#TX	 TY  BX BY WAIT FI  FO  
-      0 => ["credits-background", "Created by...", 	210, -80, 0, 0, 10, 10, 10, true, true, 0],
-	  1 => ["credits-background", "People 1", 		210, -60, 0, 0, 20, 10, 10, false, true, 0],
-	  2 => ["credits-background", "People 2", 		210, -40, 0, 0, 20, 10, 10, false, true, 0],
-	  3 => ["credits-background", "People 3", 		210, -20, 0, 0, 20, 10, 10, false, true, 0],
-	  4 => ["credits-background", "People 4", 		210,   0, 0, 0, 20, 10, 10, false, true, 0],
-	  5 => ["credits-background", "People 5", 		210,  20, 0, 0, 20, 10, 10, false, true, 0],
-	  6 => ["credits-background", "Copyright 2012", 210,  40, 0, 0, 20, 10, 10, false, true, 0],
+	CREDIT = {											#TX	 TY  BX BY WAIT FI  FO  
+      0 => ["credits-background", "Created by:", 		210, -100, 0, 0, 30, 10, 10, true, true, 0],
+	  1 => ["credits-background", "ashes999 (code)", 	210, -50, 0, 0, 45, 10, 10, false, true, 0],
+	  2 => ["credits-background", "silatsaif (art)", 	210, -20, 0, 0, 45, 10, 10, false, true, 0],
+	  3 => ["credits-background", "areebs43 (testing)", 210, 10, 0, 0, 45, 10, 10, false, true, 0],
+	  4 => ["credits-background", "Haris1112 (code)", 	210,  40, 0, 0, 45, 10, 10, false, true, 0],
+	  5 => ["credits-background", "BLACK8EARD (art)", 	210,  70, 0, 0, 45, 10, 10, false, true, 0],
+	  6 => ["credits-background", "Iheb96 (code)", 		210,  100, 0, 0, 45, 10, 10, false, true, 0],
 	  # Required for graphical glitch
-	  7 => ["credits-background", " ", 				210,  60, 0, 0, 20, 10, 10, false, true, 0]
+	  7 => ["credits-background", " ", 					210,  130, 0, 0, 60, 10, 10, false, true, 0]
     } # Don't remove this line.
 
     # Delay before going to title scene after everything is processed.
     # END_DELAY = number
-    END_DELAY = 50
+    END_DELAY = 500
     
   end
 end
