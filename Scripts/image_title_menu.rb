@@ -128,8 +128,7 @@ class Scene_Title < Scene_Base
   end
   
   def command_credits
-    fadeout_all
-    Graphics.fadein(3000 / Graphics.frame_rate)	
+	SceneManager.goto(Scene_Credits)
   end
 
   #--------------------------------------------------------------------------
