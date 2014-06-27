@@ -77,8 +77,8 @@ class Sprite_Character < Sprite_Base
     return if $game_switches[Chara_Anims::ANIM_SWITCH]
     return move_anim if $game_player.moving?
     @idletime += 1
-    idle_anim if @idletime == 5
-    idle_event if @idletime == Chara_Anims::COMMON_EVENT_TIME
+    #idle_anim if @idletime == 5
+    #idle_event if @idletime == Chara_Anims::COMMON_EVENT_TIME
   end
 
   def idle_anim
