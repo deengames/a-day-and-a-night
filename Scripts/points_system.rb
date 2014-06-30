@@ -45,6 +45,14 @@ module PointsSystem
 		Sound.play_system_sound(NEGATIVE_SOUND) if key == :negative
 	end
 	
+	def self.get_points_record
+	  @@points_scored
+	end
+	
+	def self.set_points_record(points_record)
+	  @@points_scored = points_record
+	end
+	
 	class Window_Points < Window_Base
 		def initialize
 			super(0, 0, 150, 50)
