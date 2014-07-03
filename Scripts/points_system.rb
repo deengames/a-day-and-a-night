@@ -18,10 +18,13 @@ module PointsSystem
 	# End variables. Please don't touch anything below this line.
 
 	# Key => event name, value => score
-	@@points_scored = {}
-
+	# @@points_scored = {}
+	
+	# Register
+	SavingSystem.register_object(:points, Hash.new)
+	
 	def self.add_points(event, score)
-		@@points_scored[event] = score
+		get_points_scored[event] = score
 		if (score >= 0) then
 			play_sound(:positive)
 		else
@@ -31,12 +34,12 @@ module PointsSystem
 	
 	def self.total_points
 		sum = 0
-		@@points_scored.map { |k, v| sum += v }
+		get_points_scored.map { |k, v| sum += v }
 		return sum
 	end
 	
-	def self.points_breakdown
-		return @@points_scored
+	def self.get_points_scored
+	  return SavingSystem::get(:points)
 	end
 	
 	# key => :positive or :negative
@@ -44,15 +47,7 @@ module PointsSystem
 		Sound.play_system_sound(POSITIVE_SOUND) if key == :positive
 		Sound.play_system_sound(NEGATIVE_SOUND) if key == :negative
 	end
-	
-	def self.get_points_record
-	  @@points_scored
-	end
-	
-	def self.set_points_record(points_record)
-	  @@points_scored = points_record
-	end
-	
+		
 	class Window_Points < Window_Base
 		def initialize
 			super(0, 0, 150, 50)
@@ -63,6 +58,7 @@ module PointsSystem
 			contents.draw_text(0, 0, contents.width, 24, "#{PointsSystem.total_points} points", 1)
 		end
 	end
+	
 end
 
 class Scene_Menu

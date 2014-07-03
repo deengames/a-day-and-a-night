@@ -9,8 +9,29 @@
 # --- Version:			1.0.0
 #=============================================================================
 
+module SavingSystem
+  
+  @@objects = {}
+  
+  def self.register_object(key, value)
+	@@objects[key] = value
+  end
+  
+  def self.get(key)
+    return @@objects[key]
+  end
+  
+  def self.objects
+    return @@objects
+  end
+  
+end
+
+#=============================================================================
+# * Overwrite DataManager Saving/Loading
+#=============================================================================
+
 module DataManager
-  # OVERWRITE
   def self.make_save_contents
     contents = {}
     contents[:system]        = $game_system
@@ -24,11 +45,15 @@ module DataManager
     contents[:troop]         = $game_troop
     contents[:map]           = $game_map
     contents[:player]        = $game_player
-    contents[:points]        = PointsSystem.get_points_record
-    contents
+	
+	SavingSystem.objects.each do |key, object|
+		# FOR TESTING, PointsSystem.add_points(rand(100), 1)
+		contents[key.to_sym] = object
+	end
+	
+	return contents
   end
   
-  # OVERWRITE
   def self.extract_save_contents(contents)
     $game_system        = contents[:system]
     $game_timer         = contents[:timer]
@@ -41,7 +66,12 @@ module DataManager
     $game_troop         = contents[:troop]
     $game_map           = contents[:map]
     $game_player        = contents[:player]
-    PointsSystem.set_points_record(contents[:points])
+	
+	SavingSystem.objects.each do |key, object|
+	  SavingSystem.objects[key.to_sym] = contents[key.to_sym]
+	end
+	
+	# Extraction complete.
   end
 
 end
