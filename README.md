@@ -1,5 +1,5 @@
 # A Day  and a Night 
-This is the second (or maybe third) "Shards" game based around a day and night in a small village. With epic dragons.
+This is the third top-down adventure game based around a day and night in a small village. With epic dragons.
 
 **Where did CraftyJS go?**
 
