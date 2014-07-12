@@ -8,12 +8,18 @@
 # --- Author:			Haris1112 (hk12@live.ca)
 # --- Version:			1.0.0
 #=============================================================================
+#  Use SaveSystem.set(key, value) to add an object,
+#  and SaveSystem.get(key) to get it back.
+#
+#  Utilizer SaveSystem.set(cle, valeur) pour ajouter un objet,
+#  et SaveSystem.get(cle) pour obtenir l'objet.
+#=============================================================================
 
-module SavingSystem
+module SaveGame
   
   @@objects = {}
   
-  def self.register_object(key, value)
+  def self.set(key, value)
 	@@objects[key] = value
   end
   
@@ -32,46 +38,25 @@ end
 #=============================================================================
 
 module DataManager
+  class <<self; alias :load_contents :extract_save_contents; end
+  def self.extract_save_contents(contents)
+    load_contents(contents)
+    
+	SaveGame.objects.each do |key, object|
+	  SaveGame.objects[key.to_sym] = contents[key.to_sym]
+	end
+  end
+
+  class <<self; alias :save_contents :make_save_contents; end
   def self.make_save_contents
-    contents = {}
-    contents[:system]        = $game_system
-    contents[:timer]         = $game_timer
-    contents[:message]       = $game_message
-    contents[:switches]      = $game_switches
-    contents[:variables]     = $game_variables
-    contents[:self_switches] = $game_self_switches
-    contents[:actors]        = $game_actors
-    contents[:party]         = $game_party
-    contents[:troop]         = $game_troop
-    contents[:map]           = $game_map
-    contents[:player]        = $game_player
-	
-	SavingSystem.objects.each do |key, object|
-		# FOR TESTING, PointsSystem.add_points(rand(100), 1)
+    contents = save_contents
+    	
+	SaveGame.objects.each do |key, object|
+		# FOR TESTING, add this line:
+		# PointsSystem.add_points(rand(100), 1)
 		contents[key.to_sym] = object
 	end
 	
-	return contents
+    return contents
   end
-  
-  def self.extract_save_contents(contents)
-    $game_system        = contents[:system]
-    $game_timer         = contents[:timer]
-    $game_message       = contents[:message]
-    $game_switches      = contents[:switches]
-    $game_variables     = contents[:variables]
-    $game_self_switches = contents[:self_switches]
-    $game_actors        = contents[:actors]
-    $game_party         = contents[:party]
-    $game_troop         = contents[:troop]
-    $game_map           = contents[:map]
-    $game_player        = contents[:player]
-	
-	SavingSystem.objects.each do |key, object|
-	  SavingSystem.objects[key.to_sym] = contents[key.to_sym]
-	end
-	
-	# Extraction complete.
-  end
-
 end
