@@ -16,15 +16,14 @@ module PointsSystem
 	NEGATIVE_SOUND = 3 # buzzer
 	
 	# End variables. Please don't touch anything below this line.
-
-	# Key => event name, value => score
-	# @@points_scored = {}
 	
 	# Register
-	SavingSystem.register_object(:points, Hash.new)
+	# Key => event name, value => score
+	SaveGame.set(:points, Hash.new)
 	
 	def self.add_points(event, score)
-		get_points_scored[event] = score
+		points_scored = get_points_scored
+		points_scored[event] = score
 		if (score >= 0) then
 			play_sound(:positive)
 		else
@@ -39,7 +38,7 @@ module PointsSystem
 	end
 	
 	def self.get_points_scored
-	  return SavingSystem::get(:points)
+	  return SaveGame::get(:points)
 	end
 	
 	# key => :positive or :negative
