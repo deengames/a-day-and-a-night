@@ -248,7 +248,7 @@ module CSCA
     COLOR1 = 20 # Color1 of the progress gauge.
     COLOR2 = 21 # Color2 of the progress gauge.
     
-    SOUND = "Applause1" # SE Played when an achievement is earned. Set to nil to disable.
+    SOUND = "Chime2" # SE Played when an achievement is earned. Set to nil to disable.
     
     POP_ALIGN = :bottom # Alignment of Popup on map when achievement is earned.
     # :bottom = bottom center, :middle = middle of screen, :top = top center
