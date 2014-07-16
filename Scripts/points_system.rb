@@ -26,7 +26,6 @@ module PointsSystem
 	  @@points_scored = SaveGame::get(:points_scored)
 	})
 	SaveGame.on_save(lambda {
-	  add_points(rand(100), 1) 
 	  SaveGame.set(:points_scored, @@points_scored)
 	})
 	
