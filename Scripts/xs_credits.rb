@@ -47,7 +47,7 @@ module XAIL
     
     # Fade out music in milliseconds.
     # MUSIC_FADE = number
-    MUSIC_FADE = 1000
+    MUSIC_FADE = 500
     
     # Setup the credit text/background here.
 	CREDIT = {											#TX	 TY  BX BY WAIT FI  FO  
@@ -60,7 +60,7 @@ module XAIL
 	  6 => ["credits-background", "Iheb96 (code)", 		210,  100, 0, 0, 45, 10, 10, false, true, 0],
 	  7 => ["credits-background", "al3izz (art)", 		210,  130, 0, 0, 45, 10, 10, false, true, 0],
 	  # Required for graphical glitch
-	  8 => ["credits-background", " ", 					300,  160, 0, 0, 60, 10, 10, false, true, 0]
+	  8 => ["credits-background", " ", 					360,  160, 0, 0, 60, 10, 10, false, true, 0]
     } # Don't remove this line.
 
     # Delay before going to title scene after everything is processed.
@@ -202,7 +202,7 @@ class Scene_Credits < Scene_Base
     Graphics.fadeout(30)
     dispose_credit
     RPG::BGM.fade(XAIL::CREDITS::MUSIC_FADE)
-    delay?(XAIL::CREDITS::END_DELAY)
+    #delay?(XAIL::CREDITS::END_DELAY)
     RPG::BGM.stop
     SceneManager.goto(Scene_Title)
     Graphics.fadein(30)
