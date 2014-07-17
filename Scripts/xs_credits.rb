@@ -43,7 +43,7 @@ module XAIL
     # Setup music to be played.
     # Set to nil to disable.
     # MUSIC = [name, pitch, volume]
-	MUSIC = nil # Default : MUSIC = ["Town3", 100, 80]
+	MUSIC = ['Audio/BGM/yusuf-islam-adhaan', 100, 100] # Default : MUSIC = ["Town3", 100, 80]
     
     # Fade out music in milliseconds.
     # MUSIC_FADE = number
@@ -52,19 +52,20 @@ module XAIL
     # Setup the credit text/background here.
 	CREDIT = {											#TX	 TY  BX BY WAIT FI  FO  
       0 => ["credits-background", "Created by:", 		210, -100, 0, 0, 30, 10, 10, true, true, 0],
-	  1 => ["credits-background", "ashes999 (code)", 	210, -50, 0, 0, 45, 10, 10, false, true, 0],
+	  1 => ["credits-background", "ashes999 (maps)", 	210, -50, 0, 0, 45, 10, 10, false, true, 0],
 	  2 => ["credits-background", "silatsaif (art)", 	210, -20, 0, 0, 45, 10, 10, false, true, 0],
 	  3 => ["credits-background", "areebs43 (testing)", 210, 10, 0, 0, 45, 10, 10, false, true, 0],
 	  4 => ["credits-background", "Haris1112 (code)", 	210,  40, 0, 0, 45, 10, 10, false, true, 0],
 	  5 => ["credits-background", "BLACK8EARD (art)", 	210,  70, 0, 0, 45, 10, 10, false, true, 0],
 	  6 => ["credits-background", "Iheb96 (code)", 		210,  100, 0, 0, 45, 10, 10, false, true, 0],
+	  7 => ["credits-background", "al3izz (art)", 		210,  130, 0, 0, 45, 10, 10, false, true, 0],
 	  # Required for graphical glitch
-	  7 => ["credits-background", " ", 					210,  130, 0, 0, 60, 10, 10, false, true, 0]
+	  8 => ["credits-background", " ", 					300,  160, 0, 0, 60, 10, 10, false, true, 0]
     } # Don't remove this line.
 
     # Delay before going to title scene after everything is processed.
     # END_DELAY = number
-    END_DELAY = 500
+    END_DELAY = 360
     
   end
 end
@@ -129,7 +130,7 @@ class Scene_Credits < Scene_Base
   def setup_music
     # // Method to play a bgm.
     bgm = XAIL::CREDITS::MUSIC
-    Sound.play(bgm[0], bgm[1], bgm[2], :bgm)
+    Audio.bgm_play(bgm[0], bgm[1], bgm[2])
   end
   
   def setup_credit
