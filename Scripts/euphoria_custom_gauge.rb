@@ -48,7 +48,7 @@ module Euphoria
      
     GAUGE_NAME      = "Allegiance"     #Set The Gauges Name (5 Characters MAX)
      
-    GAUGE_START     = 500          #Set The Amount The Gauge Starts At
+    GAUGE_START     = 50          #Set The Amount The Gauge Starts At
      
     GAUGE_MAX       = 100        #Set The Gauges Max Value
      
@@ -64,7 +64,7 @@ module Euphoria
      
     GAUGE_MAP_Y     = 25          #Set Gauges Y Coordinate On Map
      
-    GAUGE_SWITCH    = 1          #Switch To Turn Gauge Off/On In Map
+    GAUGE_SWITCH    = 2          #Switch To Turn Gauge Off/On In Map
      
     GAUGE_IN_BATTLE = false       #Show Gauge In Battle? True or False
      

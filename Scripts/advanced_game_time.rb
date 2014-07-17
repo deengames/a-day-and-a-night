@@ -76,7 +76,7 @@ START_TIME = [0,0,5,0,0,0]
 #Wether or not to set time to PC (Real) Time
 $USE_REAL_TIME = false
 #Time does not increase while the message window is visible:
-NOTIMEMESSAGE = false
+NOTIMEMESSAGE = true
 #Time does not increase unless you are on the map
 PAUSE_IN_MENUS = true
 #Time does not increase if you are in battle
@@ -169,6 +169,9 @@ MONTHNAMESABBR = ["Jan","Feb","Mar","Apr","May","Jun",
 DEFAULT_YEAR_POST = "AD"
 #NOT YET IMPLEMENTED *IGNORE*
 USE_PERIODS = true
+
+# Ashiq's addition: disable with a switch
+DISABLE_SWITCH = 2
                  
 #Gradual tint effects! (The hardest part)
 #It may look daunting, and it is, but here is where you put the tint
@@ -217,6 +220,7 @@ module GameTime
     $game_time_tint = Sprite_TimeTint.new
   end
   def self.update
+	return if $game_switches[DISABLE_SWITCH]
     return if $game_message.busy? and NOTIMEMESSAGE
     if !SceneManager.scene.is_a?(Scene_Map) and PAUSE_IN_MENUS
       return $game_time_tint.update if SceneManager.scene.is_a?(Scene_Title)
@@ -763,6 +767,12 @@ class Scene_Map
   def update
     game_time_map_update
     return unless USECLOCK
+	if $game_switches[DISABLE_SWITCH]
+		clock_visible?(false)
+		return
+	else
+		clock_visible?(true)
+	end
     @gametimeclock.update unless SceneManager.scene != self
     if Input.trigger?(CLOCK_TOGGLE) and @gametimeclock.nil? == false
       @gametimeclock.visible ? @gametimeclock.visible = false : @gametimeclock.visible = true
