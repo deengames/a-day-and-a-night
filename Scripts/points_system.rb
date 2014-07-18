@@ -12,17 +12,17 @@ module PointsSystem
 	# Start: variables you can customize
 	# These map to system sounds.
 	
-	POSITIVE_SOUND = 21 # shop
-	NEGATIVE_SOUND = 3 # buzzer
+	POSITIVE_SOUND = 14 # actor damage
+	NEGATIVE_SOUND = 15 # actor collapse
 	
 	# End variables. Please don't touch anything below this line.
 	
 	# Prepare/Register for Saving.
-	DataManager.set(:points_scored, Hash.new)
+	DataManager.set(:points_scored, [])
 
 	def self.add_points(event, score)
 		points_scored = get_points_scored
-		points_scored[event] = score
+		points_scored << Points.new(score, event)
 		if (score >= 0) then
 			play_sound(:positive)
 		else
@@ -32,7 +32,7 @@ module PointsSystem
 	
 	def self.total_points
 		sum = 0
-		get_points_scored.map { |k, v| sum += v }
+		get_points_scored.map { |p| sum += p.points }
 		return sum
 	end
 	
@@ -45,6 +45,15 @@ module PointsSystem
 	def self.play_sound(key)
 		Sound.play_system_sound(POSITIVE_SOUND) if key == :positive
 		Sound.play_system_sound(NEGATIVE_SOUND) if key == :negative
+	end
+	
+	class Points
+		attr_reader :points, :event
+		
+		def initialize(points, event)
+			@points = points
+			@event = event
+		end
 	end
 		
 	class Window_Points < Window_Base
