@@ -17,18 +17,9 @@ module PointsSystem
 	
 	# End variables. Please don't touch anything below this line.
 	
-	# Key => event name, value => score
-    @@points_scored = {}	
-	
 	# Prepare/Register for Saving.
-	SaveGame.set(:points_scored, @@points_scored)
-	SaveGame.on_load(lambda {
-	  @@points_scored = SaveGame::get(:points_scored)
-	})
-	SaveGame.on_save(lambda {
-	  SaveGame.set(:points_scored, @@points_scored)
-	})
-	
+	DataManager.set(:points_scored, Hash.new)
+
 	def self.add_points(event, score)
 		points_scored = get_points_scored
 		points_scored[event] = score
@@ -46,7 +37,8 @@ module PointsSystem
 	end
 	
 	def self.get_points_scored
-	  return @@points_scored
+	  # Key => event name, value => score
+	  return DataManager.get(:points_scored)
 	end
 	
 	# key => :positive or :negative
