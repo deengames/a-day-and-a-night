@@ -24,6 +24,11 @@ module PersistantData
     end
   end
   
+  def self.has?(key)
+    contents = load_data
+	return contents.has_key?(key)
+  end
+  
   def self.set(key, value)
     contents = load_data
 	contents[key] = value	
