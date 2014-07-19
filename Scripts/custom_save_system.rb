@@ -27,12 +27,12 @@ module DataManager
     alias :save_contents :make_save_contents
   end
   def self.make_save_contents
-    original_contents = save_contents
+    contents = save_contents
     @@contents.each do |k, v|
-      original_contents[k] = v
+      contents[k] = v
     end
 	
-	return original_contents
+	return contents
   end
 
   def self.get(key)
