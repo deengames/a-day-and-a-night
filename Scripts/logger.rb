@@ -22,8 +22,9 @@ class Logger
 		File.open(@filename, 'w') { |f| f.write("Log created at #{Time.new}\n") }
 	end
 
-	def self.log(message, level = LOGGING_LEVEL)
+	def self.log(message, level = LOGGING_LEVEL)	
 		return if level > LOGGING_LEVEL
+		Logger.initialize(DEFAULT_FILENAME) if @filename.nil?
 		File.open(@filename, 'a') { |f| f.write("#{Time.new}|#{level}|#{message}\n") }
 	end
 	
