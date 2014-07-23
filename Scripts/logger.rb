@@ -12,22 +12,19 @@ LOGGING_LEVEL = :info
 
 #### end of parameters ###
 
+DEFAULT_FILENAME = 'log.txt'
 LEVELS = { :info => 1, :debug => 2 }
 
 class Logger
 
-	@@first_message = true
+	def self.initialize(filename)
+		@filename = filename
+		File.open(@filename, 'w') { |f| f.write("Log created at #{Time.new}\n") }
+	end
 
 	def self.log(message, level = LOGGING_LEVEL)
 		return if level > LOGGING_LEVEL
-		
-		mode = @@first_message ? 'w' : 'a'
-		
-		File.open('log.txt', mode) { |f|
-			f.write("#{message}\n")
-		}
-		
-		@@first_message = false
+		File.open(@filename, 'a') { |f| f.write("#{Time.new}|#{level}|#{message}\n") }
 	end
 	
 	def self.info(message)
