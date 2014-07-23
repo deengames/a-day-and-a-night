@@ -84,7 +84,7 @@ NOBATTLETIME = false
 #Clock is shown
 USECLOCK = true
 #Set to true to have the clock show up in the menu!
-USECLOCK_MENU = true
+USECLOCK_MENU = false
 #Set the format for the clock both in and out of menu
 #1. hh:mm am/pm
 #2. Sun dd hh:mm am/pm
