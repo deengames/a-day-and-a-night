@@ -10,6 +10,7 @@
 module DataManager
 
   @@contents = {}
+  @@initial_contents = {}
 
   # Loading
   class << self
@@ -28,13 +29,30 @@ module DataManager
   end
   def self.make_save_contents
     contents = save_contents
-    @@contents.each do |k, v|
-      contents[k] = v
+    @@contents.each do |key, value|
+      contents[key] = value
     end
 	
 	return contents
   end
+  
+  class << self
+    alias :on_new_game :setup_new_game
+  end
+  def self.setup_new_game	
+    on_new_game
+	setup(@@initial_contents)
+  end
 
+  def self.setup(hash)	
+	@@initial_contents = hash
+	
+    @@contents = {}
+    @@initial_contents.each do |key, value|
+	  @@contents[key] = value
+    end
+  end
+  
   def self.get(key)
     return @@contents[key]
   end
