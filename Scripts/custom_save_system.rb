@@ -1,8 +1,8 @@
 #=============================================================================
 #	Custom Saving System													 
 #=============================================================================
-# --- Author:			Haris1112 (hk12@live.ca)
-# --- Version:			1.1.0
+# --- Author:			Haris1112 (hk12@live.ca), Ashes999 (ashes999@yahoo.com)
+# --- Version:			1.1.1
 #=============================================================================
 #  Use DataManager.set(key, value) to add an object,
 #  and DataManager.get(key) to get it back.
