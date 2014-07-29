@@ -84,7 +84,7 @@ NOBATTLETIME = false
 #Clock is shown
 USECLOCK = true
 #Set to true to have the clock show up in the menu!
-USECLOCK_MENU = false
+USECLOCK_MENU = true
 #Set the format for the clock both in and out of menu
 #1. hh:mm am/pm
 #2. Sun dd hh:mm am/pm
@@ -104,7 +104,7 @@ CUSTOM_CLOCK_BACKGROUND_X = 0
 #The offset of the image on the y-axis
 CUSTOM_CLOCK_BACKGROUND_Y = 0
 #Button to be used to toggle the clock
-CLOCK_TOGGLE = :SHIFT
+CLOCK_TOGGLE = nil
 #Finetune the width of the clock window here:
 CLOCK_WIDTH = 128
 #X and Y position of clock
@@ -144,7 +144,7 @@ BATTLE_TINT = false
 #(Frame rate is 60 frames per second)
 DEFAULT_TIMELAPSE = 120
 #Variable ID containing the current speed of time!
-TIMELAPSE_VARIABLE = 80
+TIMELAPSE_VARIABLE = 0
 #Whether to use seconds or not
 NOSECONDS = true
 #Number of seconds in a minute
@@ -170,9 +170,6 @@ DEFAULT_YEAR_POST = "AD"
 #NOT YET IMPLEMENTED *IGNORE*
 USE_PERIODS = true
 
-# Ashiq's addition: disable with a switch
-DISABLE_SWITCH = 2
-                 
 #Gradual tint effects! (The hardest part)
 #It may look daunting, and it is, but here is where you put the tint
 #to be shown at each hour (the actual tint is usually somewhere in between)
@@ -219,8 +216,7 @@ module GameTime
     $game_time = Current_Time.new
     $game_time_tint = Sprite_TimeTint.new
   end
-  def self.update
-	return if $game_switches[DISABLE_SWITCH]
+  def self.update	
     return if $game_message.busy? and NOTIMEMESSAGE
     if !SceneManager.scene.is_a?(Scene_Map) and PAUSE_IN_MENUS
       return $game_time_tint.update if SceneManager.scene.is_a?(Scene_Title)
@@ -767,12 +763,6 @@ class Scene_Map
   def update
     game_time_map_update
     return unless USECLOCK
-	if $game_switches[DISABLE_SWITCH]
-		clock_visible?(false)
-		return
-	else
-		clock_visible?(true)
-	end
     @gametimeclock.update unless SceneManager.scene != self
     if Input.trigger?(CLOCK_TOGGLE) and @gametimeclock.nil? == false
       @gametimeclock.visible ? @gametimeclock.visible = false : @gametimeclock.visible = true
