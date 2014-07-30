@@ -1,0 +1,12 @@
+[credits]
+A Day and a Night
+=================
+Created by:
+
+- ashes999 (maps)
+- silatsaif (art)
+- areebs43 (testing)
+- haris1112 (code)
+- iheb96 (code)
+
+Special thanks to muslimgamer.com!

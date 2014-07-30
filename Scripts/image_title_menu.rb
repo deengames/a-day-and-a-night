@@ -1,9 +1,9 @@
 #==============================================================================
 #
 # -- Custom Title Menu
-# -- Author: Haris1112, ashes999 (current), NerdiGaming (original)
+# -- Author: Haris1112 and ashes999 (current), NerdiGaming (original)
 # -- Last Updated: June 24, 2014
-# -- Version 1.5
+# -- Version 1.5.1
 #
 #==============================================================================
 # - Introduction
