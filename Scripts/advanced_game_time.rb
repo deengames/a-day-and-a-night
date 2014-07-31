@@ -208,7 +208,7 @@ PERIODS = [["Night",0,5],
            ["Afternoon",12,17],
            ["Evening",18,23]]
          
-$gametimeclockvisible = false
+$gametimeclockvisible = true
 #_# END CUSTOMIZATION #_#
          
 module GameTime
