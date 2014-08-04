@@ -215,7 +215,7 @@ class Scene_Title < Scene_Base
   # * Determine if Continue is Enabled
   #--------------------------------------------------------------------------
   def check_continue
-	@continue_enabled = (Dir.glob('Save*.rvdata2').size > 0)
+	@continue_enabled = DataManager.save_file_exists?
 	
 	if TitleMenu::CUSTOM_CONTINUE_BUTTON_INDEX < 0
 	  TitleMenu::BUTTONS.each_with_index do |button, index|
@@ -305,6 +305,8 @@ class Scene_Title < Scene_Base
   #--------------------------------------------------------------------------
   def create_command_window    
 	@command_window = Window_TitleCommand.new
+	# Take command window out of scope, so mouse scripts can't select options
+	@command_window.x = Graphics.width
     
     # Need to extend for our new menu items. Reset to control order.
     @command_window.clear_command_list
@@ -323,6 +325,9 @@ class Scene_Title < Scene_Base
 	  sprite.z = VISIBLE_Z
 	end
 	
+	# Verify button to highlight first
+	check_input
+
     @command_window.z = HIDDEN_Z # Don't show default selection window
   end
 end # Scene_Title
