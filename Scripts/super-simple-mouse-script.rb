@@ -1084,18 +1084,19 @@ class Scene_File < Scene_MenuBase
     @delay = @delay ? @delay + 1 : 0
     return if @delay % 3 > 0
     
-    mx, my = *Mouse.position
+    mx, my = *Mouse.position	
     vx = @savefile_viewport.ox + mx
     vy = @savefile_viewport.oy + my
     last_index = @index
     new_index = vy / savefile_height
+	
     if @index != new_index
       if new_index > @index
         cursor_down(false)
       else
         cursor_up(false)
       end
-      Sound.play_cursor
+      Sound.play_cursor unless mx < 0 && my < 0 && vx < 0 && vy < 0
       @savefile_windows[last_index].selected = false
       @savefile_windows[@index].selected = true
     end
