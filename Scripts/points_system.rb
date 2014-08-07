@@ -15,6 +15,14 @@ module PointsSystem
 	POSITIVE_SOUND = 14 # actor damage
 	NEGATIVE_SOUND = 15 # actor collapse
 	
+	# Display points on map?
+	DISPLAY_POINTS_ON_MAP = true
+	PADDING = 16 # Default: 16
+	POINTS_WIDTH = 128 # Default: 128
+	POINTS_HEIGHT = 56 # Default: 80 or 56 
+	POINTS_X = PADDING
+	POINTS_Y = Graphics.height - POINTS_HEIGHT - PADDING - PADDING/2 # Weird to match clock exactly
+	
 	# End variables. Please don't touch anything below this line.
 	
 	# Prepare/Register for Saving.
@@ -57,12 +65,13 @@ module PointsSystem
 	end
 		
 	class Window_Points < Window_Base
-		def initialize
-			super(0, 0, 150, 50)
+		def initialize(x, y, width, height)
+			super(x, y, width, height)
 			update
-			self.visible = SceneManager.scene.is_a?(Scene_Menu)
+			self.visible = SceneManager.scene.is_a?(Scene_Menu) || SceneManager.scene.is_a?(Scene_Map)
 		end
 		def update
+			contents.clear
 			contents.draw_text(0, 0, contents.width, 24, "#{PointsSystem.total_points} points", 1)
 		end
 	end
@@ -74,7 +83,7 @@ class Scene_Menu
 	
 	def start
 		points_start
-		@ui = PointsSystem::Window_Points.new
+		@ui = PointsSystem::Window_Points.new(0, 0, 150, 50)
 		return if @ui.nil?
 		@ui.x = 0
 		# If using advanced_game_time, above the clock
@@ -82,4 +91,22 @@ class Scene_Menu
 		@ui.y = above.y - @ui.height
 		@ui.width = above.width		
 	end
+end
+
+class Scene_Map
+  alias game_points_init create_all_windows
+  alias game_points_map_update update
+  def create_all_windows
+    game_points_init
+	x = PointsSystem::POINTS_X
+	y = PointsSystem::POINTS_Y
+	width = PointsSystem::POINTS_WIDTH
+	height = PointsSystem::POINTS_HEIGHT
+    @gamepoints = PointsSystem::Window_Points.new(x, y, width, height) if PointsSystem::DISPLAY_POINTS_ON_MAP
+  end
+  def update
+    game_points_map_update
+    return unless PointsSystem::DISPLAY_POINTS_ON_MAP
+    @gamepoints.update unless SceneManager.scene != self
+  end
 end
