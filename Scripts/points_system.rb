@@ -17,6 +17,7 @@ module PointsSystem
 	
 	# Display points on map?
 	DISPLAY_POINTS_ON_MAP = true
+	DISPLAY_POINTS_OPACITY = 75
 	PADDING = 16 # Default: 16
 	POINTS_WIDTH = 128 # Default: 128
 	POINTS_HEIGHT = 56 # Default: 80 or 56 
@@ -65,9 +66,10 @@ module PointsSystem
 	end
 		
 	class Window_Points < Window_Base
-		def initialize(x, y, width, height)
+		def initialize(x, y, width, height, opacity)
 			super(x, y, width, height)
 			update
+			self.opacity = opacity
 			self.visible = SceneManager.scene.is_a?(Scene_Menu) || SceneManager.scene.is_a?(Scene_Map)
 		end
 		def update
@@ -83,7 +85,7 @@ class Scene_Menu
 	
 	def start
 		points_start
-		@ui = PointsSystem::Window_Points.new(0, 0, 150, 50)
+		@ui = PointsSystem::Window_Points.new(0, 0, 150, 50, 100)
 		return if @ui.nil?
 		@ui.x = 0
 		# If using advanced_game_time, above the clock
@@ -102,7 +104,13 @@ class Scene_Map
 	y = PointsSystem::POINTS_Y
 	width = PointsSystem::POINTS_WIDTH
 	height = PointsSystem::POINTS_HEIGHT
-    @gamepoints = PointsSystem::Window_Points.new(x, y, width, height) if PointsSystem::DISPLAY_POINTS_ON_MAP
+	opacity = PointsSystem::DISPLAY_POINTS_OPACITY
+    @gamepoints = PointsSystem::Window_Points.new(
+		x,
+		y,
+		width,
+		height,
+		opacity	) if PointsSystem::DISPLAY_POINTS_ON_MAP
   end
   def update
     game_points_map_update
