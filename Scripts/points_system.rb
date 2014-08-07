@@ -56,6 +56,10 @@ module PointsSystem
 		Sound.play_system_sound(NEGATIVE_SOUND) if key == :negative
 	end
 	
+    def self.show_ui(value)
+      SceneManager.scene.points_visible(value)
+    end
+	
 	class Points
 		attr_reader :points, :event
 		
@@ -98,6 +102,11 @@ end
 class Scene_Map
   alias game_points_init create_all_windows
   alias game_points_map_update update
+  
+  def points_visible(value)
+    @gamepoints.visible = value
+  end
+  
   def create_all_windows
     game_points_init
 	x = PointsSystem::POINTS_X
@@ -112,6 +121,7 @@ class Scene_Map
 		height,
 		opacity	) if PointsSystem::DISPLAY_POINTS_ON_MAP
   end
+  
   def update
     game_points_map_update
     return unless PointsSystem::DISPLAY_POINTS_ON_MAP
