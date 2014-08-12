@@ -1,6 +1,7 @@
 We are thankful first to our Creator, and then to the following people whose contribution to code and multimedia helped make our game into what it is today:
 
 From the RPG Maker community:
+	- casper667
 	- GaryCXJk
 
 From FreeSound.org:

@@ -1,13 +1,13 @@
 #=============================================================================
-#	Persistant Data Script
+#	Persistent Data Script
 #=============================================================================
 # --- Author:			Haris1112 (hk12@live.ca)
 # --- Version:			1.0.0
 #=============================================================================
-#  Use PersistantData.set(key, value) to add an object,
-#  and PersistantData.get(key) to get it back.
+#  Use PersistentData.set(key, value) to add an object,
+#  and PersistentData.get(key) to get it back.
 #=============================================================================
-module PersistantData
+module PersistentData
   # File to save persitant data to, with extension.
   @@FILENAME = "persist.dat"
   
