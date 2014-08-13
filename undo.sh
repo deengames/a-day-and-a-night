@@ -1,0 +1,12 @@
+git checkout Data/Actors.rvdata2
+git checkout Data/Armors.rvdata2
+git checkout Data/Animations.rvdata2
+git checkout Data/Classes.rvdata2
+git checkout Data/Enemies.rvdata2
+git checkout Data/Items.rvdata2
+git checkout Data/Scripts.rvdata2
+git checkout Data/Skills.rvdata2
+git checkout Data/States.rvdata2
+git checkout Data/System.rvdata2
+git checkout Data/Weapons.rvdata2
+git checkout Data/Tilesets.rvdata2
