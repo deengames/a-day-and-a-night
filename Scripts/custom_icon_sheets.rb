@@ -79,6 +79,7 @@ module TH
     # You must provide the dimensions of the icons as well
     Icon_Sheets = {
       "Iconset"     => [24, 24],
+	  'adaan_icons' => [24, 24]
       #"CustomIcons" => [24, 24],
       #"LargeIcons"  => [65, 65]
     }
