@@ -1,5 +1,6 @@
 #=============================================================================
-#	Custom Saving System													 
+#	Custom Saving System: allows you to add any data to the current save game.
+#      Data is automatically loaded and saved to the current save game.
 #=============================================================================
 # --- Author:			Haris1112 (hk12@live.ca), Ashes999 (ashes999@yahoo.com)
 # --- Version:			1.1.1

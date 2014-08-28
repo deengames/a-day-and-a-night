@@ -3,7 +3,7 @@
 # -- Custom Title Menu
 # -- Author: Haris1112 and ashes999 (current), NerdiGaming (original)
 # -- Last Updated: June 24, 2014
-# -- Version 1.5.1
+# -- Version 1.5.2
 #
 #==============================================================================
 # - Introduction
@@ -31,6 +31,7 @@
 #==============================================================================
 # - Updates
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Version 1.5.1		- Keyboard takes precedence over mouse
 # Version 1.5.1		- Buttons now centered vertically as well
 #					- Rearranged BUTTON_IMAGE_NAMES and BUTTON_COMMANDS
 #					into a 2-D BUTTONS array. Association between image name
@@ -189,18 +190,24 @@ class Scene_Title < Scene_Base
   def update
     super
 
-	# The checks below use Jet's mouse system.
-	
+	# The checks below use Jet's mouse system. Only do this if the mouse
+	# moves, so that keyboard takes precedence over mouse.
+		
 	# Check if Mouse is over a Button Image
 	x = Mouse.pos[0]	
-	y = Mouse.pos[1]
+	y = Mouse.pos[1]	
 	
-	@bounds.each_with_index do |rect, i|
-	  if within?(x, y, rect)
-		@command_window.select(i)
-		check_input
-	  end
+	if x != @old_mouse_x || y != @old_mouse_y then
+		@bounds.each_with_index do |rect, i|
+		  if within?(x, y, rect)
+			@command_window.select(i)
+			check_input
+		  end
+		end
 	end
+	
+	@old_mouse_x = x
+	@old_mouse_y = y
 	
 	# Check if Mouse is Clicked/Released
     if Input.trigger?(:DOWN)
