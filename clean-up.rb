@@ -4,7 +4,6 @@ puts 'Cleaning up files for release ...'
 `rm Graphics/Characters/*.xcf`
 `rm -rf old-assets`
 `rm .gitignore`
-`rm .git`
 `rm README.md`
 `rm Save*.rvdata2`
 `rm undo.sh`
