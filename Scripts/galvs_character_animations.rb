@@ -53,8 +53,8 @@ module Chara_Anims
                               
   DASH_SPEED = 1.2            # 1 is RMVX default dash speed.
 
-  COMMON_EVENT = 1            # Common event ID that plays after a certain time
-  COMMON_EVENT_TIME = 300     # Frames idle before common event called.
+  COMMON_EVENT = 0            # Common event ID that plays after a certain time
+  COMMON_EVENT_TIME = 0     # Frames idle before common event called.
   REPEAT_EVENT = false        # Repeat this common event if player remains idle?
                               # (restarts the common event time) true or false.
 #------------------------------------------------------------------------------#  
