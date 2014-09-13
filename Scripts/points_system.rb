@@ -22,7 +22,7 @@ module PointsSystem
   POINTS_WIDTH = 128 # Default: 128
   POINTS_HEIGHT = 56 # Default: 80 or 56 
   POINTS_X = PADDING
-  POINTS_Y = Graphics.height - POINTS_HEIGHT - PADDING - PADDING/2 # Weird to match clock exactly
+  POINTS_Y = Graphics.height - CUSTOM_PADDING # Weird to match clock exactly
   
   # End variables. Please don't touch anything below this line.
   
@@ -79,7 +79,7 @@ module PointsSystem
     
     def update
       contents.clear
-	  contents.font.size = 20
+	    contents.font.size = 20
       contents.draw_text(0, 4, contents.width, 20, "#{PointsSystem.total_points} points", 1)
     end
   end
@@ -90,13 +90,14 @@ class Scene_Menu
   
   def start
     points_start
-    @ui = PointsSystem::Window_Points.new(0, 0, 150, 50, 100)
+    @ui = PointsSystem::Window_Points.new(0, 0, 150, 50, 255)
     return if @ui.nil?
     @ui.x = 0
     # If using advanced_game_time, above the clock
     above = @clock || @gold_window    
+    @ui.width = above.width  
+    @ui.height = above.height
     @ui.y = above.y - @ui.height
-    @ui.width = above.width    
   end
 end
 
@@ -110,17 +111,12 @@ class Scene_Map
   
   def create_all_windows
     game_points_init
-  x = PointsSystem::POINTS_X
-  y = PointsSystem::POINTS_Y
-  width = PointsSystem::POINTS_WIDTH
-  height = PointsSystem::POINTS_HEIGHT
-  opacity = PointsSystem::DISPLAY_POINTS_OPACITY
-    @points_ui = PointsSystem::Window_Points.new(
-    x,
-    y,
-    width,
-    height,
-    opacity  ) if PointsSystem::DISPLAY_POINTS_ON_MAP
+    x = PointsSystem::POINTS_X
+    y = PointsSystem::POINTS_Y
+    width = PointsSystem::POINTS_WIDTH
+    height = PointsSystem::POINTS_HEIGHT
+    opacity = PointsSystem::DISPLAY_POINTS_OPACITY
+    @points_ui = PointsSystem::Window_Points.new(x, y, width, height, opacity) if PointsSystem::DISPLAY_POINTS_ON_MAP
   end
   
   def update
