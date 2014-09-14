@@ -21,8 +21,8 @@ module PointsSystem
   PADDING = 16 # Default: 16
   POINTS_WIDTH = 128 # Default: 128
   POINTS_HEIGHT = 56 # Default: 80 or 56 
-  POINTS_X = PADDING
-  POINTS_Y = Graphics.height - CUSTOM_PADDING # Weird to match clock exactly
+  POINTS_X = Graphics.width - 3 * PADDING
+  POINTS_Y = PADDING
   
   # End variables. Please don't touch anything below this line.
   
