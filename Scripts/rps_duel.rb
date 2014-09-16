@@ -7,55 +7,78 @@
 ###############################################################################
 
 def check_winner(player, npc)
-  return "tie #{player} vs. #{npc})" if player == npc
+  return :tie if player == npc
+  return :lose if player == :forefit
+  
   win = [[:rock, :scissors], [:scissors, :paper], [:paper, :rock]]
   lose = [[:rock, :paper], [:scissors, :rock], [:paper, :scissors]]
 
   pair = [player, npc]
-  return "win (#{player} vs. #{npc})" if win.include?(pair)
-  return "lose (#{player} vs. #{npc})" if lose.include?(pair)
-  return "unknown (#{player}, #{npc})"
+  return :win if win.include?(pair)
+  return :lose if lose.include?(pair)
+  raise "unknown (P=#{player} vs N=#{npc})"
 end
 
-def ask_for_move(round)
-  $game_message.add("Round #{round + 1}:")
-  choices = ['Rock', 'Paper', 'Scissors']
-  params = [choices, 0] # default to rock
-  setup_choices(params)
-  wait_for_message
-  result_index = @branch[@indent]
-  return choices[result_index].downcase.to_sym #0, 1, 2 => :rock, :paper, :scissors
+def wait_for_move
+  # wait randomly for 3-5 seconds
+  # show prompt
+  # give 1s to respond
+  wait_time = rand(3) + 2
+  return :forefit unless input_wait(wait_time).nil?
+  show_picture('exclamation', 0, 0)
+  # Return key, or :forefit if none pressed
+  return input_wait(1) || :forefit
 end
 
 def rps_duel
   all_moves = [:rock, :paper, :scissors]
-  npc_moves = [all_moves.sample, all_moves.sample, all_moves.sample]
-  player_moves = []
-  results = []
 
-  wins = 0
-  losses = 0
-  ties = 0
+  #show_and_wait('Duel! Press R for rock, P for paper, and S for scissors. Winner takes all; up to three rounds if it ties.')
+  #show_and_wait('Press the key when you see a symbol. Too early is to forefit, and too late is to lose.')
+  show_and_wait('Ready? Here goes!')
   
-  $game_message.add('Duel: You pick three moves, he picks three moves. Whoever wins the most bouts wins.')
+  result = :tie
+  round = 0
+  
+  #while result == :tie && round < 3
+    round += 1
+    player_move = wait_for_move
+    npc_move = all_moves.sample
+    result = check_winner(player_move, npc_move)    
+  #end
+  
+  screen.pictures[1].erase
+  
+  show_and_wait("#{result} after #{round} rounds!")
+end
+
+### helpers
+
+def show_message(text)
+  $game_message.add(text)
+end
+
+def show_and_wait(text)
+  show_message(text)
   wait_for_message
+end
+
+def input_wait(timeout)
+  time_left = timeout * 60
+  got_key = false
   
-  for n in (0..2)
-    player_moves << ask_for_move(n)
-    result = check_winner(player_moves[n], npc_moves[n])  
-    results << result
-    
-    wins += 1 if result.start_with?('win')
-    losses += 1 if result.start_with?('lose')
+  start = Time.new.to_f
+  while time_left > 0 && got_key == false do    
+    return :rock if Input.press?(:VK_R)
+    return :paper if Input.press?(:VK_P)
+    return :scissors if Input.press?(:VK_S)
+    time_left -= 1
+    wait(1)
   end
   
-  $game_message.add('FIGHT!')
-  wait_for_message
-  
-  overall = 'You win!' if wins > losses
-  overall = 'You lose!' if losses > wins
-  overall = 'Tie!' if wins == losses
+  return nil
+end
 
-  $game_message.add("Round 1: #{results[0]}\nRound 2: #{results[1]}\nRound 3: #{results[2]}\n#{overall}")
-  wait_for_message
+def show_picture(file_name, x, y)
+  screen.pictures[1].show(file_name, 0, (640 - 128) / 2, (480 - 128) / 3, 100, 100, 255, 0)
 end
