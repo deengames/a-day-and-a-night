@@ -20,34 +20,34 @@ def check_winner(player, npc)
 end
 
 def wait_for_move
-  # wait randomly for 3-5 seconds
+  # wait randomly for 4-8 seconds
   # show prompt
   # give 1s to respond
-  wait_time = rand(3) + 2
+  wait_time = rand(4) + 4
   return :forefit unless input_wait(wait_time).nil?
   show_picture('exclamation', 0, 0)
-  # Return key, or :forefit if none pressed
+  # 1s to move. Return key, or :forefit if none pressed
   return input_wait(1) || :forefit
 end
 
 def rps_duel
   all_moves = [:rock, :paper, :scissors]
 
-  #show_and_wait('Duel! Press R for rock, P for paper, and S for scissors. Winner takes all; up to three rounds if it ties.')
-  #show_and_wait('Press the key when you see a symbol. Too early is to forefit, and too late is to lose.')
-  show_and_wait('Ready? Here goes!')
+  show_and_wait('Duel! Press R for rock, P for paper, and S for scissors. Winner takes all; up to three rounds if it ties.')
+  show_and_wait('Press the desired key when you see a symbol. Too early is to forefit, and too late is to lose.')  
   
   result = :tie
   round = 0
   
-  #while result == :tie && round < 3
+  while result == :tie && round < 3
     round += 1
+    show_and_wait("Round #{round}: Fight!")    
     player_move = wait_for_move
     npc_move = all_moves.sample
-    result = check_winner(player_move, npc_move)    
-  #end
-  
-  screen.pictures[1].erase
+    result = check_winner(player_move, npc_move)
+    screen.pictures[1].erase
+    show_and_wait("Round #{round}: #{player_move.to_s} vs. #{npc_move.to_s}: #{result}!")
+  end  
   
   show_and_wait("#{result} after #{round} rounds!")
 end
