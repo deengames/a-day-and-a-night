@@ -5,6 +5,7 @@
 # Call rps_duel in a script to play. 
 # You pick three moves, NPC picks three moves; winner takes all.
 ###############################################################################
+PLAYER_ATTACK = 25
 
 def check_winner(player, npc)
   return :tie if player == npc
@@ -30,30 +31,29 @@ def wait_for_move
   return input_wait(1) || :forefit
 end
 
-def rps_duel
-  player_lives = 3
-  npc_lives = 3
+def rps_duel(npc_hp = 50, npc_attack = 25, npc_moves = {:rock => 50, :paper => 25, :scissors => 25 })
+  player_hp = 100
   
-  all_moves = [:rock, :paper, :scissors]
-
-  show_and_wait('Duel! Press R for rock, P for paper, and S for scissors. Each of you have three lives; you lose one per round if defeated.')
-  show_and_wait('Press the desired key when you see a symbol. Too early is to forefit, and too late is to lose.')  
+  show_and_wait('Duel! Press R for rock, P for paper, and S for scissors when the symbol appears.')  
   
   result = :tie
-  round = 0
+  round = 1
   
-  while player_lives > 0 && npc_lives > 0
-    round += 1
-    show_and_wait("Round #{round}: Fight!")    
+  while player_hp > 0 && npc_hp > 0
+    show_and_wait("Round #{round}: Player: #{player_hp}HP / NPC: #{npc_hp}HP. Fight!")
+
     player_move = wait_for_move
-    npc_move = all_moves.sample
+    npc_move = pick_npc_move(npc_moves)
     result = check_winner(player_move, npc_move)
     
-    npc_lives -= 1 if result == :win
-    player_lives -= 1 if result == :lose
+    npc_hp -= PLAYER_ATTACK if result == :win
+    player_hp -= npc_attack if result == :lose
     
-    screen.pictures[1].erase
-    show_and_wait("Round #{round}: #{player_move.to_s} vs. #{npc_move.to_s}: #{result}!\nPlayer: #{player_lives} / NPC: #{npc_lives}")
+    screen.pictures[1].erase    
+    
+    show_and_wait("#{player_move.to_s} vs. #{npc_move.to_s}: #{result}!")
+    
+    round += 1
   end  
   
   show_and_wait("#{result} after #{round} rounds!")
@@ -89,4 +89,25 @@ end
 
 def show_picture(file_name, x, y)
   screen.pictures[1].show(file_name, 0, (640 - 128) / 2, (480 - 128) / 3, 100, 100, 255, 0)
+end
+
+def pick_npc_move(moves)
+  # moves is a hash of move to probability, eg.
+  # { :rock => 50, :paper => 25, :scissors => 25 }
+  
+  # cdf_moves is culmulative; for the above map, we get:
+  # [ [:rock, 50], [:paper, 75], [:scissors, 100] ]
+  cdf_moves = []
+  seen_so_far = 0
+  
+  moves.each do |k, v|
+    seen_so_far += v
+    cdf_moves << [k, seen_so_far]    
+  end
+  
+  prob = rand(seen_so_far)
+  return cdf_moves[0][0] if prob <= cdf_moves[0][1]
+  return cdf_moves[1][0] if prob <= cdf_moves[1][1]
+  return cdf_moves[2][0] if prob <= cdf_moves[2][1]
+  raise "Invalid move picked; #{cdf_moves} #{prob}"
 end

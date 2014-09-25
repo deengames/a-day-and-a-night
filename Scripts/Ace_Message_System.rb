@@ -169,12 +169,12 @@ module YEA
     # This variable adjusts the number of visible rows shown in the message
     # window. If you do not wish to use this feature, set this constant to 0.
     # If the row value is 0 or below, it will automatically default to 4 rows.
-    VARIABLE_ROWS  = 0
+    VARIABLE_ROWS  = 10
     
     # This variable adjusts the width of the message window shown. If you do
     # not wish to use this feature, set this constant to 0. If the width value
     # is 0 or below, it will automatically default to the screen width.
-    VARIABLE_WIDTH = 0
+    VARIABLE_WIDTH = 9
     
     # This is the amount of space that the message window will indent whenever
     # a face is used. Default: 112
