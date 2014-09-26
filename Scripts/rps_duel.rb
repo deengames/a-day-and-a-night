@@ -6,7 +6,8 @@
 # You pick three moves, NPC picks three moves; winner takes all.
 ###############################################################################
 PLAYER_ATTACK = 25
-MAX_PLAYER_TIME = 5 # forefit after 5s
+NPC_POSITION = {:x => 12, :y => 11}
+PLAYER_POSITION = {:x => 6, :y => 11 }
 
 def check_winner(player, npc)
   return :tie if player == npc
@@ -21,7 +22,7 @@ def check_winner(player, npc)
   raise "unknown (P=#{player} vs N=#{npc})"
 end
 
-def wait_for_move
+def wait_for_move(npc_time)
   # wait randomly for 2-4 seconds
   # show prompt
   # give 1s to respond
@@ -31,12 +32,22 @@ def wait_for_move
     RPG::SE.new('Buzzer1', 100, 100).play
     return move
   else
-    show_picture('exclamation', 0, 0)
+    show_picture(1, 'exclamation', (640 - 128) / 2, (480 - 128) / 3)
     RPG::SE.new('Sword2', 100, 100).play
-    # 5s to move. Return key, or :forefit if none pressed
-    move = input_wait(MAX_PLAYER_TIME) || :forefit
-    sound = move == :forefit ? 'Buzzer1' : 'Slash8'
-    RPG::SE.new(sound, 100, 100).play
+    
+    # If you move after him, you lose.    
+    start = Time.new.to_f
+    move = input_wait(npc_time) || :forefit
+    RPG::SE.new('Slash10', 100, 100).play unless move == :forefit
+    
+    # if there's a move, wait for the full duration (remaining time)
+    show_picture(2, 'small-exclamation', PLAYER_POSITION[:x] * 32 + 7, (PLAYER_POSITION[:y] - 1) * 32) unless move == :forefit
+    stop = Time.new.to_f
+    duration = npc_time - (stop - start)    
+    wait((duration * 60).to_i) if duration > 0 && move != :forefit
+    show_picture(3, 'small-exclamation', NPC_POSITION[:x] * 32 + 7, (NPC_POSITION[:y] - 1) * 32)
+    RPG::SE.new('Slash1', 100, 100).play
+    
     return move
   end
 end
@@ -48,47 +59,36 @@ end
 # fastest_attack: fastest time they will attack, eg. 2 = 2-3s, 7 = 7-8s
 def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack)
   player_hp = 100
-  
+  Logger.log("START")
   show_and_wait('Duel! Press R for rock, P for paper, and S for scissors when the symbol appears.')  
-  
+  Logger.log("mmkay")
   result = :tie
   round = 1
   
+  Logger.log "#{player_hp} and #{npc_hp}"
   while player_hp > 0 && npc_hp > 0
     show_and_wait("Round #{round}: Player: #{player_hp}HP / NPC: #{npc_hp}HP. Fight!")
-    start = Time.new.to_f
-    player_move = wait_for_move
-    stop = Time.new.to_f
-    player_speed = stop - start
+    npc_time = fastest_attack + rand    
+    player_move = wait_for_move(npc_time)        
     
-    npc_move = pick_npc_move(npc_moves)
-    npc_speed = fastest_attack + rand
+    npc_move = pick_npc_move(npc_moves)    
     result = check_winner(player_move, npc_move)
     
     npc_hp -= PLAYER_ATTACK if result == :win
     player_hp -= npc_attack if result == :lose
         
-    screen.pictures[1].erase    
-    
-    if player_move == :forefit
-      bonus_damage = ''
-    else      
-      if (player_speed <= npc_speed)
-        bonus_damage = 'You'
-        npc_hp -= 10
-      else
-        bonus_damage = 'They'
-        player_hp -= 10
-      end
-      bonus_damage = "#{bonus_damage} deal an extra 10 damage for attacking first!"
+    wait(60)
+    (1..3).each do |n|
+      screen.pictures[n].erase
     end
     
-    show_and_wait("#{player_move.to_s} (#{player_speed}s) vs. #{npc_move.to_s} (#{npc_speed}s): #{result}! #{bonus_damage}")
+    show_and_wait("#{player_move.to_s} vs. #{npc_move.to_s}: #{result}!")
     
     round += 1
   end  
   
   show_and_wait("#{result} after #{round} rounds!")
+  $game_player.reserve_transfer(11, 8, 15, 4)
 end
 
 ### helpers
@@ -102,6 +102,7 @@ def show_and_wait(text)
   wait_for_message
 end
 
+# Synchronous: waits for up to <timeout>. Returns early if you press a key.
 def input_wait(timeout)
   time_left = timeout * 60
   got_key = false
@@ -119,8 +120,8 @@ def input_wait(timeout)
   return nil
 end
 
-def show_picture(file_name, x, y)
-  screen.pictures[1].show(file_name, 0, (640 - 128) / 2, (480 - 128) / 3, 100, 100, 255, 0)
+def show_picture(n, file_name, x, y)
+  screen.pictures[n].show(file_name, 0, x, y, 100, 100, 255, 0)
 end
 
 def pick_npc_move(moves)
@@ -138,8 +139,8 @@ def pick_npc_move(moves)
   end
   
   prob = rand(seen_so_far)
-  return cdf_moves[0][0] if prob <= cdf_moves[0][1]
-  return cdf_moves[1][0] if prob <= cdf_moves[1][1]
-  return cdf_moves[2][0] if prob <= cdf_moves[2][1]
+  (0..cdf_moves.length).each do |n|
+    return cdf_moves[n][0] if prob <= cdf_moves[n][1]
+  end
   raise "Invalid move picked; #{cdf_moves} #{prob}"
 end
