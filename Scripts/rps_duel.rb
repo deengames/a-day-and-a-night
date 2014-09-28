@@ -59,13 +59,10 @@ end
 # fastest_attack: fastest time they will attack, eg. 2 = 2-3s, 7 = 7-8s
 def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack)
   player_hp = 100
-  Logger.log("START")
   show_and_wait('Duel! Press R for rock, P for paper, and S for scissors when the symbol appears.')  
-  Logger.log("mmkay")
   result = :tie
   round = 1
-  
-  Logger.log "#{player_hp} and #{npc_hp}"
+    
   while player_hp > 0 && npc_hp > 0
     show_and_wait("Round #{round}: Player: #{player_hp}HP / NPC: #{npc_hp}HP. Fight!")
     npc_time = fastest_attack + rand    
