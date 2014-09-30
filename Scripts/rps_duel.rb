@@ -8,6 +8,7 @@
 PLAYER_ATTACK = 25
 NPC_POSITION = {:x => 12, :y => 11}
 PLAYER_POSITION = {:x => 6, :y => 11 }
+FOREFIT_HP_LOSS = 10
 
 def check_winner(player, npc)
   return :tie if player == npc
@@ -19,7 +20,6 @@ def check_winner(player, npc)
   pair = [player, npc]
   return :win if win.include?(pair)
   return :lose if lose.include?(pair)
-  raise "unknown (P=#{player} vs N=#{npc})"
 end
 
 def wait_for_move(npc_time)
@@ -59,7 +59,7 @@ end
 # fastest_attack: fastest time they will attack, eg. 2 = 2-3s, 7 = 7-8s
 def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack)
   player_hp = 100
-  show_and_wait('Duel! Press R for rock, P for paper, and S for scissors when the symbol appears.')  
+  show_and_wait('Duel! Press D for rock, S for scissors, and A for paper, when the symbol appears. Too early or too late and you forefit the round.')
   result = :tie
   round = 1
     
@@ -69,11 +69,17 @@ def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack)
     player_move = wait_for_move(npc_time)        
     
     npc_move = pick_npc_move(npc_moves)    
-    result = check_winner(player_move, npc_move)
     
-    npc_hp -= PLAYER_ATTACK if result == :win
-    player_hp -= npc_attack if result == :lose
-        
+    if (player_move == :forefit)
+      player_hp -= FOREFIT_HP_LOSS
+      result = :lose
+    else
+      result = check_winner(player_move, npc_move)
+    
+      npc_hp -= PLAYER_ATTACK if result == :win
+      player_hp -= npc_attack if result == :lose
+    end
+    
     wait(60)
     (1..3).each do |n|
       screen.pictures[n].erase
@@ -107,9 +113,9 @@ def input_wait(timeout)
   start = Time.new.to_f
   while time_left > 0 && got_key == false do
     # TODO: pick keys that are close to each other
-    return :rock if Input.press?(:VK_R)
-    return :paper if Input.press?(:VK_P)
-    return :scissors if Input.press?(:VK_S)
+    return :rock if Input.press?(:VK_D)
+    return :paper if Input.press?(:VK_S)
+    return :scissors if Input.press?(:VK_A)
     time_left -= 1
     wait(1)
   end
