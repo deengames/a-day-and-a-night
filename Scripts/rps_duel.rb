@@ -50,23 +50,26 @@ def wait_for_move(npc_time)
       player_moved
     end    
     stop = Time.new.to_f
+    player_move_time = stop - start
     
     # Wait for the NPCs turn (if player moved faster)
-    duration = npc_time - (stop - start)    
+    duration = npc_time - player_move_time  
     wait((duration * 60).to_i) if duration > 0 && move != :none
     show_picture(3, 'small-exclamation', NPC_POSITION[:x] * 32 + 7, (NPC_POSITION[:y] - 1) * 32)
     RPG::SE.new('Slash1', 100, 100).play
     
     # Wait for the remaining time; take input if the player didn't move yet
     round_time_left = ROUND_TIME - (Time.new.to_f - start)
-    if move == :none
-      start = Time.new.to_f
+    if move == :none      
       move = input_wait(round_time_left) || :forefit
       stop = Time.new.to_f
-      player_moved unless move == :forefit      
-      duration = stop - start
+      
+      if move != :forefit  
+        player_move_time = stop - start
+        player_moved        
+      end
       # If round is supposed to be 5s, always wait 0.5s for sounds/graphics to appear properly
-      wait(30) if duration > 0
+      wait(30) if stop - duration - start > 0
     else
       # always wait 0.5s for sounds/graphics to appear properly
       wait(30) if round_time_left > 0
@@ -76,7 +79,7 @@ def wait_for_move(npc_time)
     wait(30)
     Logger.log("Round time left was #{round_time_left}; npc was #{duration}")
     
-    return move
+    return move == :forefit ? move : [move, player_move_time]
   end
 end
 
@@ -95,7 +98,12 @@ def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack)
   while player_hp > 0 && npc_hp > 0
     show_and_wait("Round #{round}: Player: #{player_hp}HP / NPC: #{npc_hp}HP. Fight!")
     npc_time = fastest_attack + rand    
-    player_move = wait_for_move(npc_time)        
+    player_move = wait_for_move(npc_time)
+    
+    if player_move.is_a?(Array)
+      player_move_time = player_move[1]
+      player_move = player_move[0]
+    end
     
     npc_move = pick_npc_move(npc_moves)    
     
@@ -107,6 +115,13 @@ def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack)
     
       npc_hp -= PLAYER_ATTACK if result == :win
       player_hp -= npc_attack if result == :lose
+      
+      # Fastest sword gets a +10 attack, win or lose
+      if player_move_time <= npc_time
+        npc_hp -= FOREFIT_HP_LOSS
+      else
+        player_hp -= FOREFIT_HP_LOSS
+      end      
     end
     
     wait(60)
@@ -114,7 +129,13 @@ def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack)
       screen.pictures[n].erase
     end
     
-    show_and_wait("#{player_move.to_s} vs. #{npc_move.to_s}: #{result}!")
+    if player_move == :forefit
+      status_string = "You lose #{FOREFIT_HP_LOSS} health!"
+    else
+      status_string = "#{player_move_time <= npc_time ? 'You' : 'They'} deal #{FOREFIT_HP_LOSS} damage for being faster!"
+    end
+    
+    show_and_wait("#{player_move.to_s} vs. #{npc_move.to_s}: #{result}!\n#{status_string}")
     
     round += 1
   end  
@@ -139,14 +160,12 @@ def show_and_wait(text)
   wait_for_message
 end
 
-# Synchronous: waits for up to <timeout>. Returns early if you press a key.
+# Synchronous: waits for up to <timeout> seconds. Returns early if you press a key.
 def input_wait(timeout)
   time_left = timeout * 60
-  got_key = false
   
   start = Time.new.to_f
-  while time_left > 0 && got_key == false do
-    # TODO: pick keys that are close to each other
+  while time_left > 0 do
     return :rock if Input.press?(:VK_A)
     return :scissors if Input.press?(:VK_S)
     return :paper if Input.press?(:VK_D)    
