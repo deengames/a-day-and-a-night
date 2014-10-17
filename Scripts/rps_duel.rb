@@ -9,7 +9,7 @@ PLAYER_ATTACK = 25
 NPC_POSITION = {:x => 12, :y => 11}
 PLAYER_POSITION = {:x => 6, :y => 11 }
 FOREFIT_HP_LOSS = 10
-ROUND_TIME = 5 # auto-forefit after this many seconds (from the indicator appearing)
+ROUND_TIME = 4 # auto-forefit after this many seconds (from the indicator appearing)
 
 ###
 # Test cases:
