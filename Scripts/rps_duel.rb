@@ -9,7 +9,15 @@ PLAYER_ATTACK = 25
 NPC_POSITION = {:x => 12, :y => 11}
 PLAYER_POSITION = {:x => 6, :y => 11 }
 FOREFIT_HP_LOSS = 10
+ROUND_TIME = 5 # auto-forefit after this many seconds (from the indicator appearing)
 
+###
+# Test cases:
+# 1) pre-empt the buzzer (should be forefit)
+# 2) attack before the NPC (win/lose/tie +10 damage)
+# 3) attack after the NPC (win/lose/tie, you take 10 damage)
+# 4) don't attack (should be forefit)
+###
 def check_winner(player, npc)
   return :tie if player == npc
   return :lose if player == :forefit
@@ -35,18 +43,38 @@ def wait_for_move(npc_time)
     show_picture(1, 'exclamation', (640 - 128) / 2, (480 - 128) / 3)
     RPG::SE.new('Sword2', 100, 100).play
     
-    # If you move after him, you lose.    
+    # Always wait until the NPC moves
     start = Time.new.to_f
-    move = input_wait(npc_time) || :forefit
-    RPG::SE.new('Slash10', 100, 100).play unless move == :forefit
-    
-    # if there's a move, wait for the full duration (remaining time)
-    show_picture(2, 'small-exclamation', PLAYER_POSITION[:x] * 32 + 7, (PLAYER_POSITION[:y] - 1) * 32) unless move == :forefit
+    move = input_wait(npc_time) || :none
+    if move != :none
+      player_moved
+    end    
     stop = Time.new.to_f
+    
+    # Wait for the NPCs turn (if player moved faster)
     duration = npc_time - (stop - start)    
-    wait((duration * 60).to_i) if duration > 0 && move != :forefit
+    wait((duration * 60).to_i) if duration > 0 && move != :none
     show_picture(3, 'small-exclamation', NPC_POSITION[:x] * 32 + 7, (NPC_POSITION[:y] - 1) * 32)
     RPG::SE.new('Slash1', 100, 100).play
+    
+    # Wait for the remaining time; take input if the player didn't move yet
+    round_time_left = ROUND_TIME - (Time.new.to_f - start)
+    if move == :none
+      start = Time.new.to_f
+      move = input_wait(round_time_left) || :forefit
+      stop = Time.new.to_f
+      player_moved unless move == :forefit      
+      duration = stop - start
+      # If round is supposed to be 5s, always wait 0.5s for sounds/graphics to appear properly
+      wait(30) if duration > 0
+    else
+      # always wait 0.5s for sounds/graphics to appear properly
+      wait(30) if round_time_left > 0
+    end
+    
+    RPG::SE.new('Bell3', 100, 100).play    
+    wait(30)
+    Logger.log("Round time left was #{round_time_left}; npc was #{duration}")
     
     return move
   end
@@ -57,11 +85,12 @@ end
 # npc_attack: damage per hit (eg. 25)
 # npc_moves: hash of moves and probability, eg. {:rock => 50, :paper => 25, :scissors => 25 }
 # fastest_attack: fastest time they will attack, eg. 2 = 2-3s, 7 = 7-8s
-def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack)
+def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack)  
   player_hp = 100
-  show_and_wait('Duel! Press D for rock, S for scissors, and A for paper, when the symbol appears. Too early or too late and you forefit the round.')
+  show_and_wait('Duel! Press A for rock, S for scissors, and D for paper, when the symbol appears. Too early or too late and you forefit the round.')
   result = :tie
   round = 1
+  raise "fastest_attack must be less than #{ROUND_TIME - 2} (you specified #{fastest_attack})" if fastest_attack > ROUND_TIME - 2
     
   while player_hp > 0 && npc_hp > 0
     show_and_wait("Round #{round}: Player: #{player_hp}HP / NPC: #{npc_hp}HP. Fight!")
@@ -96,6 +125,11 @@ end
 
 ### helpers
 
+def player_moved
+  show_picture(2, 'small-exclamation', PLAYER_POSITION[:x] * 32 + 7, (PLAYER_POSITION[:y] - 1) * 32)
+  RPG::SE.new('Slash10', 100, 100).play
+end
+
 def show_message(text)
   $game_message.add(text)
 end
@@ -113,9 +147,9 @@ def input_wait(timeout)
   start = Time.new.to_f
   while time_left > 0 && got_key == false do
     # TODO: pick keys that are close to each other
-    return :rock if Input.press?(:VK_D)
-    return :paper if Input.press?(:VK_S)
-    return :scissors if Input.press?(:VK_A)
+    return :rock if Input.press?(:VK_A)
+    return :scissors if Input.press?(:VK_S)
+    return :paper if Input.press?(:VK_D)    
     time_left -= 1
     wait(1)
   end
