@@ -46,9 +46,9 @@
 module Euphoria
   module Custom_Gauge
      
-    GAUGE_NAME      = "Allegiance"     #Set The Gauges Name (5 Characters MAX)
+    GAUGE_NAME      = "Redemption"     #Set The Gauges Name (5 Characters MAX)
      
-    GAUGE_START     = 50          #Set The Amount The Gauge Starts At
+    GAUGE_START     = 0          #Set The Amount The Gauge Starts At
      
     GAUGE_MAX       = 100        #Set The Gauges Max Value
      
