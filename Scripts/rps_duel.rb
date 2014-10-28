@@ -77,7 +77,6 @@ def wait_for_move(npc_time)
     
     RPG::SE.new('Bell3', 100, 100).play    
     wait(30)
-    Logger.log("Round time left was #{round_time_left}; npc was #{duration}")
     
     return move == :forefit ? move : [move, player_move_time]
   end
