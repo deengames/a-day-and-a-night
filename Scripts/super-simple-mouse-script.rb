@@ -1089,7 +1089,8 @@ class Scene_File < Scene_MenuBase
     vy = @savefile_viewport.oy + my
     last_index = @index
     new_index = vy / savefile_height
-	
+    return if new_index < 0 # out of bounds
+	    
     if @index != new_index
       if new_index > @index
         cursor_down(false)
