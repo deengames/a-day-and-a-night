@@ -471,9 +471,13 @@ class Window_Base < Window
     when 'PIC'
       text.sub!(/\[(.*?)\]/, "")
       bmp = Cache.picture($1.to_s)
-      rect = Rect.new(0, 0, bmp.width, bmp.height)
-      contents.blt(pos[:x], pos[:y], bmp, rect)
+      rect = Rect.new(0, 0, self.width, self.height)
+      contents.blt(self.width/2 - bmp.width/2 - self.padding, 0, bmp, rect)
     #---
+	when 'CT'
+	  text.sub!(/\[(.*?)\]/, "")
+	  rect = Rect.new(0, pos[:y], self.width - 2 * self.padding, self.height)
+	  contents.draw_text(rect, $1.to_s, 1)
     else
       window_base_process_escape_character_ams(code, text, pos)
     end
