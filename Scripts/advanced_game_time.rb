@@ -177,14 +177,14 @@ USE_PERIODS = true
 #Starts from hour 0 (or 12am)
 #A color object is -> Color.new(r,g,b,a)
 # Where r is red,g is green,b is blue,and a is opacity and all are (0-255)
-TINTS = [Color.new(-255,-255,-192,192), # 12am
-         Color.new(-255,-255,-192,192),
-         Color.new(-255,-255,-192,192),
-         Color.new(-255,-255,-192,192),
-         Color.new(-255,-255,-192,192),
-         Color.new(-255,-255,-128,128),
-         Color.new(-128,-128,-64,64), # 6am
-         Color.new(0,0,0,0),
+TINTS = [Color.new(-225,-225,-192,128), # 12am
+         Color.new(-225,-225,-192,128),
+         Color.new(-225,-225,-192,128),
+         Color.new(-225,-225,-192,128),
+         Color.new(-192,-192,-64,128),
+         Color.new(-192,-192,-32,128),
+         Color.new(-128,-128,-32,64), # 6am
+         Color.new(-64,-64,0,32),
          Color.new(0,0,0,0),
          Color.new(0,0,0,0),
          Color.new(0,0,0,0),
@@ -196,11 +196,11 @@ TINTS = [Color.new(-255,-255,-192,192), # 12am
          Color.new(0,0,0,0),
          Color.new(0,0,10,0),
          Color.new(0,0,0,0), # 6pm
-         Color.new(-64,-96,-128,128),
+         Color.new(-48,-128,-192,128),
          Color.new(-128,-192,-255,128),
-         Color.new(-192,-225,-225,160),
-         Color.new(-255,-255,-192,192),
-         Color.new(-255,-255,-192,192)]
+         Color.new(-192,-225,-225,128),
+         Color.new(-225,-225,-192,128),
+         Color.new(-225,-225,-192,128)]
  
 #NOT YET IMPLEMENTED *IGNORE*
 PERIODS = [["Night",0,5],
