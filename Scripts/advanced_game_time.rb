@@ -177,10 +177,10 @@ USE_PERIODS = true
 #Starts from hour 0 (or 12am)
 #A color object is -> Color.new(r,g,b,a)
 # Where r is red,g is green,b is blue,and a is opacity and all are (0-255)
-TINTS = [Color.new(-225,-225,-192,128), # 12am
-         Color.new(-225,-225,-192,128),
-         Color.new(-225,-225,-192,128),
-         Color.new(-225,-225,-192,128),
+TINTS = [Color.new(-225,-225,-225,160), # 12am
+         Color.new(-225,-225,-225,160),
+         Color.new(-225,-225,-225,160),
+         Color.new(-225,-225,-225,160),
          Color.new(-192,-192,-64,128),
          Color.new(-192,-192,-32,128),
          Color.new(-128,-128,-32,64), # 6am
@@ -199,8 +199,8 @@ TINTS = [Color.new(-225,-225,-192,128), # 12am
          Color.new(-48,-128,-192,128),
          Color.new(-128,-192,-255,128),
          Color.new(-192,-225,-225,128),
-         Color.new(-225,-225,-192,128),
-         Color.new(-225,-225,-192,128)]
+         Color.new(-225,-225,-225,160),
+         Color.new(-225,-225,-225,160)]
  
 #NOT YET IMPLEMENTED *IGNORE*
 PERIODS = [["Night",0,5],
