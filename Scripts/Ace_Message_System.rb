@@ -83,6 +83,7 @@ $imported["YEA-MessageSystem"] = true
 # 
 #  Picture:    Effect:
 #    \pic[x]   - Draws picture x from the Graphics\Pictures folder.
+#	 \cpic[x]  - Draws picture x from the Graphics\Pictures folder, and centers it.
 # 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 
@@ -469,6 +470,11 @@ class Window_Base < Window
       pos[:y] = obtain_escape_param(text)
     #---
     when 'PIC'
+      text.sub!(/\[(.*?)\]/, "")
+      bmp = Cache.picture($1.to_s)
+      rect = Rect.new(0, 0, bmp.width, bmp.height)
+      contents.blt(pos[:x], pos[:y], bmp, rect)
+	when 'CPIC'
       text.sub!(/\[(.*?)\]/, "")
       bmp = Cache.picture($1.to_s)
       rect = Rect.new(0, 0, self.width, self.height)
