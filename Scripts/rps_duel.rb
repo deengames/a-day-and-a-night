@@ -6,8 +6,8 @@
 # You pick three moves, NPC picks three moves; winner takes all.
 ###############################################################################
 PLAYER_ATTACK = 25
-NPC_POSITION = {:x => 12, :y => 11}
-PLAYER_POSITION = {:x => 6, :y => 11 }
+NPC_POSITION = {:x => 14, :y => 10}
+PLAYER_POSITION = {:x => 4, :y => 10 }
 FOREFIT_HP_LOSS = 10
 ROUND_TIME = 4 # auto-forefit after this many seconds (from the indicator appearing)
 
@@ -55,7 +55,7 @@ def wait_for_move(npc_time)
     # Wait for the NPCs turn (if player moved faster)
     duration = npc_time - player_move_time  
     wait((duration * 60).to_i) if duration > 0 && move != :none
-    show_picture(3, 'small-exclamation', NPC_POSITION[:x] * 32 + 7, (NPC_POSITION[:y] - 1) * 32)
+    show_picture(3, 'small-exclamation', (NPC_POSITION[:x] + 0.5) * 32 + 7, (NPC_POSITION[:y] - 1) * 32)
     RPG::SE.new('Slash1', 100, 100).play
     
     # Wait for the remaining time; take input if the player didn't move yet
@@ -87,13 +87,16 @@ end
 # npc_attack: damage per hit (eg. 25)
 # npc_moves: hash of moves and probability, eg. {:rock => 50, :paper => 25, :scissors => 25 }
 # fastest_attack: fastest time they will attack, eg. 2 = 2-3s, 7 = 7-8s
-def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack)  
+def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack, opponent)    
+  show_picture(4, opponent, NPC_POSITION[:x] * 32, NPC_POSITION[:y] * 32)
+  show_picture(5, 'fight-2x-hero', PLAYER_POSITION[:x] * 32, PLAYER_POSITION[:y] * 32)  
+  raise "fastest_attack must be less than #{ROUND_TIME - 2} (you specified #{fastest_attack})" if fastest_attack > ROUND_TIME - 2
+  
   player_hp = 100
   show_and_wait('Duel! Press A for rock, S for scissors, and D for paper, when the symbol appears. Too early or too late and you forefit the round.')
   result = :tie
   round = 1
-  raise "fastest_attack must be less than #{ROUND_TIME - 2} (you specified #{fastest_attack})" if fastest_attack > ROUND_TIME - 2
-    
+  
   while player_hp > 0 && npc_hp > 0
     show_and_wait("Round #{round}: Player: #{player_hp}HP / NPC: #{npc_hp}HP. Fight!")
     npc_time = fastest_attack + rand    
@@ -139,14 +142,17 @@ def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack)
     round += 1
   end  
   
+  result = player_hp > 0 ? 'Win' : 'Lose'
   show_and_wait("#{result} after #{round} rounds!")
+  screen.pictures[4].erase
+  screen.pictures[5].erase  
   $game_player.reserve_transfer(11, 8, 15, 4)
 end
 
 ### helpers
 
 def player_moved
-  show_picture(2, 'small-exclamation', PLAYER_POSITION[:x] * 32 + 7, (PLAYER_POSITION[:y] - 1) * 32)
+  show_picture(2, 'small-exclamation', (PLAYER_POSITION[:x] + 1) * 32 + 7, (PLAYER_POSITION[:y] - 1) * 32)
   RPG::SE.new('Slash10', 100, 100).play
 end
 
@@ -198,4 +204,8 @@ def pick_npc_move(moves)
     return cdf_moves[n][0] if prob <= cdf_moves[n][1]
   end
   raise "Invalid move picked; #{cdf_moves} #{prob}"
+end
+
+class Game_Player
+  attr_accessor :opacity
 end
