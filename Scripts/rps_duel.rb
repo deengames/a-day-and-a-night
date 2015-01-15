@@ -40,7 +40,7 @@ def wait_for_move(npc_time)
     RPG::SE.new('Buzzer1', 100, 100).play
     return move
   else
-    show_picture(1, 'exclamation', (640 - 128) / 2, (480 - 128) / 3)
+    show_picture(1, 'battle/exclamation', (640 - 128) / 2, (480 - 128) / 3)
     RPG::SE.new('Sword2', 100, 100).play
     
     # Always wait until the NPC moves
@@ -55,7 +55,7 @@ def wait_for_move(npc_time)
     # Wait for the NPCs turn (if player moved faster)
     duration = npc_time - player_move_time  
     wait((duration * 60).to_i) if duration > 0 && move != :none
-    show_picture(3, 'small-exclamation', (NPC_POSITION[:x] + 0.5) * 32 + 7, (NPC_POSITION[:y] - 1) * 32)
+    show_picture(3, 'battle/small-exclamation', (NPC_POSITION[:x] + 0.5) * 32 + 7, (NPC_POSITION[:y] - 1) * 32)
     RPG::SE.new('Slash1', 100, 100).play
     
     # Wait for the remaining time; take input if the player didn't move yet
@@ -88,8 +88,8 @@ end
 # npc_moves: hash of moves and probability, eg. {:rock => 50, :paper => 25, :scissors => 25 }
 # fastest_attack: fastest time they will attack, eg. 2 = 2-3s, 7 = 7-8s
 def rps_duel(npc_hp, npc_attack, npc_moves, fastest_attack, opponent)    
-  show_picture(4, opponent, NPC_POSITION[:x] * 32, NPC_POSITION[:y] * 32)
-  show_picture(5, 'fight-2x-hero', PLAYER_POSITION[:x] * 32, PLAYER_POSITION[:y] * 32)  
+  show_picture(4, "battle/#{opponent}", NPC_POSITION[:x] * 32, NPC_POSITION[:y] * 32)
+  show_picture(5, 'battle/fight-2x-hero', PLAYER_POSITION[:x] * 32, PLAYER_POSITION[:y] * 32)  
   raise "fastest_attack must be less than #{ROUND_TIME - 2} (you specified #{fastest_attack})" if fastest_attack > ROUND_TIME - 2
   
   player_hp = 100
@@ -152,7 +152,7 @@ end
 ### helpers
 
 def player_moved
-  show_picture(2, 'small-exclamation', (PLAYER_POSITION[:x] + 1) * 32 + 7, (PLAYER_POSITION[:y] - 1) * 32)
+  show_picture(2, 'battle/small-exclamation', (PLAYER_POSITION[:x] + 0.5) * 32 + 7, (PLAYER_POSITION[:y] - 1) * 32)
   RPG::SE.new('Slash10', 100, 100).play
 end
 
